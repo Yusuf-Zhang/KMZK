@@ -1,0 +1,62 @@
+<custom-nav></custom-nav>
+<!--login/index.wxml-->
+<view class="container-full">
+  <view class="flex flex-col h-full items-center">
+    
+    <!-- 内容区域 -->
+    <view class="login-content">
+      <!-- 登录按钮区域 -->
+      <view class="card flex flex-col items-center">
+        <!-- Logo 区域 -->
+        <view>
+          <image class="logo-image" src="../../images/logo.jpeg" mode="aspectFit"></image>
+        </view>
+        
+        <!-- 平台描述文字 -->
+        <view class="platform-desc">
+          <view class="text-center font-bold">昆明中考助手</view>
+          <view class="text-center text-secondary">一站式昆明中考信息平台</view>
+          <view class="text-center text-secondary">帮助您扫除信息焦虑</view>
+        </view>
+        
+        <button class="btn-wechat" bindtap="handleWechatLogin">
+          <image class="icon-img mr-2" src="../../images/wechat.png"></image>
+          <text>微信快速登录</text>
+        </button>
+        
+        <button class="btn-primary" bindtap="handleSkipLogin">暂不登录</button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 微信授权弹窗 -->
+  <view class="userinfo-modal" wx:if="{{showUserInfoModal}}">
+    <view class="userinfo-mask" bindtap="closeUserInfoModal"></view>
+    <view class="userinfo-content">
+      <view class="userinfo-header">
+        <text class="userinfo-title">完善个人信息</text>
+        <view class="userinfo-close" bindtap="closeUserInfoModal">×</view>
+      </view>
+      <view class="userinfo-body">
+        <view class="nickname-section">
+          <text class="section-title">请设置昵称</text>
+          <input 
+            class="nickname-input" 
+            type="text" 
+            placeholder="请输入昵称" 
+            value="{{tempUserInfo.nickName}}"
+            bindinput="onNicknameInput"
+            maxlength="15"
+          />
+        </view>
+        
+        <button class="btn-confirm" bindtap="confirmUserInfo">确认</button>
+      </view>
+    </view>
+  </view>
+  
+  <view class="footer">
+    <view class="text-center font-xs text-gray">登录即表示同意</view>
+    <view class="text-center font-xs text-primary">《用户协议》和《隐私政策》</view>
+  </view>
+</view> 

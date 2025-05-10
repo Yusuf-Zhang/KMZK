@@ -1,0 +1,306 @@
+<custom-nav></custom-nav>
+<!--policy-direction/index.wxml-->
+<view class="container {{isMember ? 'vip-page' : 'nonvip-page'}}">
+  <!-- 适应导航栏高度的顶部空间 -->
+  <view style="height: {{navHeight}}px;"></view>
+  <!-- 页面标题 -->
+  <view class="header-gradient p-3 pt-2 pb-8 rounded-b-3xl">
+    <view class="flex items-center justify-between mb-4">
+      <view class="flex items-center">
+        <image class="icon-img mr-2" src="/images/icons/direction.png" mode="aspectFit"></image>
+        <text class="text-lg font-bold text-white">定向生政策解读</text>
+      </view>
+    </view>
+    
+    <view>
+      <text class="text-xl font-bold text-white mb-1 block">关于定向生，你了解多少？</text>
+      <view class="font-sm text-white opacity-80">本页面数据由2024年网络数据整理</view>
+    </view>
+  </view>
+  
+  <!-- 定向生解释轮播 -->
+  <view class="explanation-swiper mt-2">
+    <swiper class="swiper-container" 
+            indicator-dots="true" 
+            autoplay="{{false}}" 
+            circular="true" 
+            indicator-color="rgba(0,0,0,.2)" 
+            indicator-active-color="#0066CC" 
+            current="{{currentSwiperIndex}}" 
+            indicator-position="bottom">
+      <swiper-item>
+        <view class="swiper-card">
+          <view class="swiper-title">定向单元的比喻</view>
+          <view class="swiper-content">我们将昆明市具有定向名额的学校比作几所著名的食堂，所有具有定向生名额的初中要去这些食堂订餐。</view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-card">
+          <view class="swiper-title">分单元原则</view>
+          <view class="swiper-content">由于每所初中的用餐人数（学生数量）和点餐内容（学校整体情况）不同，昆明市将所有具有定向生名额的学校按照学生数量和学校差异程度分成31个单元，每个单元包含若干所学校。</view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-card">
+          <view class="swiper-title">招生数量与录取分数</view>
+          <view class="swiper-content">针对每一家食堂，对不同单元的学校所提供的座椅数（招生数量）和录取分数（订餐价格）都会不同。</view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-card">
+          <view class="swiper-title">如何查询</view>
+          <view class="swiper-content">想知道你所在初中在某所高中的录取分数，需要先了解你的学校属于哪个定向单元。通过下方的"定向单位查询"功能可以帮你查到。</view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="swiper-nav">
+      <view class="swiper-nav-btn swiper-nav-prev" bindtap="prevSlide">
+        <text class="nav-arrow">←</text>
+      </view>
+      <view class="swiper-nav-btn swiper-nav-next" bindtap="nextSlide">
+        <text class="nav-arrow">→</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 单位查询 -->
+  <view class="card mt-3">
+    <view class="card-header card-header-first">
+      <view class="card-title flex items-center">
+        <text>定向单位查询</text>
+        <view class="help-icon" bindtap="showUnitSearchHelp">?</view>
+      </view>
+      <view class="view-all-btn" bindtap="{{isMember ? 'showAllUnits' : 'showVipModal'}}">查看全部单位</view>
+    </view>
+    <view class="search-tip" wx:if="{{showUnitSearchTip}}">
+      <text>输入就读学校，可以匹配学校属于的定向单元</text>
+      <view class="close-tip" bindtap="hideUnitSearchTip">×</view>
+    </view>
+    <view class="search-box">
+      <block wx:if="{{isMember}}">
+        <input class="search-input" placeholder="输入就读初中名称" placeholder-class="input-placeholder" bindinput="inputUnitSearch" bindfocus="onUnitSearchFocus" value="{{unitSearchText}}"/>
+        <view class="search-btn" bindtap="searchUnit">查询</view>
+      </block>
+      <block wx:else>
+        <view class="search-input-disabled" bindtap="showVipModal">开通会员可查询定向单位</view>
+        <view class="search-btn disabled">查询</view>
+      </block>
+    </view>
+    <!-- 学校名称模糊匹配下拉框 -->
+    <view class="schools-dropdown" wx:if="{{isMember && showSchoolsDropdown && filteredSchools.length > 0}}">
+      <view class="school-dropdown-item" 
+            wx:for="{{filteredSchools}}" 
+            wx:key="*this" 
+            bindtap="selectSchool" 
+            data-school="{{item}}">
+        {{item}}
+      </view>
+    </view>
+    <view class="search-result" wx:if="{{unitResults.length > 0}}">
+      <view class="result-title">查询结果：</view>
+      <view class="unit-result" wx:for="{{unitResults}}" wx:key="name">
+        <view class="unit-name">您的学校属于：<text class="highlight-unit">{{item.name}}</text></view>
+        <view class="unit-schools-title">该单元包含的学校有：</view>
+        <view class="schools-list">
+          <view class="school-item {{school === unitSearchText ? 'your-school' : ''}}" 
+                wx:for="{{item.schools}}" 
+                wx:for-item="school" 
+                wx:key="*this">
+            {{school}}
+          </view>
+        </view>
+        <view class="unit-tip">提示：同一所高中，针对不同单元的学校录取分数不同</view>
+      </view>
+    </view>
+    <view class="search-result" wx:elif="{{unitSearchText && !showSchoolsDropdown && unitSearched}}">
+      <view class="result-title">查询结果：</view>
+      <view class="no-result">未找到相关学校的定向单位信息</view>
+    </view>
+  </view>
+  
+  <!-- 分数线查询 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title flex items-center">
+        <text>定向录取分数线查询</text>
+        <view class="help-icon" bindtap="showScoreSearchHelp">?</view>
+      </view>
+      <view class="view-all-btn" bindtap="{{isMember ? 'showSchoolDirectory' : 'showVipModal'}}">查看学校目录</view>
+    </view>
+    <view class="search-tip" wx:if="{{showScoreSearchTip}}">
+      <text>输入想查询的学校及想关注的定向单元，即可查询</text>
+      <view class="close-tip" bindtap="hideScoreSearchTip">×</view>
+    </view>
+    <view class="unit-display" wx:if="{{selectedUnit}}">
+      当前选择的单位：<text class="selected-unit">{{selectedUnit}}</text>
+    </view>
+    <view class="search-box">
+      <block wx:if="{{isMember}}">
+        <input class="search-input" placeholder="输入理想高中名称" bindinput="inputScoreSearch" bindfocus="onScoreSearchFocus" value="{{scoreSearchText}}"/>
+        <picker class="unit-picker" mode="selector" range="{{unitOptionsWithReset}}" bindchange="onUnitPickerChange">
+          <view class="picker-inner">{{selectedScoreUnit || '选择单元'}}</view>
+        </picker>
+        <view class="search-btn" bindtap="searchScore">查询</view>
+      </block>
+      <block wx:else>
+        <view class="search-input-disabled" bindtap="showVipModal">开通会员查看分数</view>
+        <view class="unit-picker-disabled" bindtap="showVipModal">
+          <view class="picker-inner">选择单元</view>
+        </view>
+        <view class="search-btn disabled">查询</view>
+      </block>
+    </view>
+    <!-- 学校名称模糊匹配下拉框 -->
+    <view class="schools-dropdown" wx:if="{{isMember && showScoreSchoolsDropdown && filteredScoreSchools.length > 0}}">
+      <view class="school-dropdown-item"
+            wx:for="{{filteredScoreSchools}}"
+            wx:key="*this"
+            bindtap="selectScoreSchool"
+            data-school="{{item}}">
+        {{item}}
+      </view>
+    </view>
+    <view class="search-result" wx:if="{{scoreResults.length > 0 || (scoreSearchText && !scoreResults.length && queriedScoreUnit)}}">
+      <view class="result-title">分数线查询结果：</view>
+      <block wx:if="{{scoreResults.length > 0}}">
+        <view class="score-results">
+          <view class="score-item" wx:for="{{scoreResults}}" wx:key="name">
+            <view class="school-info">
+              <view class="school-name">{{item.name}}</view>
+              <view class="school-level">{{item.level}}</view>
+            </view>
+            <view class="score-info">
+              <view class="unit-label">{{queriedScoreUnit || '暂无单位'}}</view>
+              <view class="score-value" wx:if="{{item.score}}">{{item.score}}分</view>
+              <view class="score-not-reached" wx:else>暂无分数</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="no-result">未找到相关学校的分数线信息</view>
+      </block>
+    </view>
+  </view>
+  
+  <!-- 政策解读 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title">政策解读</view>
+      <view class="view-details-btn" bindtap="showPolicyDetail">查看详情</view>
+    </view>
+    <view class="policy-summary">
+      <view class="policy-section" wx:for="{{policyData.sections}}" wx:key="id">
+        <view class="policy-section-header" bindtap="togglePolicySection" data-id="{{item.id}}">
+          <view class="policy-section-title">{{item.title}}</view>
+          <view class="policy-section-toggle {{openSections[item.id] ? 'rotate' : ''}}">▼</view>
+        </view>
+        <view class="policy-section-content {{openSections[item.id] ? 'show' : ''}} {{item.title === '结语' ? 'policy-conclusion' : ''}}">
+          <text>{{item.content}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 单位列表模态框 -->
+  <view class="modal" wx:if="{{showUnitsModal}}">
+    <view class="modal-mask" bindtap="hideModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">全部定向单元</view>
+        <view class="modal-close" bindtap="hideModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="units-list">
+          <view 
+            class="unit-list-item" 
+            wx:for="{{allUnits}}" 
+            wx:key="unit" 
+            bindtap="showUnitDetail" 
+            data-unit="{{item.name}}"
+            data-schools="{{item.schools}}"
+          >
+            {{item.name}}
+            <view class="unit-schools-count">包含{{item.schools.length}}所学校</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 定向单元详情模态框 -->
+  <view class="modal" wx:if="{{showUnitDetailModal}}">
+    <view class="modal-mask" bindtap="hideModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">{{currentUnit}} 包含学校</view>
+        <view class="modal-close" bindtap="hideModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="unit-schools-detail">
+          <view class="unit-school-item" wx:for="{{currentUnitSchools}}" wx:key="*this">
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 学校目录模态框 -->
+  <view class="modal" wx:if="{{showSchoolsModal}}">
+    <view class="modal-mask" bindtap="hideModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">高中学校目录</view>
+        <view class="modal-close" bindtap="hideModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="schools-directory-desc">2024年有定向招生计划的学校名单</view>
+        <view class="schools-directory">
+          <view 
+            class="school-directory-item" 
+            wx:for="{{allScoreSchools}}" 
+            wx:key="name"
+          >
+            <view class="school-directory-name">{{item.name}}</view>
+            <view class="school-directory-level">{{item.level}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 政策详情模态框 -->
+  <view class="modal" wx:if="{{showPolicyModal}}">
+    <view class="modal-mask" bindtap="hideModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">定向生政策详情</view>
+        <view class="modal-close" bindtap="hideModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="policy-detail">{{policyDetail}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- VIP提示模态框 -->
+  <view class="modal" wx:if="{{showVipTipModal}}">
+    <view class="modal-mask" bindtap="hideModal"></view>
+    <view class="modal-content vip-modal">
+      <view class="modal-header">
+        <view class="modal-title">会员提示</view>
+        <view class="modal-close" bindtap="hideModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="vip-tip-content">
+          <view class="vip-tip-text">开通会员可查看完整内容</view>
+          <button class="vip-button" bindtap="goToVip">立即开通</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 在文件最底部添加自定义TabBar组件引用 -->
+<custom-tab-bar id="custom-tab-bar"></custom-tab-bar> 

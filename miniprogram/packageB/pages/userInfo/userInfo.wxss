@@ -1,0 +1,74 @@
+/* pages/userInfo/userInfo.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userinfo-nickname {
+  color: #333;
+  font-size: 32rpx;
+  margin-top: 10rpx;
+}
+
+.form-container {
+  width: 100%;
+  margin-top: 30rpx;
+}
+
+.form-item {
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+  align-items: center;
+}
+
+.form-label {
+  width: 180rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.form-input {
+  flex: 1;
+  height: 60rpx;
+  font-size: 28rpx;
+}
+
+.form-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.btn-container {
+  width: 100%;
+  margin-top: 60rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-save {
+  margin-bottom: 30rpx;
+}
+
+.btn-member {
+  background-color: #ffcc00;
+  color: #333;
+} 

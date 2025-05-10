@@ -1,0 +1,61 @@
+<!-- 自定义导航栏 -->
+<custom-nav showBack="{{true}}" title="中考时间线"></custom-nav>
+
+<view class="container">
+  <!-- 页面内容区域 -->
+  <view class="page-content">
+    <!-- 月份筛选 -->
+    <view class="filter-section">
+      <view class="filter-title">按月份筛选</view>
+      <scroll-view scroll-x="true" class="month-filter">
+        <view 
+          wx:for="{{months}}" 
+          wx:key="index" 
+          class="month-item {{selectedMonth === item ? 'selected' : ''}}"
+          data-month="{{item}}"
+          bindtap="filterByMonth"
+        >
+          {{item}}
+        </view>
+      </scroll-view>
+    </view>
+    
+    <!-- 时间线内容 -->
+    <view class="timeline-container">
+      <block wx:if="{{loading}}">
+        <view class="loading">
+          <view style="margin-bottom: 10rpx;">加载中...</view>
+          <view style="width: 60rpx; height: 60rpx; border: 4rpx solid #f3f3f3; border-top: 4rpx solid #4776E6; border-radius: 50%; animation: spin 1s linear infinite;"></view>
+        </view>
+      </block>
+      <block wx:elif="{{timelineData.length === 0}}">
+        <view class="empty-data">暂无时间线数据</view>
+      </block>
+      <block wx:else>
+        <view class="timeline-list">
+          <view 
+            class="timeline-item {{item.isPast ? 'past' : 'future'}}" 
+            wx:for="{{timelineData}}" 
+            wx:key="_id"
+          >
+            <view class="timeline-date">
+              <text>{{item.date}}</text>
+              <text class="countdown">{{item.countdown}}</text>
+            </view>
+            <view class="timeline-content">
+              <view class="timeline-title">{{item.eventTheme}}</view>
+              <view class="timeline-desc">{{item.event}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
+
+<wxss>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</wxss>

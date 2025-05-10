@@ -1,0 +1,367 @@
+/* 整体容器 */
+.container {
+  padding-bottom: 40rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 顶部渐变背景 */
+.header-gradient {
+  background-image: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #ffffff;
+  padding: 30rpx;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+/* 返回按钮样式 */
+.back-btn {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6rpx 20rpx;
+  border-radius: 100rpx;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.back-icon {
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 3rpx solid #fff;
+  border-left: 3rpx solid #fff;
+  transform: rotate(-45deg);
+  margin-right: 10rpx;
+}
+
+.back-text {
+  color: #fff;
+  font-size: 24rpx;
+}
+
+/* 头部文本样式 */
+.text-lg {
+  font-size: 36rpx;
+}
+
+.text-xl {
+  font-size: 40rpx;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-sm {
+  font-size: 24rpx;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.opacity-80 {
+  opacity: 0.8;
+}
+
+.block {
+  display: block;
+}
+
+/* flex布局相关 */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+/* 外边距相关 */
+.mb-1 {
+  margin-bottom: 10rpx;
+}
+
+.mb-4 {
+  margin-bottom: 20rpx;
+}
+
+.mr-2 {
+  margin-right: 20rpx;
+}
+
+.ml-3 {
+  margin-left: 30rpx;
+}
+
+/* 内边距相关 */
+.p-3 {
+  padding: 30rpx;
+}
+
+.pt-2 {
+  padding-top: 20rpx;
+}
+
+.pt-16 {
+  padding-top: 160rpx;
+}
+
+.pt-20 {
+  padding-top: 200rpx;
+}
+
+.pb-8 {
+  padding-bottom: 60rpx;
+}
+
+.rounded-b-3xl {
+  border-radius: 0 0 30rpx 30rpx;
+}
+
+/* 图标样式 */
+.icon-img {
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 分数输入区域 */
+.score-input-area {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  margin-top: -40rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.input-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.input-label {
+  width: 200rpx;
+  font-size: 28rpx;
+  color: #333;
+  padding-right: 20rpx;
+}
+
+.input-field {
+  flex: 1;
+  height: 70rpx;
+  font-size: 28rpx;
+  color: #333;
+  padding: 0 10rpx;
+}
+
+/* 按钮样式 */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx;
+}
+
+.btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 30rpx;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.btn-primary {
+  background-image: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #fff;
+  margin-right: 15rpx;
+  box-shadow: 0 4rpx 12rpx rgba(71, 118, 230, 0.2);
+}
+
+.btn-secondary {
+  background-color: #f1f1f1;
+  color: #666;
+  margin-left: 15rpx;
+}
+
+/* 结果区域 */
+.result-area {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.result-table {
+  width: 100%;
+}
+
+.result-row {
+  display: flex;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.result-label {
+  width: 200rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.result-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+}
+
+.total-row {
+  border-top: 2rpx solid #eee;
+  padding-top: 20rpx;
+  margin-top: 10rpx;
+}
+
+.total-value {
+  color: #4776E6;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+/* 提示区域 */
+.tip-area {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.tip-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.tip-item {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8rpx;
+} 
+
+/* VIP模态框样式 (从 nonvip-calculation 复制) */
+.vip-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vip-modal {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+}
+
+.vip-modal-header {
+  background-image: linear-gradient(to right, #FFD700, #FFA500);
+  padding: 30rpx;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.vip-crown-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.vip-modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.vip-modal-content {
+  padding: 40rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vip-modal-message {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.vip-modal-desc {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.vip-modal-footer {
+  display: flex;
+  border-top: 1rpx solid #eee;
+}
+
+.vip-modal-btn {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  border-radius: 0;
+  margin: 0;
+  background: transparent;
+}
+
+.vip-modal-btn::after {
+  border: none;
+}
+
+.vip-modal-cancel {
+  color: #666;
+  border-right: 1rpx solid #eee;
+}
+
+.vip-modal-confirm {
+  color: #FFA500;
+  font-weight: bold;
+} 

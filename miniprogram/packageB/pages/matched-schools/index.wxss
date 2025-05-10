@@ -1,0 +1,256 @@
+/* matched-schools.wxss */
+page {
+  background-color: #f5f5f5;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 100rpx; /* 底部留白 */
+}
+
+/* 通用样式类 */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.p-3 { padding: 30rpx; }
+.pt-20 { padding-top: 200rpx; } /* 增加顶部高度避免被自定义导航遮挡 */
+.pb-6 { padding-bottom: 50rpx; }
+.mt-3 { margin-top: 30rpx; }
+.mt-1 { margin-top: 10rpx; }
+.mb-1 { margin-bottom: 10rpx; }
+.ml-3 { margin-left: 30rpx; }
+.block { display: block; }
+.rounded-b-3xl { border-radius: 0 0 40rpx 40rpx; }
+.text-white { color: #fff; }
+.opacity-80 { opacity: 0.8; }
+.font-sm { font-size: 28rpx; }
+.text-lg { font-size: 36rpx; }
+.text-xl { font-size: 40rpx; }
+.font-bold { font-weight: bold; }
+
+/* 顶部渐变背景 */
+.header-gradient {
+  background-image: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #ffffff;
+  position: relative;
+  z-index: 5;
+}
+
+/* 导航内容 */
+.nav-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6rpx 20rpx;
+  border-radius: 100rpx;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.back-icon {
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 3rpx solid #fff;
+  border-left: 3rpx solid #fff;
+  transform: rotate(-45deg);
+  margin-right: 10rpx;
+}
+
+.back-text {
+  color: #fff;
+  font-size: 24rpx;
+}
+
+/* 内容区域 */
+.content-area {
+  margin-top: -30rpx;
+  padding: 0 30rpx;
+  flex: 1;
+  position: relative;
+  z-index: 10;
+}
+
+/* 标签页切换 */
+.tabs-container {
+  display: flex;
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 30rpx;
+  margin-top: 15rpx;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 25rpx 0;
+  font-size: 30rpx;
+  color: #666;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.tab-item.active {
+  color: #fff;
+  background-color: #4776E6;
+  font-weight: bold;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  position: relative;
+  padding-bottom: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2rpx;
+  background-color: rgba(142, 84, 233, 0.1);
+}
+
+.school-count {
+  font-size: 26rpx;
+  color: #888;
+  font-weight: normal;
+}
+
+/* 学校卡片样式 */
+.policy-details {
+  background-color: #fff;
+}
+
+.schools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.school-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.school-name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.school-badge {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 100rpx;
+}
+
+.school-badge.primary {
+  background-color: rgba(71, 118, 230, 0.1);
+  color: #4776E6;
+}
+
+.school-badge.secondary {
+  background-color: rgba(255, 87, 51, 0.1);
+  color: #ff5733;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.score-year {
+  color: #666;
+}
+
+.score-value {
+  color: #666;
+  font-weight: 500;
+}
+
+.score-value.match {
+  color: #4776E6;
+}
+
+.score-value.unmatch {
+  color: #ff5733;
+}
+
+.address-row {
+  display: flex;
+  padding: 12rpx 0;
+  margin-top: 8rpx;
+}
+
+.address-label {
+  color: #666;
+  min-width: 80rpx;
+}
+
+.address-value {
+  color: #666;
+  flex: 1;
+}
+
+/* 空内容提示 */
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-text {
+  color: #999;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+}
+
+/* 调试信息样式 */
+.debug-info {
+  padding: 16rpx;
+  margin: 20rpx 0;
+  border: 1rpx dashed #ccc;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  background-color: rgba(255, 255, 255, 0.8);
+} 

@@ -1,0 +1,349 @@
+<custom-nav></custom-nav>
+<view class="container">
+  <!-- 顶部欢迎区域 -->
+  <view class="header-gradient p-3 pt-20 pb-8 rounded-b-3xl">
+    <view class="flex items-center justify-between mb-4">
+      <view class="flex items-center">
+        <view class="back-btn" bindtap="navigateBack">
+          <view class="back-icon"></view>
+          <text class="back-text">返回</text>
+        </view>
+        <text class="text-lg font-bold text-white ml-3">分数折算器</text>
+      </view>
+    </view>
+    
+    <view>
+      <text class="text-white opacity-80 font-sm mb-1 block">按照中考评分标准</text>
+      <view class="text-xl font-bold text-white">快速计算各科折算分</view>
+    </view>
+  </view>
+
+  <!-- 分数输入区域 -->
+  <view class="score-input-area">
+    <view class="section-title">输入原始分数</view>
+    
+    <!-- 语文分数 -->
+    <view class="input-item">
+      <view class="input-label">语文</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入语文成绩" 
+        value="{{originalScores.chinese}}"
+        data-field="chinese"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 数学分数 -->
+    <view class="input-item">
+      <view class="input-label">数学</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入数学成绩" 
+        value="{{originalScores.math}}"
+        data-field="math"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 英语分数 -->
+    <view class="input-item">
+      <view class="input-label">英语(笔试)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入英语笔试成绩" 
+        value="{{originalScores.english}}"
+        data-field="english"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 英语听力分数 -->
+    <view class="input-item" wx:if="{{showEnglishListening}}">
+      <view class="input-label">英语(听力)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入英语听力成绩" 
+        value="{{originalScores.englishListening}}"
+        data-field="englishListening"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 物理分数 -->
+    <view class="input-item">
+      <view class="input-label">物理(卷面)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入物理卷面成绩" 
+        value="{{originalScores.physical}}"
+        data-field="physical"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 物理实验分数 -->
+    <view class="input-item" wx:if="{{showPhysicalExperimental}}">
+      <view class="input-label">物理(实验)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入物理实验成绩" 
+        value="{{originalScores.physicalExperimental}}"
+        data-field="physicalExperimental"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 化学分数 -->
+    <view class="input-item">
+      <view class="input-label">化学(卷面)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入化学卷面成绩" 
+        value="{{originalScores.chemistry}}"
+        data-field="chemistry"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 化学实验分数 -->
+    <view class="input-item" wx:if="{{showChemistryExperimental}}">
+      <view class="input-label">化学(实验)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入化学实验成绩" 
+        value="{{originalScores.chemistryExperimental}}"
+        data-field="chemistryExperimental"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 生物分数 -->
+    <view class="input-item">
+      <view class="input-label">生物(卷面)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入生物卷面成绩" 
+        value="{{originalScores.biology}}"
+        data-field="biology"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 生物实验分数 -->
+    <view class="input-item" wx:if="{{showBiologyExperimental}}">
+      <view class="input-label">生物(实验)</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入生物实验成绩" 
+        value="{{originalScores.biologyExperimental}}"
+        data-field="biologyExperimental"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 历史分数 -->
+    <view class="input-item">
+      <view class="input-label">历史</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入历史成绩" 
+        value="{{originalScores.history}}"
+        data-field="history"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 道德与法治分数 -->
+    <view class="input-item">
+      <view class="input-label">道德与法治</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入道德与法治成绩" 
+        value="{{originalScores.morality}}"
+        data-field="morality"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 信息技术分数 -->
+    <view class="input-item">
+      <view class="input-label">信息技术</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入信息技术成绩" 
+        value="{{originalScores.it}}"
+        data-field="it"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 美术分数 -->
+    <view class="input-item">
+      <view class="input-label">美术</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入美术成绩 (20/15/10/0)" 
+        value="{{originalScores.art}}"
+        data-field="art"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 音乐分数 -->
+    <view class="input-item">
+      <view class="input-label">音乐</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入音乐成绩 (20/15/10/0)" 
+        value="{{originalScores.music}}"
+        data-field="music"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 劳动技术分数 -->
+    <view class="input-item">
+      <view class="input-label">劳动技术</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入劳动技术成绩 (20/15/10/0)" 
+        value="{{originalScores.labour}}"
+        data-field="labour"
+        bindinput="handleInputChange"
+      />
+    </view>
+    
+    <!-- 体育分数 -->
+    <view class="input-item">
+      <view class="input-label">体育</view>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入体育成绩" 
+        value="{{originalScores.physicalEducation}}"
+        data-field="physicalEducation"
+        bindinput="handleInputChange"
+      />
+    </view>
+  </view>
+  
+  <!-- 结果区域 (仅会员显示) -->
+  <view class="result-area" wx:if="{{isVip && showResult}}">
+    <view class="section-title">折算后分数</view>
+    <view class="result-table">
+      <!-- 各科目折算分数 -->
+      <view class="result-row">
+        <view class="result-label">语文</view>
+        <view class="result-value">{{calculatedScores.chinese || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">数学</view>
+        <view class="result-value">{{calculatedScores.math || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">英语</view>
+        <view class="result-value">{{calculatedScores.english || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">物理</view>
+        <view class="result-value">{{calculatedScores.physical || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">化学</view>
+        <view class="result-value">{{calculatedScores.chemistry || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">生物</view>
+        <view class="result-value">{{calculatedScores.biology || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">历史</view>
+        <view class="result-value">{{calculatedScores.history || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">道德与法治</view>
+        <view class="result-value">{{calculatedScores.morality || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">信息技术</view>
+        <view class="result-value">{{calculatedScores.it || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">美术</view>
+        <view class="result-value">{{calculatedScores.art || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">音乐</view>
+        <view class="result-value">{{calculatedScores.music || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">劳动技术</view>
+        <view class="result-value">{{calculatedScores.labour || '-'}}</view>
+      </view>
+      <view class="result-row">
+        <view class="result-label">体育</view>
+        <view class="result-value">{{calculatedScores.physicalEducation || '-'}}</view>
+      </view>
+      <!-- 总分 -->
+      <view class="result-row total-row">
+        <view class="result-label total-label">总分</view>
+        <view class="result-value total-value">{{totalScore || '-'}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 按钮区域 -->
+  <view class="button-group">
+    <button class="btn btn-primary" bindtap="calculateScores">计算折算分</button>
+    <button class="btn btn-secondary" bindtap="clearInputs">清空输入</button>
+  </view>
+  
+  <!-- VIP会员提示模态框 -->
+  <view class="vip-modal-mask" wx:if="{{showVipModal}}">
+    <view class="vip-modal">
+      <view class="vip-modal-header">
+        <image class="vip-crown-icon" src="/images/crown.png" mode="aspectFit"></image>
+        <view class="vip-modal-title">开通会员</view>
+      </view>
+      <view class="vip-modal-content">
+        <text class="vip-modal-message">开通会员可查看完整内容</text>
+        <text class="vip-modal-desc">升级为会员享受折算分查询、院校筛选、查看录取概率等功能</text>
+      </view>
+      <view class="vip-modal-footer">
+        <button class="vip-modal-btn vip-modal-cancel" bindtap="closeVipModal">暂不开通</button>
+        <button class="vip-modal-btn vip-modal-confirm" bindtap="goToVipPage">立即开通</button>
+      </view>
+    </view>
+  </view>
+  
+  <view class="tip-area">
+    <view class="tip-title">计算说明：</view>
+    <view class="tip-item">1. 语文、数学按原始分计算</view>
+    <view class="tip-item">2. 英语按笔试+听力计算</view>
+    <view class="tip-item">3. 物理按(卷面+实验)*50%计算</view>
+    <view class="tip-item">4. 化学按(卷面+实验)*30%计算</view>
+    <view class="tip-item">5. 生物按(卷面+实验)*40%计算</view>
+    <view class="tip-item">6. 历史按40%计算</view>
+    <view class="tip-item">7. 道德与法治按40%计算</view>
+    <view class="tip-item">8. 地理按30%计算</view>
+    <view class="tip-item">9. 信息技术合格计10分，不合格计1分</view>
+    <view class="tip-item">10. 美术、音乐、劳动技术：优秀(20分)、良好(15分)、合格(10分)、不合格(0分)</view>
+  </view>
+</view> 

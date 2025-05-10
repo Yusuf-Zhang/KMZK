@@ -1,0 +1,396 @@
+/* login/index.wxss */
+
+page {
+  background-color: #f5f5f5;
+  height: 100%;
+}
+
+.container-full {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 登录内容布局 */
+.login-content {
+  width: 92%;  /* 增加宽度至接近屏幕边缘 */
+  max-width: none; /* 移除最大宽度限制 */
+  box-sizing: border-box;
+  margin-top: 15vh; /* 上移位置，更接近页面中间 */
+}
+
+/* 卡片内 Logo 样式 */
+.logo-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx; /* 增加logo下方间距 */
+}
+
+/* 平台描述样式 */
+.platform-desc {
+  margin-bottom: 60rpx; /* 增加平台描述与按钮之间的间距 */
+  width: 100%;
+}
+
+.platform-desc .font-bold {
+  font-size: 36rpx;
+  color: #333;
+  margin-bottom: 20rpx; /* 增加标题与副标题间距 */
+}
+
+.platform-desc .text-secondary {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx; /* 增加文字行间距 */
+  line-height: 1.5; /* 增加行高 */
+}
+
+/* 文本样式 */
+.text-xl {
+  font-size: 36rpx;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-primary {
+  color: #4a89dc;
+}
+
+.text-secondary {
+  color: #666666;
+}
+
+.text-gray {
+  color: #999999;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.font-sm {
+  font-size: 28rpx;
+}
+
+.font-xs {
+  font-size: 24rpx;
+}
+
+/* Margin & Padding */
+.m-2 {
+  margin: 16rpx;
+}
+
+.mx-3 {
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+
+.mt-2 {
+  margin-top: 16rpx;
+}
+
+.mb-3 {
+  margin-bottom: 24rpx;
+}
+
+.mb-4 {
+  margin-bottom: 32rpx;
+}
+
+.mb-6 {
+  margin-bottom: 48rpx;
+}
+
+.ml-2 {
+  margin-left: 16rpx;
+}
+
+.mr-2 {
+  margin-right: 16rpx;
+}
+
+.p-4 {
+  padding: 32rpx;
+}
+
+.px-3 {
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+}
+
+.px-4 {
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+}
+
+.pt-4 {
+  padding-top: 32rpx;
+}
+
+.pb-4 {
+  padding-bottom: 32rpx;
+}
+
+.pb-16 {
+  padding-bottom: 128rpx;
+}
+
+/* Flex布局 */
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-05 {
+  height: 2rpx;
+}
+
+.bg-gray {
+  background-color: #eeeeee;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 20rpx;
+  width: 100%;
+  padding: 50rpx 40rpx; /* 增加上下内边距 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 图标样式 */
+.icon-img {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background-color: #4a89dc;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 45rpx;
+  padding: 0;
+  border: none;
+  font-weight: normal;
+}
+
+.btn-wechat {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background-color: #07c160;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 45rpx;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-weight: normal;
+  margin-bottom: 30rpx; /* 增加按钮间距 */
+}
+
+/* 底部 */
+.footer {
+  padding: 0 40rpx;
+  width: 100%;
+  position: fixed;
+  bottom: 40rpx;
+  left: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* 用户信息弹窗 */
+.userinfo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userinfo-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.userinfo-content {
+  position: relative;
+  width: 80%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.userinfo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.userinfo-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.userinfo-close {
+  font-size: 40rpx;
+  color: #999;
+}
+
+.userinfo-body {
+  padding: 30rpx;
+}
+
+.nickname-section {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.nickname-input {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.btn-confirm {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #4a89dc;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 40rpx;
+  margin-top: 20rpx;
+}
+
+/* 表单项 */
+.form-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+
+.form-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+  opacity: 0.6;
+}
+
+.form-input {
+  flex: 1;
+  height: 60rpx;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.code-input {
+  flex: 0.6;
+}
+
+.verify-code-btn {
+  padding: 10rpx 20rpx;
+  font-size: 26rpx;
+  color: #4a89dc;
+  border: 1rpx solid #4a89dc;
+  border-radius: 30rpx;
+}
+
+.verify-code-btn.disabled {
+  color: #999;
+  border-color: #eee;
+}
+
+/* 复选框 */
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 4rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-inner {
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #4a89dc;
+  border-radius: 2rpx;
+} 

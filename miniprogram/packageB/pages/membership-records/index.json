@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购买记录",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

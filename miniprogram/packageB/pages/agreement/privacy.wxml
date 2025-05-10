@@ -1,0 +1,5 @@
+<custom-nav></custom-nav>
+<!--agreement/privacy.wxml-->
+<view class="privacy-container">
+  <rich-text nodes="{{privacyContent}}"></rich-text>
+</view> 

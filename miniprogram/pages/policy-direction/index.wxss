@@ -1,0 +1,975 @@
+/* policy-direction/index.wxss */
+
+/* 页面容器 */
+.container {
+  padding: 0;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 定向生解释轮播样式 */
+.explanation-swiper {
+  margin: 0 24rpx;
+  position: relative;
+}
+
+.swiper-container {
+  height: 340rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.swiper-card {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx 30rpx 80rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-nav {
+  position: absolute;
+  top: 60%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  padding: 0;
+  z-index: 20;
+}
+
+.swiper-nav-btn {
+  width: 40rpx;
+  height: 40rpx;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1rpx solid rgba(200, 200, 200, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.swiper-nav-btn:active {
+  opacity: 1;
+}
+
+.swiper-nav-prev {
+  margin-left: 16rpx;
+}
+
+.swiper-nav-next {
+  margin-right: 16rpx;
+}
+
+.nav-arrow {
+  color: #4776E6;
+  font-size: 22rpx;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.swiper-card::after {
+  content: '';
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, rgba(71, 118, 230, 0.08), rgba(142, 84, 233, 0.08));
+  border-radius: 50% 0 0 0;
+  z-index: 1;
+}
+
+.swiper-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+.swiper-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6rpx;
+  left: 0;
+  width: 40rpx;
+  height: 4rpx;
+  background: linear-gradient(to right, #4776E6, #8E54E9);
+  border-radius: 2rpx;
+}
+
+.swiper-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+}
+
+/* 引入首页样式 */
+/* 顶部渐变背景 */
+.header-gradient {
+  background-image: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #ffffff;
+  padding: 30rpx;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+/* 图标样式 */
+.icon-img {
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-img-sm {
+  width: 30rpx;
+  height: 30rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 文本颜色 */
+.text-white {
+  color: #ffffff;
+}
+
+.text-lg {
+  font-size: 36rpx;
+}
+
+.text-xl {
+  font-size: 40rpx;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-sm {
+  font-size: 24rpx;
+}
+
+.opacity-80 {
+  opacity: 0.8;
+}
+
+/* 布局相关样式 */
+/* flex布局相关 */
+.flex {
+  display: flex; /* 设置为flex布局容器 */
+}
+
+.items-center {
+  align-items: center; /* flex子元素在交叉轴上居中对齐 */
+}
+
+.justify-between {
+  justify-content: space-between; /* flex子元素在主轴上两端对齐 */
+}
+
+/* 外边距相关 */
+.mb-1 {
+  margin-bottom: 10rpx; /* 底部外边距10rpx */
+}
+
+.mb-4 {
+  margin-bottom: 20rpx; /* 底部外边距40rpx */
+}
+
+.mr-2 {
+  margin-right: 20rpx; /* 右侧外边距20rpx */
+}
+
+/* 内边距相关 */
+.p-3 {
+  padding: 30rpx; /* 四周内边距30rpx */
+}
+
+.pt-2 {
+  padding-top: 20rpx; /* 顶部内边距20rpx */
+}
+
+.pb-8 {
+  padding-bottom: 60rpx; /* 底部内边距80rpx */
+}
+
+/* 显示相关 */
+.block {
+  display: block; /* 块级元素显示 */
+}
+
+/* 帮助按钮和提示 */
+.help-icon {
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background-color: #3a86ff;
+  color: #fff;
+  border-radius: 50%;
+  margin-left: 12rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.search-tip {
+  position: relative;
+  background-color: #f0f7ff;
+  border-radius: 8rpx;
+  padding: 16rpx 36rpx 16rpx 16rpx;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+  color: #3a86ff;
+  line-height: 1.4;
+}
+
+.close-tip {
+  position: absolute;
+  right: 10rpx;
+  top: 10rpx;
+  width: 30rpx;
+  height: 30rpx;
+  text-align: center;
+  line-height: 30rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 输入框占位符样式 */
+.input-placeholder {
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 学校下拉匹配框 */
+.schools-dropdown {
+  position: absolute;
+  z-index: 100;
+  left: 30rpx;
+  right: 170rpx;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.school-dropdown-item {
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.school-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.school-dropdown-item:active {
+  background-color: #f5f5f5;
+}
+
+/* 定向单元详情样式 */
+.unit-schools-detail {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10rpx;
+}
+
+.unit-school-item {
+  padding: 20rpx;
+  font-size: 28rpx;
+  background-color: #f8f9fa;
+  margin-bottom: 12rpx;
+  border-radius: 8rpx;
+  color: #333;
+}
+
+/* 圆角相关 */
+.rounded-b-3xl {
+  border-radius: 0 0 40rpx 40rpx; /* 底部左右圆角40rpx */
+}
+
+/* 负外边距相关 */
+.-mt-5 {
+  margin-top: -50rpx; /* 顶部负外边距50rpx */
+}
+
+.-mt-6 {
+  margin-top: -60rpx; /* 顶部负外边距60rpx */
+}
+
+.-mt-8 {
+  margin-top: -80rpx; /* 顶部负外边距80rpx */
+}
+
+.-mt-10 {
+  margin-top: -100rpx; /* 顶部负外边距100rpx */
+}
+
+/* 正外边距 */
+.mt-2 {
+  margin-top: 20rpx; /* 顶部外边距20rpx */
+}
+
+.mt-3 {
+  margin-top: 30rpx; /* 顶部外边距30rpx */
+}
+
+.mt-4 {
+  margin-top: 40rpx; /* 顶部外边距40rpx */
+}
+
+/* 页面头部 - 弃用，使用上方新样式
+.page-header {
+  text-align: center;
+  margin-bottom: 30rpx;
+  padding: 20rpx 0;
+}
+
+.page-title {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.page-subtitle {
+  font-size: 26rpx;
+  color: #666;
+}
+*/
+
+/* 卡片样式 */
+.card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin: 0 24rpx 30rpx 24rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 第一个卡片特殊样式 - 用于定向单位查询卡片 */
+.card:first-of-type {
+  border-radius: 30rpx;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+/* 第一个卡片头部特殊样式 */
+.card-header-first {
+  padding-top: 10rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.view-all-btn, 
+.view-details-btn {
+  font-size: 26rpx;
+  color: #3a86ff;
+  font-weight: bold;
+}
+
+/* 搜索框 */
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.search-input {
+  flex: 1;
+  height: 80rpx;
+  border: 1px solid #ddd;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  background-color: #f9f9f9;
+  color: #333;
+  caret-color: #333;
+}
+
+.search-btn {
+  width: 140rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #3a86ff;
+  color: #fff;
+  text-align: center;
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+/* 搜索结果 */
+.search-result {
+  margin-top: 30rpx;
+  background-color: #f8f9fa;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.result-title {
+  font-size: 28rpx;
+  color: #555;
+  margin-bottom: 16rpx;
+  font-weight: bold;
+}
+
+.no-result {
+  font-size: 28rpx;
+  color: #ff6b6b;
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+/* 单元结果 */
+.unit-result {
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+}
+
+.unit-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #3a86ff;
+  margin-bottom: 12rpx;
+}
+
+.unit-schools-title {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.schools-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.school-item {
+  background-color: #f0f7ff;
+  border-radius: 6rpx;
+  padding: 6rpx 16rpx;
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+  font-size: 24rpx;
+  color: #3a86ff;
+}
+
+/* 分数显示 */
+.unit-display {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.selected-unit {
+  font-weight: bold;
+  color: #3a86ff;
+  margin: 0 6rpx;
+}
+
+.score-results {
+  margin-top: 16rpx;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+}
+
+.school-info {
+  flex: 1;
+}
+
+.school-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.school-level {
+  font-size: 24rpx;
+  color: #777;
+}
+
+.score-info {
+  text-align: center;
+  min-width: 180rpx;
+}
+
+.unit-label {
+  font-size: 24rpx;
+  color: #777;
+  margin-bottom: 8rpx;
+}
+
+.score-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #3a86ff;
+}
+
+.score-not-reached {
+  font-size: 26rpx;
+  color: #ff6b6b;
+}
+
+/* 政策解读和提示 */
+.policy-summary {
+  background-color: #f8f9fa;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.policy-item {
+  font-size: 28rpx;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+  position: relative;
+  padding-left: 26rpx;
+}
+
+.policy-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14rpx;
+  width: 10rpx;
+  height: 10rpx;
+  background-color: #3a86ff;
+  border-radius: 50%;
+}
+
+.tips-list {
+  background-color: #f8f9fa;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.tip-item {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+  position: relative;
+  padding-left: 30rpx;
+}
+
+.tip-item::before {
+  content: "※";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ff9f1c;
+}
+
+/* 模态框 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  width: 90%;
+  max-height: 85vh;
+  background-color: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 30rpx;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 单元列表 */
+.units-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.unit-list-item {
+  padding: 24rpx;
+  background-color: #f8f9fa;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.unit-schools-count {
+  font-size: 24rpx;
+  color: #777;
+  margin-top: 8rpx;
+  font-weight: normal;
+}
+
+/* 学校目录 */
+.schools-directory {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.school-directory-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.school-directory-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.school-directory-level {
+  font-size: 24rpx;
+  color: #777;
+  background-color: #f0f7ff;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+/* 政策详情 */
+.policy-detail {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 375px) {
+  .units-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .school-item {
+    font-size: 22rpx;
+    padding: 4rpx 12rpx;
+  }
+  
+  .score-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .score-info {
+    margin-top: 16rpx;
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .page-title {
+    font-size: 34rpx;
+  }
+  
+  .card-title {
+    font-size: 30rpx;
+  }
+  
+  .search-input {
+    font-size: 26rpx;
+  }
+  
+  .search-btn {
+    width: 120rpx;
+    font-size: 26rpx;
+  }
+}
+
+.unit-picker {
+  min-width: 180rpx;
+  margin: 0 20rpx;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.picker-inner {
+  color: #333;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.schools-directory-desc {
+  font-size: 26rpx;
+  color: #3a86ff;
+  margin-bottom: 16rpx;
+  text-align: center;
+} 
+
+/* 政策解读样式 */
+.policy-section {
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+.policy-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #f2f2f2;
+  border-radius: 8rpx;
+}
+
+.policy-section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+}
+
+.policy-section-toggle {
+  font-size: 24rpx;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.policy-section-toggle.rotate {
+  transform: rotate(180deg);
+}
+
+.policy-section-content {
+  display: none;
+  padding: 0;
+}
+
+.policy-section-content.show {
+  display: block;
+  padding: 20rpx;
+}
+
+.policy-section-content text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* 自定义指示点容器样式 - 这种方式在某些客户端可能不生效 */
+.wx-swiper-dots {
+  margin-bottom: 16rpx !important;
+}
+
+/* --- 添加非会员版本所需的样式 --- */
+.search-input-disabled {
+  flex: 1;
+  height: 80rpx;
+  background-color: #f0f0f0;
+  border-radius: 8rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #999;
+  line-height: 80rpx;
+  border: 1px solid #e0e0e0;
+  margin-right: 16rpx;
+  position: relative;
+}
+
+.unit-picker-disabled {
+  width: 180rpx;
+  height: 80rpx;
+  border: 1px solid #e0e0e0;
+  border-radius: 8rpx;
+  background-color: #f0f0f0;
+  margin-right: 16rpx;
+  position: relative;
+}
+
+.unit-picker-disabled .picker-inner {
+  height: 80rpx;
+  padding: 0 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.search-btn.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* VIP 提示模态框 (确保 search-modal 相关样式已存在) */
+.modal-content.vip-modal {
+  /* 可以添加特定样式，如果需要区分 */
+}
+
+.vip-tip-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 30rpx;
+}
+
+.vip-icon {
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: 30rpx;
+}
+
+.vip-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.vip-tip-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40rpx;
+}
+
+.vip-button {
+  width: 80%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: linear-gradient(to right, #fca54a, #ff7b4a);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-radius: 40rpx;
+  border: none;
+  box-shadow: 0 4rpx 8rpx rgba(255, 153, 0, 0.3);
+}
+
+/* 政策详情模态框滚动 */
+.policy-scroll {
+  max-height: 60vh; /* 或根据需要调整 */
+}
+
+/* --- 非会员样式结束 --- */
+
+.policy-conclusion {
+  margin-top: 30rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+/* 高亮单元名称 */
+.highlight-unit {
+  color: #4776E6;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+
+/* 高亮当前学校 */
+.your-school {
+  color: #4776E6;
+  font-weight: bold;
+  position: relative;
+}
+
+.your-school::after {
+  content: '(您的学校)';
+  font-size: 24rpx;
+  color: #8E54E9;
+  margin-left: 8rpx;
+}
+
+/* 单元提示信息 */
+.unit-tip {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #888;
+  border-top: 1px dashed #eee;
+  padding-top: 12rpx;
+} 

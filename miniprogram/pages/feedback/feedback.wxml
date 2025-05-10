@@ -1,0 +1,58 @@
+<custom-nav></custom-nav>
+<view class="container">
+  <!-- 顶部欢迎区域 -->
+  <view class="header-gradient p-3 pt-20 pb-4 rounded-b-3xl">
+    <view class="flex items-center justify-between mb-4">
+      <view class="flex items-center">
+        <view class="back-btn" bindtap="navigateBack">
+          <view class="back-icon"></view>
+          <text class="back-text">返回</text>
+        </view>
+        <text class="text-lg font-bold text-white ml-3">问题反馈</text>
+      </view>
+    </view>
+    
+    <view>
+      <text class="text-white opacity-80 font-sm mb-1 block">欢迎提供建议</text>
+      <view class="text-xl font-bold text-white">您的反馈是我们进步的动力</view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <scroll-view scroll-y class="feedback-content">
+    <view class="form-card">
+      <text class="section-title">选择您要反馈的方式</text>
+      
+      <!-- 官方反馈按钮 -->
+      <view class="button-group">
+        <button class="btn btn-primary" open-type="feedback">
+          <image src="/images/icons/feedback.png" class="btn-icon" mode="aspectFit"></image>
+          打开官方反馈
+        </button>
+      </view>
+      
+      <view class="divider">
+        <text class="divider-text">官方反馈说明</text>
+      </view>
+      
+      <view class="tips-list">
+        <view class="tip-item">
+          <view class="tip-icon">•</view>
+          <view class="tip-text">您可以通过官方反馈直接提交问题或建议</view>
+        </view>
+        <view class="tip-item">
+          <view class="tip-icon">•</view>
+          <view class="tip-text">可以轻松上传截图说明问题</view>
+        </view>
+        <view class="tip-item">
+          <view class="tip-icon">•</view>
+          <view class="tip-text">我们会在收到反馈后尽快处理并回复</view>
+        </view>
+        <view class="tip-item">
+          <view class="tip-icon">•</view>
+          <view class="tip-text">感谢您对小程序的支持与建议</view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view> 

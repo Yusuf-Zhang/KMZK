@@ -1,0 +1,112 @@
+<custom-nav></custom-nav>
+<!-- membership/index.wxml -->
+<view class="membership-container pt-20">
+  <!-- 会员状态显示 -->
+  <view class="membership-status">
+    <block wx:if="{{isMember}}">
+      <view class="status-card member">
+        <!-- <view class="status-icon">
+          <image src="../../images/crown.png" mode="aspectFit"></image>
+        </view> -->
+        <view class="status-info">
+          <view class="status-title">{{isRenewal ? '会员续费' : '已开通会员'}}</view>
+          <view class="status-desc">有效期至：{{memberExpireDate}}</view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="status-card non-member">
+        <!-- <view class="status-icon">
+          <image src="../../images/lock.png" mode="aspectFit"></image>
+        </view> -->
+        <view class="status-info">
+          <view class="status-title">{{isRenewal ? '会员已过期' : '尚未开通会员'}}</view>
+          <view class="status-desc">{{isRenewal ? '续费后继续享受特权' : '开通会员，享受更多权益'}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 会员权益展示 -->
+  <view class="section-title">会员特权</view>
+  <view class="benefits-container">
+    <view class="benefit-item" wx:for="{{benefits}}" wx:key="id">
+      <!-- <view class="benefit-icon">
+        <image src="{{item.icon}}" mode="aspectFit"></image>
+      </view> -->
+      <view class="benefit-content">
+        <view class="benefit-title">{{item.title}}</view>
+        <view class="benefit-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 会员套餐选择 -->
+  <view class="section-title">会员套餐</view>
+  <view class="plans-container">
+    <view 
+      class="plan-item {{item.id === selectedPlanId ? 'selected' : ''}} {{item.recommended ? 'recommended' : ''}}" 
+      wx:for="{{plans}}" 
+      wx:key="id"
+      bindtap="selectPlan"
+      data-id="{{item.id}}"
+    >
+      <view class="plan-tag" wx:if="{{item.recommended}}">推荐</view>
+      <view class="plan-name">{{item.name}}</view>
+      <view class="plan-duration">{{item.duration}}</view>
+      <view class="plan-price">
+        <text class="currency">¥</text>
+        <text class="amount">{{item.price}}</text>
+        <text class="original-price" wx:if="{{item.originalPrice}}">
+          <text class="original-price-line-through">¥{{item.originalPrice}}</text>
+        </text>
+      </view>
+      <view class="plan-desc">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <!-- 购买区域 -->
+  <view class="action-area">
+    <!-- 协议勾选 -->
+    <view class="agreement-box" bindtap="toggleAgreement">
+      <view class="checkbox {{agreementChecked ? 'checked' : ''}}">
+        <view class="check-inner" wx:if="{{agreementChecked}}"></view>
+      </view>
+      <view class="agreement-text">
+        同意<text class="link" bindtap="viewUserAgreement">《会员服务协议》</text>和<text class="link" bindtap="viewPrivacyPolicy">《自动续费协议》</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="button-group">
+      <block wx:if="{{isLogin}}">
+        <button class="btn-purchase" bindtap="purchaseMembership">{{isRenewal ? '立即续费' : '立即开通'}}</button>
+        <button class="btn-activate" bindtap="showActivationPanel">使用激活码</button>
+      </block>
+      <block wx:else>
+        <button class="btn-login" bindtap="goToLogin">登录后开通</button>
+      </block>
+    </view>
+  </view>
+
+  <!-- 激活码面板 -->
+  <view class="activation-panel {{activationPanelVisible ? 'show' : ''}}">
+    <view class="panel-mask" bindtap="hideActivationPanel"></view>
+    <view class="panel-content">
+      <view class="panel-header">
+        <view class="panel-title">输入激活码</view>
+        <view class="panel-close" bindtap="hideActivationPanel">×</view>
+      </view>
+      <view class="panel-body">
+        <input 
+          class="activation-input" 
+          placeholder="请输入激活码" 
+          maxlength="16"
+          bindinput="inputActivationCode"
+          value="{{activationCode}}"
+        />
+        <button class="btn-activate-confirm" bindtap="confirmActivation">确认激活</button>
+      </view>
+    </view>
+  </view>
+</view> 

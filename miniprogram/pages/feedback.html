@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问题反馈 - 昆明市中考助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .required::before {
+            content: '*';
+            color: #e53e3e;
+            margin-right: 2px;
+        }
+        .upload-btn {
+            transition: all 0.3s ease;
+        }
+        .upload-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="h-full bg-gray-50">
+    <div class="flex flex-col h-full">
+        <!-- 顶部导航栏 -->
+        <div class="bg-gradient-primary text-white p-5 pt-3">
+            <div class="flex items-center">
+                <button class="mr-3" onclick="window.parent.navigateTo('profile.html')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-lg font-bold">问题反馈</h1>
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="flex-1 p-5 overflow-y-auto">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-5">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">请填写您的反馈信息</h2>
+                
+                <!-- 反馈类型 -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2 required">反馈类型</label>
+                    <div class="relative">
+                        <select class="input-field appearance-none pr-10">
+                            <option value="" disabled selected>请选择反馈类型</option>
+                            <option value="content">内容问题</option>
+                            <option value="report">内容违规举报</option>
+                            <option value="bug">功能异常</option>
+                            <option value="suggestion">功能建议</option>
+                            <option value="other">其他问题</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 举报链接 -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2 required">举报链接</label>
+                    <input type="text" placeholder="请填写举报链接" class="input-field">
+                </div>
+                
+                <!-- 问题描述 -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2 required">问题描述</label>
+                    <textarea placeholder="请填写问题描述" class="input-field h-32 resize-none"></textarea>
+                </div>
+                
+                <!-- 问题截图 -->
+                <div class="mb-5">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-gray-700">问题截图</label>
+                        <span class="text-gray-400 text-sm">0/5</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="upload-btn w-full aspect-square bg-gray-100 rounded-lg flex flex-col items-center justify-center border border-dashed border-gray-300">
+                            <i class="fas fa-camera text-gray-400 mb-1"></i>
+                            <span class="text-xs text-gray-500">拍照上传</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系人信息 -->
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-5">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">反馈人信息</h2>
+                
+                <!-- 联系人姓名 -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2 required">联系人昵称</label>
+                    <input type="text" placeholder="请填写联系人昵称" class="input-field">
+                </div>
+                
+                <!-- 联系方式 -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2 required">联系方式</label>
+                    <input type="tel" placeholder="请填写联系方式" class="input-field">
+                </div>
+            </div>
+            
+            <!-- 提交按钮 -->
+            <button class="w-full py-3 rounded-full bg-gradient-primary text-white font-medium text-lg shadow-md">
+                提交
+            </button>
+        </div>
+    </div>
+</body>
+</html>

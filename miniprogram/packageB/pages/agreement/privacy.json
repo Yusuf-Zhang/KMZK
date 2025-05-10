@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "自动续费协议",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

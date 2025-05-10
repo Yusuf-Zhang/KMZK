@@ -1,0 +1,5 @@
+<custom-nav></custom-nav>
+<!--agreement/user.wxml-->
+<view class="agreement-container">
+  <rich-text nodes="{{agreementContent}}"></rich-text>
+</view> 

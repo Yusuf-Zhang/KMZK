@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "cloud-tip-modal": "/components/cloudTipModal/index",
+    "cloud-module-install-modal": "/components/cloudbaseModuleInstallModal/index"
+  }
+}

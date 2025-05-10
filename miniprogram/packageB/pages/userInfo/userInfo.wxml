@@ -1,0 +1,36 @@
+<!-- pages/userInfo/userInfo.wxml -->
+<view class="container">
+  <view class="userinfo">
+    <block wx:if="{{!hasUserInfo}}">
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+      <view wx:else>请使用2.10.4及以上版本基础库</view>
+    </block>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+
+  <view class="form-container">
+    <view class="form-item">
+      <text class="form-label">微信号</text>
+      <input class="form-input" type="text" placeholder="请输入微信号" value="{{wxNumber}}" bindinput="inputWxNumber" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">会员状态</text>
+      <text class="form-value">{{isMember ? '已开通' : '未开通'}}</text>
+    </view>
+
+    <view class="form-item" wx:if="{{isMember}}">
+      <text class="form-label">到期日期</text>
+      <text class="form-value">{{memberExpiryDate}}</text>
+    </view>
+  </view>
+
+  <view class="btn-container">
+    <button class="btn-save" type="primary" bindtap="saveUserInfo">保存信息</button>
+    <button class="btn-member" wx:if="{{!isMember}}" bindtap="becomeMember">开通会员</button>
+    <button class="btn-member" wx:else bindtap="becomeMember">续费会员</button>
+  </view>
+</view> 

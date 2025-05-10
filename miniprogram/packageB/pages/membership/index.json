@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员开通",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

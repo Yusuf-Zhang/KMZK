@@ -1,0 +1,79 @@
+<!--components/school-detail/index.wxml-->
+<view class="school-detail-mask {{visible ? 'show' : ''}}" bindtap="closeDialog" catchtouchmove="preventTouchMove">
+  <view class="school-detail-container" catchtap="preventTouchMove">
+    <view class="school-detail-header">
+      <view class="school-name">{{school.schoolName}}</view>
+      <view class="close-btn" bindtap="closeDialog">×</view>
+    </view>
+    
+    <scroll-view scroll-y class="school-detail-content">
+      <!-- 基本信息 -->
+      <view class="info-section">
+        <view class="section-title">基本信息</view>
+        <view class="info-item">
+          <text class="info-label">排名：</text>
+          <text class="info-value">{{school.rank}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">学校类型：</text>
+          <text class="info-value">{{school.type}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">学校等级：</text>
+          <text class="info-value">{{school.level}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">2024年分数线：</text>
+          <text class="info-value">{{school.score}}分</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">录取位次：</text>
+          <text class="info-value">{{school.position || '暂无'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">地址：</text>
+          <text class="info-value">{{school.address || '暂无地址信息'}}</text>
+        </view>
+      </view>
+      
+      <!-- 招生数据 -->
+      <view class="info-section" wx:if="{{school.admissionInfo}}">
+        <view class="section-title">招生数据</view>
+        
+        <!-- 录取人数 -->
+        <view class="sub-section" wx:if="{{school.admissionInfo.admissionCount}}">
+          <view class="sub-title">录取人数</view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionCount['2022']}}">
+            <text class="info-label">2022年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionCount['2022']}}人</text>
+          </view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionCount['2023']}}">
+            <text class="info-label">2023年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionCount['2023']}}人</text>
+          </view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionCount['2024']}}">
+            <text class="info-label">2024年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionCount['2024']}}人</text>
+          </view>
+        </view>
+        
+        <!-- 历年分数线 -->
+        <view class="sub-section" wx:if="{{school.admissionInfo.admissionScore}}">
+          <view class="sub-title">历年分数线</view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionScore['2022']}}">
+            <text class="info-label">2022年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionScore['2022']}}分</text>
+          </view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionScore['2023']}}">
+            <text class="info-label">2023年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionScore['2023']}}分</text>
+          </view>
+          <view class="info-item" wx:if="{{school.admissionInfo.admissionScore['2024']}}">
+            <text class="info-label">2024年：</text>
+            <text class="info-value">{{school.admissionInfo.admissionScore['2024']}}分</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view> 

@@ -1,0 +1,96 @@
+<custom-nav></custom-nav>
+<!--profile/index.wxml-->
+<view class="container">
+  <!-- 适应导航栏高度的顶部空间 -->
+  <view style="height: {{navHeight}}px;"></view>
+  <!-- 顶部用户信息区域 -->
+  <view class="header" style="background: linear-gradient(to right, #4776E6, #8E54E9);">
+    <view class="header-top">
+      <text class="header-title">个人中心</text>
+      <view bindtap="goToSettings">
+        <image class="settings-icon" src="/images/icons/settings.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <view class="user-info" bindtap="{{!isLogin ? 'goToLogin' : (isPendingProfileSetup ? 'showProfileDialog' : '')}}">
+      <view class="avatar-container">
+        <!-- 仅显示头像，不再直接绑定头像选择 -->
+        <image wx:if="{{userInfo.avatarUrl}}" class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <image wx:else class="default-avatar" src="/images/icons/user.png" mode="aspectFit"></image>
+      </view>
+      <view class="user-detail">
+        <!-- 已登录显示昵称，未登录显示"点击登录"，已登录但未设置信息显示"点击设置昵称及头像" -->
+        <view wx:if="{{userInfo.nickName}}" class="nickname">{{userInfo.nickName}}</view>
+        <view wx:elif="{{isPendingProfileSetup}}" class="nickname nickname-placeholder">点击设置昵称及头像</view>
+        <view wx:else class="nickname nickname-placeholder">点击登录</view>
+        <text class="user-type">{{userInfo.memberType || '中考助手欢迎您'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 会员卡片 -->
+  <view class="member-card" bindtap="{{!membershipStatus.isMember ? 'goToMembership' : ''}}" data-from="card">
+    <view class="member-card-content">
+      <view class="member-info">
+        <!-- 非会员显示开通提示 -->
+        <block wx:if="{{!membershipStatus.isMember}}">
+          <text class="member-title">开通会员</text>
+          <text class="member-desc">解锁全部高中信息查询功能</text>
+        </block>
+        <!-- 会员显示到期时间 -->
+        <block wx:else>
+          <text class="member-title">尊享会员</text>
+          <text class="member-desc">到期时间：{{membershipStatus.expireDate}}</text>
+        </block>
+      </view>
+      <!-- 改为直接使用goToMembership方法，确保只跳转不影响用户信息 -->
+      <view class="activate-btn" wx:if="{{!membershipStatus.isMember}}" catchtap="goToMembership" data-from="button">
+        立即开通
+        <image class="arrow-icon" src="/images/icons/wallet.png" mode="aspectFit"></image>
+      </view>
+      <!-- 会员显示续费按钮 -->
+      <view class="activate-btn renew-btn" wx:else catchtap="goToRenew" data-from="button">
+        续费
+        <image class="arrow-icon" src="/images/icons/wallet.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <view class="menu-item" bindtap="goToCustomerService">
+      <view class="menu-left">
+        <view class="menu-icon green">
+          <image class="icon" src="/images/icons/headset.png" mode="aspectFit"></image>
+        </view>
+        <text class="menu-text">问题反馈</text>
+      </view>
+      <image class="menu-arrow" src="/images/icons/arrow-right.png" mode="aspectFit"></image>
+    </view>
+  </view>
+</view>
+
+<!-- 昵称输入弹窗（改为同时包含头像和昵称） -->
+<view class="profile-dialog-mask" wx:if="{{showProfileDialog}}" bindtap="hideProfileDialog">
+  <view class="profile-dialog" catchtap="stopPropagation">
+    <view class="profile-dialog-title">完善个人信息</view>
+    <view class="profile-dialog-content">
+      <view class="profile-avatar-section">
+        <button class="avatar-wrapper-dialog" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image wx:if="{{tempUserInfo.avatarUrl}}" class="avatar-dialog" src="{{tempUserInfo.avatarUrl}}" mode="aspectFill"></image>
+          <image wx:else class="default-avatar-dialog" src="/images/icons/user.png" mode="aspectFit"></image>
+          <view class="avatar-text">点击选择头像</view>
+        </button>
+      </view>
+      <view class="profile-nickname-section">
+        <input type="nickname" class="nickname-dialog-input" placeholder="请输入昵称" bindinput="onNicknameInput" bind:nicknamereview="onNickNameReview" value="{{tempUserInfo.nickName}}"/>
+      </view>
+    </view>
+    <view class="profile-dialog-buttons">
+      <button class="profile-dialog-btn cancel-btn" bindtap="hideProfileDialog">稍后设置</button>
+      <button class="profile-dialog-btn confirm-btn" bindtap="confirmProfile">确定</button>
+    </view>
+  </view>
+</view>
+
+<custom-tab-bar id="custom-tab-bar"></custom-tab-bar> 

@@ -1,0 +1,582 @@
+/* 引入图标字体 */
+@import "/utils/iconfont.wxss";
+
+/* iconfont基础样式 */
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 32rpx;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 页面基本样式 */
+page {
+  --primary-gradient-start: #4776E6;
+  --primary-gradient-end: #8E54E9;
+  --primary-color: #3c89ff;
+  --primary-light: #EBF2FF;
+  --secondary-color: #8E54E9;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --danger-color: #F44336;
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --bg-color: #f5f5f5;
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--bg-color);
+  position: relative;
+  padding-bottom: 30rpx;
+}
+
+/* 顶部渐变导航 */
+.header-gradient {
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #ffffff;
+  padding: 30rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 返回按钮样式 */
+.back-btn {
+  display: flex;
+  align-items: center;
+  padding: 6rpx 0;
+}
+
+.back-icon {
+  width: 30rpx;
+  height: 30rpx;
+  border-top: 4rpx solid #fff;
+  border-left: 4rpx solid #fff;
+  transform: rotate(-45deg);
+  margin-right: 10rpx;
+}
+
+.back-text {
+  color: #fff;
+  font-size: 28rpx;
+}
+
+/* 内容区域 */
+.feedback-content {
+  flex: 1;
+  padding: 30rpx;
+  height: calc(100vh - 240rpx);
+  box-sizing: border-box;
+}
+
+/* 卡片样式 */
+.form-card {
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+/* 按钮组样式 */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 40rpx 0;
+}
+
+.btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin: 0;
+}
+
+.btn-primary {
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  border: none;
+}
+
+.btn-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
+}
+
+/* 分隔线 */
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 30rpx 0;
+}
+
+.divider:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #e5e5e5;
+  z-index: 0;
+}
+
+.divider-text {
+  position: relative;
+  background-color: #fff;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+  color: var(--text-tertiary);
+  z-index: 1;
+}
+
+/* 提示列表 */
+.tips-list {
+  margin: 30rpx 0;
+}
+
+.tip-item {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.tip-icon {
+  font-size: 30rpx;
+  color: var(--primary-color);
+  margin-right: 10rpx;
+  line-height: 44rpx;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 44rpx;
+}
+
+/* 头部文本样式 */
+.text-lg {
+  font-size: 36rpx;
+}
+
+.text-xl {
+  font-size: 40rpx;
+}
+
+.text-sm {
+  font-size: 24rpx;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-sm {
+  font-size: 24rpx;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.opacity-80 {
+  opacity: 0.8;
+}
+
+.block {
+  display: block;
+}
+
+/* flex布局相关 */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+/* 外边距相关 */
+.mb-1 {
+  margin-bottom: 10rpx;
+}
+
+.mb-4 {
+  margin-bottom: 20rpx;
+}
+
+.ml-3 {
+  margin-left: 30rpx;
+}
+
+/* 内边距相关 */
+.p-3 {
+  padding: 30rpx;
+}
+
+.pt-20 {
+  padding-top: 180rpx;
+}
+
+.pb-4 {
+  padding-bottom: 40rpx;
+}
+
+.rounded-b-3xl {
+  border-radius: 0 0 30rpx 30rpx;
+}
+
+/* 表单卡片样式 */
+.form-card:nth-child(n+2) {
+  margin-top: 20rpx;
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.input-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.input-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.required::before {
+  content: '*';
+  color: #e53e3e;
+  margin-right: 4rpx;
+}
+
+.input-field {
+  width: 100%;
+  min-height: 70rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-radius: 8rpx;
+  border: 1rpx solid #d1d5db;
+  box-sizing: border-box;
+  word-break: break-all;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+.textarea {
+  height: 200rpx;
+}
+
+/* 图标相关样式 */
+.picker-arrow {
+  position: absolute;
+  top: 50%;
+  right: 20rpx;
+  transform: translateY(-50%);
+}
+
+.arrow-icon {
+  width: 32rpx;
+  height: 32rpx;
+  display: block;
+}
+
+.camera-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.delete-icon .iconfont {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 图片上传区域 */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+}
+
+.image-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 5rpx;
+  right: 5rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-btn {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: #f3f4f6;
+  border-radius: 8rpx;
+  border: 1rpx dashed #d1d5db;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-text {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-top: 10rpx;
+}
+
+/* 文字颜色 */
+.text-gray-400 {
+  color: #9ca3af;
+}
+
+/* 页面样式 */
+page {
+  height: 100%;
+  background-color: #f9f9f9;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mr-3 {
+  margin-right: 12rpx;
+}
+
+.mb-2 {
+  margin-bottom: 8rpx;
+}
+
+.p-1 {
+  padding: 4rpx;
+}
+
+.p-5 {
+  padding: 20rpx;
+}
+
+.pt-3 {
+  padding-top: 12rpx;
+}
+
+.px-3 {
+  padding-left: 12rpx;
+  padding-right: 12rpx;
+}
+
+.py-3 {
+  padding-top: 12rpx;
+  padding-bottom: 12rpx;
+}
+
+.pr-10 {
+  padding-right: 40rpx;
+}
+
+.text-xs {
+  font-size: 20rpx;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-gray-500 {
+  color: #6b7280;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.bg-black {
+  background-color: #000000;
+}
+
+.bg-opacity-50 {
+  opacity: 0.5;
+}
+
+.rounded-lg {
+  border-radius: 8rpx;
+}
+
+.rounded-xl {
+  border-radius: 12rpx;
+}
+
+.rounded-full {
+  border-radius: 9999rpx;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-32 {
+  height: 128rpx;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gap-3 {
+  gap: 12rpx;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inset-y-0 {
+  top: 0;
+  bottom: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.m-1 {
+  margin: 4rpx;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.border {
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.border-gray-300 {
+  border-color: #d1d5db;
+}
+
+.border-dashed {
+  border-style: dashed;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.input-field {
+  width: 100%;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #d1d5db;
+}
+
+.required::before {
+  content: '*';
+  color: #e53e3e;
+  margin-right: 4rpx;
+}
+
+.upload-btn {
+  transition: all 0.3s ease;
+}
+
+.upload-btn:active {
+  transform: scale(0.98);
+} 

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "业务示例",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "cloud-tip-modal": "/components/cloudTipModal/index"
+  }
+}

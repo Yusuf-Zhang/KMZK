@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "基础能力",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "cloud-tip-modal": "/components/cloudTipModal/index"
+  }
+}

@@ -1,0 +1,2 @@
+<custom-nav></custom-nav>
+<web-view src="{{webUrl}}"></web-view>

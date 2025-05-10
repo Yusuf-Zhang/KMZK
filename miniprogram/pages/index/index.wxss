@@ -1,0 +1,795 @@
+/**index.wxss**/
+
+page {
+  --primary-gradient-start: #4776E6;
+  --primary-gradient-end: #8E54E9;
+  --primary-color: #3c89ff;
+  --primary-light: #EBF2FF;
+  --secondary-color: #8E54E9;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --danger-color: #F44336;
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --bg-color: #f5f5f5;
+  background-color: #f5f5f5;
+  padding-bottom: 120rpx; /* 为底部导航腾出空间 */
+}
+
+.container-full {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 0; /* 确保容器顶部无间距 */
+  box-sizing: border-box;
+}
+
+/* 图标样式 */
+.icon-img {
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-img-sm {
+  width: 30rpx;
+  height: 30rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 顶部渐变背景 - 修改，与导航栏无缝衔接 */
+.header-gradient {
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #ffffff;
+  padding: 30rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  margin-top: 0; /* 确保与导航栏无间隙 */
+}
+
+/* 文本颜色 */
+.text-white {
+  color: #ffffff;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.text-warning {
+  color: var(--warning-color);
+}
+
+.text-success {
+  color: var(--success-color);
+}
+
+.text-danger {
+  color: var(--danger-color);
+}
+
+.text-gray {
+  color: var(--text-tertiary);
+}
+
+/* 背景颜色 */
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-light {
+  background-color: var(--primary-light);
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.bg-gray {
+  background-color: var(--bg-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.bg-warning {
+  background-color: var(--warning-color);
+}
+
+.bg-success {
+  background-color: var(--success-color);
+}
+
+/* 处理透明度 */
+.bg-secondary.bg-opacity-10 {
+  background-color: rgba(142, 84, 233, 0.1);
+}
+
+.bg-warning.bg-opacity-10 {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-success.bg-opacity-10 {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* 字体样式 */
+.font-xs {
+  font-size: 20rpx;
+}
+
+.font-sm {
+  font-size: 24rpx;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-lg {
+  font-size: 36rpx;
+}
+
+.text-xl {
+  font-size: 40rpx;
+}
+
+/* 边距 */
+.mt-1 {
+  margin-top: 10rpx;
+}
+
+.mb-1 {
+  margin-bottom: 10rpx;
+}
+
+.mb-2 {
+  margin-bottom: 20rpx;
+}
+
+.mb-3 {
+  margin-bottom: 30rpx;
+}
+
+.mb-4 {
+  margin-bottom: 40rpx;
+}
+
+.ml-1 {
+  margin-left: 10rpx;
+}
+
+.ml-2 {
+  margin-left: 20rpx;
+}
+
+.mr-2 {
+  margin-right: 20rpx;
+}
+
+.mr-3 {
+  margin-right: 30rpx;
+}
+
+.p-2 {
+  padding: 20rpx;
+}
+
+.p-3 {
+  padding: 30rpx;
+}
+
+.pt-2 {
+  padding-top: 20rpx;
+}
+
+.pb-8 {
+  padding-bottom: 80rpx;
+}
+
+.pl-10 {
+  padding-left: 100rpx;
+}
+
+.px-3 {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.-mt-5 {
+  margin-top: -50rpx;
+}
+
+.pb-4 {
+  padding-bottom: 40rpx;
+}
+
+/* 布局 */
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.space-y-2 > view:not(:first-child) {
+  margin-top: 20rpx;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gap-2 {
+  gap: 20rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100%;
+  height: 25rpx;
+  background-color: #eeeeee;
+  border-radius: 25rpx;
+}
+
+.progress-inner {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 25rpx;
+}
+
+/* 圆角 */
+.rounded-lg {
+  border-radius: 12rpx;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+.rounded-b-3xl {
+  border-bottom-left-radius: 60rpx;
+  border-bottom-right-radius: 60rpx;
+}
+
+/* 定位 */
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.left-3 {
+  left: 30rpx;
+}
+
+.left-4 {
+  left: 40rpx;
+}
+
+/* 边框 */
+.border-2 {
+  border-width: 2rpx;
+  border-style: solid;
+}
+
+.border-blue-100 {
+  border-color: #BBDEFB;
+}
+
+.border-gray {
+  border-color: #dddddd;
+}
+
+/* 尺寸 */
+.w-2 {
+  width: 20rpx;
+}
+
+.h-2 {
+  height: 20rpx;
+}
+
+.w-6 {
+  width: 60rpx;
+}
+
+.h-6 {
+  height: 60rpx;
+}
+
+.w-12 {
+  width: 120rpx;
+}
+
+.h-12 {
+  height: 120rpx;
+}
+
+.w-05 {
+  width: 5rpx;
+}
+
+/* 块级元素 */
+.block {
+  display: block;
+}
+
+/* 文本对齐 */
+.text-center {
+  text-align: center;
+}
+
+/* 不透明度 */
+.opacity-80 {
+  opacity: 0.8;
+}
+
+/* 头像样式 */
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 时间线样式 */
+.time-line-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  padding-left: 100rpx;
+  background-color: #f9f9f9;
+}
+
+.time-line-item.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* 底部导航栏 */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1rpx solid #eee;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  z-index: 999;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 25%;
+}
+
+.tab-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-bottom: 6rpx;
+}
+
+.tab-item.active {
+  color: var(--primary-color);
+}
+
+/* 学校搜索相关样式 */
+.search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.search-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-modal-content {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 650rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.search-modal-header {
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+}
+
+.search-modal-title {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+.search-modal-close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 10rpx;
+  height: 40rpx;
+  width: 40rpx;
+  line-height: 36rpx;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.search-input-wrapper {
+  padding: 20rpx 30rpx;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  background: #f5f5f5;
+  border-radius: 10rpx;
+  padding: 0 40rpx 0 20rpx;
+  font-size: 28rpx;
+  color: #333333;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.search-clear-button {
+  position: absolute;
+  right: 20rpx;
+  z-index: 2;
+  width: 36rpx;
+  height: 36rpx;
+  font-size: 32rpx;
+  line-height: 36rpx;
+  text-align: center;
+  color: #999;
+  background: #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-results {
+  max-height: 500rpx;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-result-school {
+  font-size: 28rpx;
+}
+
+.search-result-score {
+  font-size: 24rpx;
+  color: var(--primary-color);
+}
+
+.search-no-result {
+  padding: 40rpx;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.search-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.search-mask.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 模态框底部按钮 */
+.modal-footer {
+  display: flex;
+  padding: 20rpx 30rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 30rpx;
+  border-radius: 8rpx;
+  margin: 0 10rpx;
+  padding: 0;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.confirm-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.search-modal-content.full-timeline-modal {
+  top: 15%;
+  max-height: 70vh;
+}
+
+.full-timeline-results {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.timeline-modal-item {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 20rpx;
+  border-radius: 16rpx;
+  background-color: #f9f9f9;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.timeline-modal-item.active {
+  background-color: #EBF2FF;
+  border-left: 8rpx solid var(--primary-color);
+}
+
+.timeline-modal-date {
+  font-size: 24rpx;
+  color: var(--text-tertiary);
+  margin-bottom: 10rpx;
+}
+
+.timeline-modal-content {
+  flex: 1;
+}
+
+.timeline-modal-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 10rpx;
+}
+
+.timeline-modal-event {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.timeline-modal-countdown {
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  background-color: #f0f0f0;
+  color: var(--text-tertiary);
+  border-radius: 30rpx;
+}
+
+.timeline-modal-countdown.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* 移除测试按钮样式 (如果之前有) */
+.test-btn {
+  display: none; 
+}
+
+/* --- 添加非会员版本所需的样式 --- */
+/* VIP 遮罩层基础样式 */
+.vip-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: inherit; /* 继承父容器圆角 */
+  z-index: 10; /* 确保在内容之上 */
+  backdrop-filter: blur(3px); /* 毛玻璃效果 */
+  text-align: center;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* 匹配院校的部分遮罩 (可按需调整) */
+.partial-mask {
+  /* 如果需要精确控制遮罩范围，可能需要更复杂的选择器或JS辅助 */
+}
+
+/* 时间线的完全遮罩 */
+.full-mask {
+  /* 不需要额外样式，默认覆盖全部 */
+}
+
+.vip-mask-content {
+  /* 内容容器 */
+}
+
+.vip-mask-text {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.vip-btn {
+  background: linear-gradient(to right, #fca54a, #ff7b4a);
+  color: white;
+  border: none;
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  box-shadow: 0 4rpx 10rpx rgba(255, 123, 74, 0.4);
+  display: inline-block; /* 确保按钮不是块级元素 */
+  line-height: normal; /* 移除可能的默认行高影响 */
+}
+
+/* VIP 提示模态框样式 (大部分在 .search-modal 中定义) */
+.vip-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 30rpx;
+}
+
+.vip-modal-icon {
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: 30rpx;
+}
+
+.vip-modal-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.vip-modal-text {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.vip-modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+  display: block;
+}
+
+.vip-modal-desc {
+  font-size: 26rpx;
+  color: #888;
+  display: block;
+}
+
+.vip-btn-large {
+  background: linear-gradient(to right, #fca54a, #ff7b4a);
+  color: white;
+  border: none;
+  padding: 18rpx 50rpx;
+  border-radius: 40rpx;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  width: 80%;
+  box-shadow: 0 6rpx 12rpx rgba(255, 123, 74, 0.4);
+}
+
+/* 时间线剩余部分，用于遮罩定位 */
+.timeline-remaining {
+  /* position: relative; */ /* 父元素已设置 relative */
+}
+
+/* --- 非会员样式结束 --- */

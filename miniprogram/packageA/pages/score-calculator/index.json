@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "分数折算器",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

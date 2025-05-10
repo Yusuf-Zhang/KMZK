@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "问题反馈",
+  "navigationBarBackgroundColor": "#4776E6",
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商品列表",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "cloud-tip-modal": "/components/cloudTipModal/index",
+    "mp-code-modal": "/components/mpCodeModal/index"
+  }
+}

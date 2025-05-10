@@ -1,0 +1,392 @@
+/* membership/index.wxss */
+page {
+  background-color: var(--bg-color);
+  padding-bottom: 120rpx;
+}
+
+.pt-20 {
+  padding-top: 120px;
+}
+
+.membership-container {
+  padding: 30rpx;
+}
+
+/* 会员状态卡片 */
+.membership-status {
+  margin-bottom: 30rpx;
+}
+
+.status-card {
+  display: flex;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  align-items: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.status-card.member {
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+}
+
+.status-card.non-member {
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+.status-icon {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.status-info {
+  flex: 1;
+  padding-left: 0;
+  text-align: left;
+}
+
+.status-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+/* 章节标题 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 40rpx 0 20rpx;
+  position: relative;
+  padding-left: 20rpx;
+  color: var(--text-color);
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10rpx;
+  height: 30rpx;
+  width: 6rpx;
+  background-color: var(--primary-color);
+  border-radius: 3rpx;
+}
+
+/* 会员权益 */
+.benefits-container {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.benefit-item {
+  display: flex;
+  padding: 20rpx 10rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.benefit-item:last-child {
+  border-bottom: none;
+}
+
+.benefit-icon {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.benefit-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.benefit-content {
+  flex: 1;
+  padding-left: 0;
+  text-align: left;
+}
+
+.benefit-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  color: var(--text-color);
+}
+
+.benefit-desc {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 会员套餐 */
+.plans-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.plan-item {
+  width: calc(50% - 10rpx);
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  border: 2rpx solid transparent;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.plan-item.selected {
+  border-color: var(--primary-color);
+  background-color: var(--primary-light);
+}
+
+.plan-item.recommended {
+  border-color: var(--secondary-color);
+}
+
+.plan-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--secondary-color);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 0 20rpx 0 12rpx;
+}
+
+.plan-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  color: var(--text-color);
+}
+
+.plan-duration {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.plan-item .plan-price {
+  margin-bottom: 10rpx;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+.plan-item .currency {
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+
+.plan-item .amount {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #e53935;
+}
+
+.plan-item .original-price {
+  font-size: 24rpx;
+  color: #000000;
+  margin-left: 10rpx;
+}
+
+.plan-item .original-price-line-through {
+  text-decoration: line-through;
+}
+
+.plan-item .plan-desc {
+  font-size: 24rpx;
+  color: var(--text-tertiary);
+}
+
+/* 购买区域 */
+.action-area {
+  margin-top: 40rpx;
+  padding: 30rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.agreement-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 6rpx;
+  border: 2rpx solid #ccc;
+  margin-right: 16rpx;
+  position: relative;
+}
+
+.checkbox.checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.check-inner {
+  position: absolute;
+  left: 12rpx;
+  top: 6rpx;
+  width: 12rpx;
+  height: 20rpx;
+  border-right: 4rpx solid #fff;
+  border-bottom: 4rpx solid #fff;
+  transform: rotate(45deg);
+}
+
+.agreement-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--primary-color);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-purchase, .btn-login {
+  flex: 1;
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  text-align: center;
+  margin-right: 20rpx;
+  box-shadow: 0 4rpx 10rpx rgba(60, 137, 255, 0.3);
+}
+
+.btn-activate {
+  width: 240rpx;
+  background-color: #fff;
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-color);
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+/* 激活码面板 */
+.activation-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.activation-panel.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.panel-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.panel-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.activation-panel.show .panel-content {
+  transform: translateY(0);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.panel-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.panel-close {
+  font-size: 40rpx;
+  color: var(--text-tertiary);
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.panel-body {
+  padding: 30rpx;
+}
+
+.activation-input {
+  width: 100%;
+  height: 90rpx;
+  border: 2rpx solid #e5e5e5;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  margin-bottom: 30rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.btn-activate-confirm {
+  width: 100%;
+  background-image: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 10rpx rgba(60, 137, 255, 0.3);
+} 

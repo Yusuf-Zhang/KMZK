@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "特殊政策",
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#4776E6",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+}

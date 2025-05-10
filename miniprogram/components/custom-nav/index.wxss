@@ -1,0 +1,64 @@
+.custom-nav {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: linear-gradient(to right, #4776E6, #8E54E9); /* 使用指定的渐变色 */
+  /* 添加底部阴影，使过渡更自然 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.status-bar {
+  width: 100%;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nav-back {
+  position: absolute;
+  left: 20rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.nav-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ffffff; /* 白色文字 */
+}
+
+.nav-bar-inner {
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.title {
+  color: #fff;
+  font-weight: 500;
+  font-size: 28rpx;
+}
+
+.nav-bar-bottom {
+  height: 8px;
+}
+
+.base-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

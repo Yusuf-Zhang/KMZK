@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "更新记录",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "cloud-tip-modal": "/components/cloudTipModal/index"
+  }
+}

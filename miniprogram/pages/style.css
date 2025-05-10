@@ -1,0 +1,131 @@
+/* iPhone 15 样式 */
+.iphone-frame {
+    position: relative;
+}
+
+.iphone-outer {
+    width: 380px;
+    height: 820px;
+    background-color: #f0f0f0;
+    border-radius: 55px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.iphone-inner {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    border-radius: 45px;
+    overflow: hidden;
+    position: relative;
+}
+
+.iphone-screen {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.iphone-notch {
+    position: absolute;
+    width: 150px;
+    height: 30px;
+    background-color: black;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 100;
+}
+
+.iphone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    height: 40px;
+    position: relative;
+    z-index: 10;
+}
+
+.time {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-icons {
+    display: flex;
+    gap: 8px;
+}
+
+.iframe-container {
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow: hidden;
+    position: relative;
+}
+
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.home-indicator {
+    width: 130px;
+    height: 5px;
+    background-color: white;
+    border-radius: 3px;
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+/* 通用样式 */
+.btn-primary {
+    @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200;
+}
+
+.btn-secondary {
+    @apply bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors duration-200;
+}
+
+.card {
+    @apply bg-white rounded-xl shadow-md overflow-hidden border border-gray-100;
+}
+
+.input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* 自定义颜色 */
+.bg-primary {
+    background-color: #4776E6;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+}
+
+.text-primary {
+    color: #4776E6;
+} 

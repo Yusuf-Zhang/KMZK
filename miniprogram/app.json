@@ -1,0 +1,76 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/school-list/index",
+    "pages/profile/index",
+    "pages/login/index",
+    "pages/policy-direction/index",
+    "pages/feedback/feedback",
+    "pages/timeline-detail/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4a90e2",
+    "navigationBarTitleText": "昆明中考助手",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999",
+    "selectedColor": "#8E54E9",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/school-list/index",
+        "text": "高中信息"
+      },
+      {
+        "pagePath": "pages/policy-direction/index",
+        "text": "定向政策"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "packageA/",
+      "pages": [
+        "pages/policy-special/index",
+        "pages/score-calculator/index"
+      ]
+    },
+    {
+      "root": "packageB/",
+      "pages": [
+        "pages/membership/index",
+        "pages/membership-records/index",
+        "pages/account/index",
+        "pages/agreement/user",
+        "pages/agreement/privacy",
+        "pages/matched-schools/index"
+      ]
+    }
+  ],
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "feedback": {
+    "showFeedback": true,
+    "openType": "navigate"
+  },
+    "embeddedAppIdList": [
+        "wxd9634afb01b983c0"
+    ]
+
+}
