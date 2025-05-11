@@ -92,7 +92,7 @@ App({
   // 处理支付回调
   onShow: function(options) {
     // 根据支付SDK的指导处理支付回调
-    if (options == null || options == '' || options.referrerInfo == null || options.referrerInfo == '') { 
+    if (options == null || options.referrerInfo == null) { 
       // 如果用户已登录，检查会员状态（每次打开小程序都检查）
       if (this.globalData.isLogin && !this.globalData.isFetchingMemberStatus) {
         this.checkMembershipStatus();
@@ -106,49 +106,76 @@ App({
       this.globalData.payStatus = extraData.code == 0 ? true : false;
       if (extraData.code != 0) {
         wx.showToast({
-          title: extraData.msg, // 错误提示
+          title: extraData.msg,
           icon: 'none',
           duration: 3000
         });
         return;
       }
       
-      // 支付成功
-      this.globalData.orderNo = extraData.data.orderNo;
-      console.log('支付成功，订单号:', extraData.data.orderNo);
+      // 支付成功，保存订单信息
+      const orderInfo = {
+        orderNo: extraData.data.orderNo,
+        amount: extraData.data.total_fee,
+        body: extraData.data.body,
+        payTime: new Date().getTime(),
+        attach: extraData.data.attach
+      };
       
-      // 支付成功后，立即检查会员状态并刷新所有页面
-      if (this.globalData.isLogin) {
-        wx.showLoading({
-          title: '正在更新会员状态',
-        });
-        
-        // 确保每个页面都能获取到最新的会员状态
-        this.checkMembershipStatus(() => {
-          wx.hideLoading();
-          
-          // 对所有已打开的页面都执行onShow方法，确保UI状态同步更新
-          const pages = getCurrentPages();
-          if (pages && pages.length > 0) {
-            // 先更新当前页面
-            const currentPage = pages[pages.length - 1];
-            if (currentPage && typeof currentPage.onShow === 'function') {
-              console.log(`刷新当前页面 ${currentPage.route} 的状态`);
-              currentPage.onShow();
-            }
+      // 调用云函数保存订单
+      wx.cloud.callFunction({
+        name: 'savePaymentOrder',
+        data: orderInfo,
+        success: (res) => {
+          if (res.result && res.result.success) {
+            console.log('订单保存成功:', res.result);
             
-            // 发送会员状态更新事件，以便其他页面在onShow时能获取最新状态
-            wx.setStorageSync('memberStatusUpdatedTime', new Date().getTime());
+            // 更新全局订单号
+            this.globalData.orderNo = orderInfo.orderNo;
+            
+            // 支付成功后，立即检查会员状态并刷新所有页面
+            if (this.globalData.isLogin) {
+              wx.showLoading({
+                title: '正在更新会员状态',
+              });
+              
+              this.checkMembershipStatus(() => {
+                wx.hideLoading();
+                
+                // 刷新所有页面
+                const pages = getCurrentPages();
+                if (pages && pages.length > 0) {
+                  const currentPage = pages[pages.length - 1];
+                  if (currentPage && typeof currentPage.onShow === 'function') {
+                    currentPage.onShow();
+                  }
+                }
+                
+                wx.showToast({
+                  title: '支付成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+              });
+            }
+          } else {
+            console.error('保存订单失败:', res);
+            wx.showToast({
+              title: '订单保存失败',
+              icon: 'none',
+              duration: 2000
+            });
           }
-          
-          // 显示支付成功提示
+        },
+        fail: (err) => {
+          console.error('调用保存订单云函数失败:', err);
           wx.showToast({
-            title: '支付成功',
-            icon: 'success',
+            title: '订单保存失败',
+            icon: 'none',
             duration: 2000
           });
-        });
-      }
+        }
+      });
     }
   },
   
