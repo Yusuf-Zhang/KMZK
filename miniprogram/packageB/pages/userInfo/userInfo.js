@@ -6,7 +6,7 @@ Page({
     canIUseGetUserProfile: false,
     wxNumber: '',
     isMember: false,
-    memberExpiryDate: null
+    membershipDate: null
   },
 
   onLoad: function (options) {
@@ -43,7 +43,7 @@ Page({
             hasUserInfo: true,
             wxNumber: userData.wxNumber || '',
             isMember: userData.isMember || false,
-            memberExpiryDate: userData.memberExpiryDate || null
+            membershipDate: userData.membershipDate || null
           })
         }
       },
@@ -96,7 +96,7 @@ Page({
         nickName: userInfo.nickName,
         avatarUrl: userInfo.avatarUrl,
         isMember: this.data.isMember,
-        memberExpiryDate: this.data.memberExpiryDate
+        membershipDate: this.data.membershipDate
       },
       success: res => {
         wx.hideLoading()
@@ -141,12 +141,12 @@ Page({
   becomeMember() {
     // 这里可以接入支付功能
     // 示例：假设会员有效期为一年
-    const expiryDate = new Date()
-    expiryDate.setFullYear(expiryDate.getFullYear() + 1)
+    const membershipDate = new Date()
+    membershipDate.setFullYear(membershipDate.getFullYear() + 1)
     
     this.setData({
       isMember: true,
-      memberExpiryDate: expiryDate
+      membershipDate: membershipDate
     })
     
     if (this.data.hasUserInfo) {

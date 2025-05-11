@@ -50,15 +50,9 @@ Page({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
     } else {
       wx.cloud.init({
-        env: 'cloud1-2gkbbvste19738d8',  // 替换为你的云开发环境ID
+        env: 'cloud1-2gkbbvste19738d8',
         traceUser: true,
       });
-      
-      // 检查数据库集合是否存在
-      this.checkCollection();
-      
-      // 自动获取用户openid并检查是否已经登录
-      this.getOpenidAndCheckLogin();
     }
     
     // 检查是否有登录成功的参数
@@ -75,38 +69,36 @@ Page({
         navHeight: app.globalData.navBarHeight
       });
     } else {
-      // 导航栏高度的默认值
       this.setData({
         navHeight: 90
       });
     }
+    
+    // 从app.js获取登录状态和用户信息
+    this.updateLoginState();
   },
 
   onShow: function () {
     // 更新自定义tabBar的选中状态
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
-        selected: 3 // 我的是第四个选项，索引为3
+        selected: 3
       });
     }
     
-    // 获取最新用户信息
+    // 从app.js获取最新的登录状态和用户信息
+    this.updateLoginState();
+  },
+  
+  // 更新登录状态和用户信息
+  updateLoginState: function() {
     const app = getApp();
-    if (app.globalData.isLogin) {
-      const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo');
-      if (userInfo) {
-        this.setData({
-          isLogin: true,
-          userInfo: userInfo
-        });
-      }
-      
-      // 从app.js获取会员状态，不进行额外查询
-      this.getMembershipStatus();
-    } else {
-      // 未登录时也更新状态，以防用户退出登录后UI未更新
+    
+    if (!app.globalData.isLogin) {
+      // 未登录状态
       this.setData({
         isLogin: false,
+        isPendingProfileSetup: false,
         userInfo: {
           avatarUrl: '',
           nickName: '',
@@ -117,10 +109,60 @@ Page({
           expireDate: null
         }
       });
+      return;
     }
     
-    // 检查用户是否刚登录但未设置个人信息
-    this.checkProfileStatus();
+    // 已登录，从数据库获取最新用户信息
+    const db = wx.cloud.database();
+    db.collection('users').where({
+      openid: app.globalData.userInfo.openid
+    }).get().then(res => {
+      if (res.data && res.data.length > 0) {
+        const userInfo = res.data[0];
+        // 检查是否设置了昵称和头像
+        const hasSetProfile = userInfo.nickName && userInfo.avatarUrl;
+        
+        this.setData({
+          isLogin: true,
+          isPendingProfileSetup: !hasSetProfile,
+          userInfo: {
+            ...userInfo,
+            nickName: hasSetProfile ? userInfo.nickName : '', // 如果未设置，则清空昵称
+            avatarUrl: hasSetProfile ? userInfo.avatarUrl : '' // 如果未设置，则清空头像
+          }
+        });
+        
+        // 更新全局状态
+        app.globalData.userInfo = userInfo;
+        
+        // 检查会员状态
+        this.getMembershipStatus();
+      } else {
+        // 数据库中找不到用户，可能是数据不一致
+        console.error('数据库中未找到用户信息');
+        this.setData({
+          isLogin: false,
+          isPendingProfileSetup: false,
+          userInfo: {
+            avatarUrl: '',
+            nickName: '',
+            memberType: '普通用户'
+          }
+        });
+      }
+    }).catch(err => {
+      console.error('获取用户信息失败', err);
+      // 发生错误时也设置为未登录状态
+      this.setData({
+        isLogin: false,
+        isPendingProfileSetup: false,
+        userInfo: {
+          avatarUrl: '',
+          nickName: '',
+          memberType: '普通用户'
+        }
+      });
+    });
   },
   
   // 检查并确保users集合存在
@@ -271,8 +313,8 @@ Page({
           
           this.setData({
             isLogin: true,
-            userInfo: userInfo,
-            isPendingProfileSetup: !userInfo.nickName || !userInfo.avatarUrl
+            isPendingProfileSetup: !userInfo.nickName || !userInfo.avatarUrl,
+            userInfo: userInfo
           });
           
           // 保存到本地存储
@@ -377,7 +419,10 @@ Page({
   // 隐藏个人信息弹窗
   hideProfileDialog: function() {
     this.setData({
-      showProfileDialog: false
+      showProfileDialog: false,
+      isPendingProfileSetup: true,
+      'userInfo.nickName': '', // 清空昵称，这样模板会显示"点击设置昵称及头像"
+      'userInfo.avatarUrl': '' // 清空头像
     });
   },
 
@@ -411,11 +456,10 @@ Page({
       title: '保存中...'
     });
     
-    // 调用云函数获取openid（确保有最新的openid）
+    // 调用云函数获取openid
     wx.cloud.callFunction({
       name: 'login',
       success: loginRes => {
-        console.log('云函数登录成功', loginRes);
         if (loginRes.result.error) {
           console.error('云函数返回错误:', loginRes.result.error);
           this.loginFail(new Error(loginRes.result.error));
@@ -429,10 +473,6 @@ Page({
           openid: loginRes.result.openid,
           memberType: this.data.userInfo.memberType || '普通用户'
         };
-        
-        // 将用户信息保存到本地，与openid关联
-        wx.setStorageSync('localUserInfo_' + loginRes.result.openid, userInfo);
-        console.log('用户信息已保存到本地:', userInfo);
         
         // 检查用户是否已存在
         db.collection('users').where({
@@ -494,9 +534,10 @@ Page({
       }
     });
     
-    // 更新本地存储
-    wx.setStorageSync('userInfo', userInfo);
-    wx.setStorageSync('isLogin', true);
+    // 更新全局状态
+    const app = getApp();
+    app.globalData.userInfo = userInfo;
+    app.globalData.isLogin = true;
     
     wx.showToast({
       title: '保存成功',
@@ -581,8 +622,18 @@ Page({
   getMembershipStatus: function () {
     const app = getApp();
     
-    if (!app.globalData.isLogin) {
-      // 未登录时直接设置为非会员（仅UI显示，不影响本地存储）
+    // 先检查全局状态
+    if (app.globalData.membershipStatus) {
+      this.setData({
+        membershipStatus: {
+          isMember: app.globalData.membershipStatus.isMember,
+          expireDate: app.globalData.membershipStatus.membershipDate ? this.formatDate(app.globalData.membershipStatus.membershipDate) : null
+        }
+      });
+    }
+    
+    if (!app.globalData.isLogin || !app.globalData.userInfo || !app.globalData.userInfo.openid) {
+      // 未登录或无用户信息时直接设置为非会员
       this.setData({
         membershipStatus: {
           isMember: false,
@@ -592,64 +643,83 @@ Page({
       return;
     }
     
-    // 先检查本地存储中是否有会员信息
-    const localMembershipStatus = wx.getStorageSync('membershipStatus');
-    
-    // 然后检查app.globalData中是否有会员信息（可能从服务器更新过）
-    if (app.globalData.membershipStatus && app.globalData.membershipStatus.isMember) {
-      // 优先使用全局状态（可能是最新从服务器获取的）
-      console.log('从app.globalData获取会员状态:', app.globalData.membershipStatus);
-      
-      // 格式化日期用于显示
-      let expireDate = null;
-      if (app.globalData.membershipStatus.expireDate) {
-        const date = new Date(app.globalData.membershipStatus.expireDate);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        expireDate = `${year}年${month}月${day}日`;
-      }
-      
-      // 更新UI状态
-      this.setData({
-        membershipStatus: {
-          isMember: app.globalData.membershipStatus.isMember,
-          expireDate: expireDate
+    // 从数据库获取最新会员状态
+    const db = wx.cloud.database();
+    db.collection('users').where({
+      openid: app.globalData.userInfo.openid
+    }).get().then(res => {
+      if (res.data && res.data.length > 0) {
+        const userInfo = res.data[0];
+        const now = new Date();
+        
+        // 优先使用 membershipDate，如果不存在则尝试使用 memberExpireDate（向后兼容）
+        let membershipDate = null;
+        if (userInfo.membershipDate) {
+          membershipDate = new Date(userInfo.membershipDate);
+        } else if (userInfo.memberExpireDate) {
+          membershipDate = new Date(userInfo.memberExpireDate);
+          // 如果存在旧字段，更新为新字段
+          db.collection('users').doc(userInfo._id).update({
+            data: {
+              membershipDate: userInfo.memberExpireDate,
+              memberExpireDate: null // 清除旧字段
+            }
+          }).then(() => {
+            console.log('已将 memberExpireDate 迁移到 membershipDate');
+          }).catch(err => {
+            console.error('迁移会员日期字段失败:', err);
+          });
         }
-      });
-    } else if (localMembershipStatus && localMembershipStatus.isMember) {
-      // 使用本地存储的会员状态作为备份
-      console.log('从本地存储获取会员状态:', localMembershipStatus);
-      
-      // 格式化日期用于显示
-      let expireDate = null;
-      if (localMembershipStatus.expireDate) {
-        const date = new Date(localMembershipStatus.expireDate);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        expireDate = `${year}年${month}月${day}日`;
+        
+        // 检查会员是否有效
+        const isMember = membershipDate && membershipDate > now;
+        
+        // 更新UI状态
+        this.setData({
+          membershipStatus: {
+            isMember: isMember,
+            expireDate: membershipDate ? this.formatDate(membershipDate) : null
+          }
+        });
+        
+        // 同时更新app.globalData
+        app.globalData.membershipStatus = {
+          isMember: isMember,
+          membershipDate: membershipDate
+        };
+      } else {
+        // 用户不存在，显示非会员状态
+        this.setData({
+          membershipStatus: {
+            isMember: false,
+            expireDate: null
+          }
+        });
       }
-      
-      // 更新UI状态
-      this.setData({
-        membershipStatus: {
-          isMember: localMembershipStatus.isMember,
-          expireDate: expireDate
-        }
-      });
-      
-      // 同时更新app.globalData，保持一致性
-      app.globalData.membershipStatus = localMembershipStatus;
-    } else {
-      // 如果全局数据和本地存储中都没有会员状态或不是会员，则显示非会员状态
+    }).catch(err => {
+      console.error('获取会员状态失败:', err);
+      // 发生错误时显示非会员状态
       this.setData({
         membershipStatus: {
           isMember: false,
           expireDate: null
         }
       });
+    });
+  },
+
+  // 格式化日期为 YYYY年MM月DD日
+  formatDate: function(date) {
+    if (!date) return null;
+    
+    if (typeof date === 'string') {
+      date = new Date(date);
     }
+    
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}年${month}月${day}日`;
   },
 
   // 跳转到功能页面

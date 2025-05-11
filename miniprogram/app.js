@@ -113,25 +113,33 @@ App({
         return;
       }
       
-      // 支付成功，保存订单信息
+      // 获取支付中的套餐信息
+      const payingPlan = this.globalData.payingPlan || {};
+      
+      // 支付成功，准备订单信息
       const orderInfo = {
         orderNo: extraData.data.orderNo,
-        amount: extraData.data.total_fee,
-        body: extraData.data.body,
+        amount: extraData.data.total_fee || payingPlan.price || 0,
+        body: extraData.data.body || `会员套餐-${payingPlan.name || ''}`,
         payTime: new Date().getTime(),
-        attach: extraData.data.attach
+        attach: JSON.stringify({
+          type: 'membership',
+          planId: payingPlan.id || 1,
+          duration: payingPlan.duration || '1个月'
+        })
       };
+      
+      console.log('准备保存的订单信息:', orderInfo);
       
       // 调用云函数保存订单
       wx.cloud.callFunction({
         name: 'savePaymentOrder',
         data: orderInfo,
         success: (res) => {
+          console.log('保存订单结果:', res);
+          
           if (res.result && res.result.success) {
             console.log('订单保存成功:', res.result);
-            
-            // 更新全局订单号
-            this.globalData.orderNo = orderInfo.orderNo;
             
             // 支付成功后，立即检查会员状态并刷新所有页面
             if (this.globalData.isLogin) {
@@ -161,7 +169,7 @@ App({
           } else {
             console.error('保存订单失败:', res);
             wx.showToast({
-              title: '订单保存失败',
+              title: res.result && res.result.error ? res.result.error : '订单保存失败',
               icon: 'none',
               duration: 2000
             });
@@ -202,38 +210,56 @@ App({
     const token = getAccessToken();
     if (token) {
       this.globalData.isLogin = true;
-      console.log('用户已登录');
-      // 获取用户基本信息
-      const userInfo = wx.getStorageSync('userInfo');
-      if (userInfo) {
-        this.globalData.userInfo = userInfo;
-      }
+      // 从数据库获取用户信息
+      const db = wx.cloud.database();
+      wx.cloud.callFunction({
+        name: 'login',
+        success: res => {
+          if (res.result && res.result.openid) {
+            db.collection('users').where({
+              openid: res.result.openid
+            }).get().then(userRes => {
+              if (userRes.data && userRes.data.length > 0) {
+                this.globalData.userInfo = userRes.data[0];
+              } else {
+                this.globalData.isLogin = false;
+                this.globalData.userInfo = null;
+                removeToken(); // 移除无效的token
+              }
+              if (callback && typeof callback === 'function') {
+                callback();
+              }
+            }).catch(err => {
+              console.error('获取用户信息失败:', err);
+              this.globalData.isLogin = false;
+              this.globalData.userInfo = null;
+              if (callback && typeof callback === 'function') {
+                callback();
+              }
+            });
+          } else {
+            this.globalData.isLogin = false;
+            this.globalData.userInfo = null;
+            if (callback && typeof callback === 'function') {
+              callback();
+            }
+          }
+        },
+        fail: err => {
+          console.error('调用login云函数失败:', err);
+          this.globalData.isLogin = false;
+          this.globalData.userInfo = null;
+          if (callback && typeof callback === 'function') {
+            callback();
+          }
+        }
+      });
     } else {
       this.globalData.isLogin = false;
       this.globalData.userInfo = null;
-      console.log('用户未登录');
-    }
-    
-    // 会员状态获取逻辑
-    const membershipStatus = wx.getStorageSync('membershipStatus');
-    if (membershipStatus && membershipStatus.isMember) {
-      const expireDate = new Date(membershipStatus.expireDate);
-      const now = new Date();
-      if (expireDate > now) {
-        this.globalData.membershipStatus = membershipStatus;
-        console.log('会员有效，到期时间:', expireDate);
-      } else {
-        console.log('本地存储的会员已过期，但仍然保留会员状态以便后续验证');
-        this.globalData.membershipStatus = membershipStatus;
+      if (callback && typeof callback === 'function') {
+        callback();
       }
-    } else {
-      this.globalData.membershipStatus = { isMember: false, expireDate: null };
-      console.log('本地无会员信息');
-    }
-    
-    // 执行回调
-    if (callback && typeof callback === 'function') {
-      callback();
     }
   },
   
@@ -242,55 +268,45 @@ App({
     // 存储登录凭证
     setToken(token);
     
-    // 获取openid
-    const openid = userInfo.openid || '';
-    
-    // 检查本地是否有该用户的个人资料
-    if (openid) {
-      const localUserInfo = wx.getStorageSync('localUserInfo_' + openid);
-      if (localUserInfo && localUserInfo.nickName && localUserInfo.avatarUrl) {
-        console.log('从本地恢复用户个人资料:', localUserInfo);
-        // 使用本地存储的个人资料
-        userInfo.nickName = localUserInfo.nickName;
-        userInfo.avatarUrl = localUserInfo.avatarUrl;
-      }
-    }
-    
-    // 更新用户信息
-    this.globalData.userInfo = userInfo;
-    this.globalData.isLogin = true;
-    wx.setStorageSync('userInfo', userInfo);
-    console.log('更新登录状态:', userInfo.nickName || '微信用户');
-    
-    // 检查本地存储中是否已有会员信息
-    const localMembershipStatus = wx.getStorageSync('membershipStatus');
-    if (localMembershipStatus && localMembershipStatus.isMember) {
-      // 如果本地有会员信息，先使用本地会员信息
-      this.globalData.membershipStatus = localMembershipStatus;
-      console.log('从本地存储恢复会员状态:', localMembershipStatus);
-    }
-    
-    // 立即检查会员状态，从数据库获取最新会员信息
-    wx.showLoading({
-      title: '加载会员信息'
-    });
-    
-    this.checkMembershipStatus(() => {
-      wx.hideLoading();
-      
-      // 如果恢复了会员状态，显示成功提示
-      if (this.globalData.membershipStatus.isMember) {
-        wx.showToast({
-          title: '会员状态已恢复',
-          icon: 'success',
-          duration: 2000
+    // 更新用户信息到数据库
+    const db = wx.cloud.database();
+    db.collection('users').where({
+      openid: userInfo.openid
+    }).get().then(res => {
+      if (res.data.length > 0) {
+        // 更新已存在的用户信息
+        return db.collection('users').doc(res.data[0]._id).update({
+          data: {
+            nickName: userInfo.nickName,
+            avatarUrl: userInfo.avatarUrl,
+            updateTime: db.serverDate()
+          }
+        });
+      } else {
+        // 添加新用户
+        return db.collection('users').add({
+          data: {
+            ...userInfo,
+            createTime: db.serverDate()
+          }
         });
       }
+    }).then(() => {
+      // 更新全局状态
+      this.globalData.userInfo = userInfo;
+      this.globalData.isLogin = true;
       
-      // 更新界面
-      this.refreshCurrentTabPage();
-      
-      // 执行回调
+      // 检查会员状态
+      this.checkMembershipStatus(() => {
+        // 更新界面
+        this.refreshCurrentTabPage();
+        
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      });
+    }).catch(err => {
+      console.error('更新用户信息失败:', err);
       if (callback && typeof callback === 'function') {
         callback();
       }
@@ -299,114 +315,32 @@ App({
   
   // 检查会员状态
   checkMembershipStatus: function(callback) {
-    if (!this.globalData.isLogin) {
-      console.log('未登录，不检查会员状态');
-      // 不清除现有会员状态，只在用户明确退出时才清除
-      if (callback && typeof callback === 'function') callback(false);
-      return;
-    }
-    
-    // 未获取用户信息时不检查会员状态
-    if (!this.globalData.userInfo) {
-      console.error('无法获取用户信息，无法检查会员状态');
-      if (callback && typeof callback === 'function') callback(false);
-      return;
-    }
-    
-    // 获取用户ID
-    const userId = this.globalData.userInfo._id || this.globalData.userInfo.openid;
-    if (!userId) {
-      console.error('无法获取用户ID，无法检查会员状态');
-      if (callback && typeof callback === 'function') callback(false);
-      return;
-    }
-    
-    // 直接调用云函数检查会员状态
-    console.log('开始检查会员状态，用户ID:', userId);
+    const that = this;
     wx.cloud.callFunction({
       name: 'checkMembership',
-      data: {
-        userId: userId
-      },
-      success: (res) => {
-        console.log('检查会员状态成功，云函数返回:', res.result);
-        let newStatus = { isMember: false, expireDate: null };
-        
-        if (res.result && res.result.success && res.result.data) {
-          newStatus = {
-            isMember: res.result.data.isActive || false,
-            expireDate: res.result.data.expireDate || null
+      success: res => {
+        if (res.result && res.result.data) {
+          const membershipDate = res.result.data.membershipDate;
+          const now = new Date();
+          const expireDate = membershipDate ? new Date(membershipDate) : null;
+          const isMember = expireDate && expireDate > now;
+          
+          that.globalData.membershipStatus = {
+            isMember,
+            membershipDate: expireDate
           };
-        } else if (res.result && res.result.code === 0 && res.result.data) {
-          // 兼容旧格式数据结构
-          newStatus = {
-            isMember: res.result.data.isActive || false,
-            expireDate: res.result.data.expireDate || null
-          };
-        }
-        
-        // 如果查询结果显示不是会员，但本地存储显示是会员，再检查一次用户表
-        if (!newStatus.isMember && 
-            this.globalData.membershipStatus && 
-            this.globalData.membershipStatus.isMember) {
-          console.log('云函数返回非会员，但本地存储是会员，直接查询用户表');
-          this.checkMemberStatusDirectly(userId, (directResult) => {
-            if (directResult && directResult.isMember) {
-              console.log('直接查询用户表成功，确认用户是会员');
-              newStatus = directResult;
-            }
-            
-            this.updateGlobalMemberStatus(newStatus, callback);
-          });
+          
+          if (callback) callback(that.globalData.membershipStatus);
         } else {
-          this.updateGlobalMemberStatus(newStatus, callback);
+          that.globalData.membershipStatus = { isMember: false, membershipDate: null };
+          if (callback) callback(that.globalData.membershipStatus);
         }
       },
-      fail: (err) => {
+      fail: err => {
         console.error('检查会员状态失败:', err);
-        // 检查失败时，直接查询用户表
-        this.checkMemberStatusDirectly(userId, (directResult) => {
-          if (directResult) {
-            this.updateGlobalMemberStatus(directResult, callback);
-          } else {
-            // 保留现有会员状态，不重置
-            if (callback && typeof callback === 'function') callback(false);
-          }
-        });
+        that.globalData.membershipStatus = { isMember: false, membershipDate: null };
+        if (callback) callback(that.globalData.membershipStatus);
       }
-    });
-  },
-  
-  // 直接查询用户表获取会员状态（备份方法）
-  checkMemberStatusDirectly: function(userId, callback) {
-    if (!userId) {
-      if (callback) callback(null);
-      return;
-    }
-    
-    console.log('直接从用户表查询会员状态');
-    const db = wx.cloud.database();
-    db.collection('users').doc(userId).get().then(res => {
-      console.log('直接查询用户表结果:', res.data);
-      if (res.data && res.data.memberExpireDate) {
-        const expireDate = new Date(res.data.memberExpireDate);
-        const now = new Date();
-        const isMember = expireDate > now;
-        
-        const result = {
-          isMember: isMember,
-          expireDate: isMember ? expireDate : null
-        };
-        
-        console.log('直接查询用户表的会员状态:', result);
-        if (callback) callback(result);
-      } else {
-        console.log('用户表中没有会员信息');
-        if (callback) callback({ isMember: false, expireDate: null });
-      }
-    }).catch(err => {
-      console.error('直接查询用户表失败:', err);
-      if (callback) callback(null);
     });
   },
   
@@ -417,9 +351,6 @@ App({
     
     // 保存到本地存储
     wx.setStorageSync('membershipStatus', newStatus);
-    
-    // 添加会员状态的时间戳，便于追踪
-    wx.setStorageSync('memberStatusUpdatedTime', new Date().getTime());
     
     console.log('更新全局会员状态为:', this.globalData.membershipStatus);
     
@@ -553,4 +484,37 @@ App({
       }
     });
   },
+  
+  // 直接查询用户表获取会员状态（备份方法）
+  checkMemberStatusDirectly: function(userId, callback) {
+    if (!userId) {
+      if (callback) callback(null);
+      return;
+    }
+    
+    console.log('直接从用户表查询会员状态');
+    const db = wx.cloud.database();
+    db.collection('users').doc(userId).get().then(res => {
+      console.log('直接查询用户表结果:', res.data);
+      if (res.data && res.data.membershipDate) {
+        const expireDate = new Date(res.data.membershipDate);
+        const now = new Date();
+        const isMember = expireDate > now;
+        
+        const result = {
+          isMember: isMember,
+          expireDate: isMember ? expireDate : null
+        };
+        
+        console.log('直接查询用户表的会员状态:', result);
+        if (callback) callback(result);
+      } else {
+        console.log('用户表中没有会员信息');
+        if (callback) callback({ isMember: false, expireDate: null });
+      }
+    }).catch(err => {
+      console.error('直接查询用户表失败:', err);
+      if (callback) callback(null);
+    });
+  }
 });
