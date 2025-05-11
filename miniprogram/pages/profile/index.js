@@ -45,16 +45,6 @@ Page({
   },
 
   onLoad: function (options) {
-    // 初始化云环境
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力');
-    } else {
-      wx.cloud.init({
-        env: 'cloud1-2gkbbvste19738d8',
-        traceUser: true,
-      });
-    }
-    
     // 检查是否有登录成功的参数
     if (options.showProfile === 'true') {
       this.setData({

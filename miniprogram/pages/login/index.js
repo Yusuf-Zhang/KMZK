@@ -14,16 +14,6 @@ Page({
   },
 
   onLoad: function(options) {
-    // 初始化云开发
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力');
-    } else {
-      wx.cloud.init({
-        env: 'cloud1-2gkbbvste19738d8', // 替换为您的云环境ID
-        traceUser: true
-      });
-    }
-    
     // 检查是否有错误的登录状态 (比如登录了但userInfo为空)
     const userInfo = wx.getStorageSync('userInfo');
     const isLogin = wx.getStorageSync('isLogin');

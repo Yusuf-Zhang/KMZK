@@ -21,49 +21,9 @@ const getDatabase = () => {
  * 初始化时间线数据
  */
 const initTimelineData = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      const db = getDatabase();
-    // 首先检查是否已有数据
-    db.collection('timeline')
-      .count()
-      .then(res => {
-        if (res.total > 0) {
-          console.log('时间线数据已存在，跳过初始化');
-          resolve();
-          return;
-        }
-
-        console.log('开始初始化时间线数据...');
-        
-        // 导入时间线数据
-        const timelineData = require('../data/timeline');
-        
-        // 构建批量添加的Promise数组
-        const addPromises = timelineData.map(item => {
-          return db.collection('timeline').add({
-            data: item
-          });
-        });
-        
-        Promise.all(addPromises)
-          .then(() => {
-            console.log('时间线数据初始化完成');
-            resolve();
-          })
-          .catch(error => {
-            console.error('初始化时间线数据失败:', error);
-            reject(error);
-          });
-      })
-      .catch(err => {
-        console.error('查询时间线数据失败:', err);
-        reject(err);
-      });
-    } catch (error) {
-      console.error('初始化时间线数据出错:', error);
-      reject(error);
-    }
+  return new Promise((resolve) => {
+    console.log('时间线数据使用本地数据，无需初始化云数据库');
+    resolve();
   });
 };
 
@@ -131,42 +91,42 @@ const initAdmissionScoreData = () => {
   return new Promise((resolve, reject) => {
     try {
       const db = getDatabase();
-    // 首先检查是否已有数据
-    db.collection('admission-score')
-      .count()
-      .then(res => {
-        if (res.total > 0) {
-          console.log('录取分数数据已存在，跳过初始化');
-          resolve();
-          return;
-        }
-
-        console.log('开始初始化录取分数数据...');
-        
-        // 导入录取分数数据
-        const admissionScoreData = require('../data/admission-scores');
-        
-        // 添加到数据库
-        db.collection('admission-score')
-          .add({
-            data: admissionScoreData
-          })
-          .then(() => {
-            console.log('录取分数数据初始化完成');
+      // 首先检查是否已有数据
+      db.collection('admission-score')
+        .count()
+        .then(res => {
+          if (res.total > 0) {
+            console.log('录取分数数据已存在，跳过初始化');
             resolve();
-          })
-          .catch(error => {
-            console.error('初始化录取分数数据失败:', error);
-            reject(error);
-          });
-      })
-      .catch(err => {
-        console.error('查询录取分数数据失败:', err);
-        reject(err);
-      });
+            return;
+          }
+
+          console.log('开始初始化录取分数数据...');
+          
+          // 导入录取分数数据
+          const highSchoolsData = require('../data/high-schools');
+          
+          // 添加到数据库
+          db.collection('admission-score')
+            .add({
+              data: highSchoolsData
+            })
+            .then(() => {
+              console.log('录取分数数据初始化完成');
+              resolve();
+            })
+            .catch(error => {
+              console.error('初始化录取分数数据失败:', error);
+              resolve(); // 失败时也继续执行，因为可以使用本地数据
+            });
+        })
+        .catch(err => {
+          console.error('查询录取分数数据失败:', err);
+          resolve(); // 出错时也继续执行，因为可以使用本地数据
+        });
     } catch (error) {
       console.error('初始化录取分数数据出错:', error);
-      reject(error);
+      resolve(); // 出错时也继续执行，因为可以使用本地数据
     }
   });
 };

@@ -2,6 +2,7 @@
 const db = wx.cloud.database();
 
 // 导入本地数据（用于云数据库失败时的回退）
+const timelineData = require('../data/timeline');
 const { highSchoolsData } = require('../data/high-schools');
 const { directionSchoolData, admissionScoreData } = require('../data/direction-schools');
 
@@ -14,17 +15,12 @@ const timelineService = {
    * @returns {Promise} 返回时间线数据的Promise
    */
   getTimelineList() {
-    return new Promise((resolve, reject) => {
-      db.collection('timeline')
-        .orderBy('time', 'asc')
-        .get()
-        .then(res => {
-          resolve(res.data);
-        })
-        .catch(err => {
-          console.error('获取时间线数据失败:', err);
-          reject(err);
-        });
+    return new Promise((resolve) => {
+      // 直接返回本地数据，按时间排序
+      const sortedData = [...timelineData].sort((a, b) => {
+        return new Date(a.time) - new Date(b.time);
+      });
+      resolve(sortedData);
     });
   },
 
@@ -34,23 +30,14 @@ const timelineService = {
    * @returns {Promise} 返回筛选后的时间线数据
    */
   getTimelineByMonth(month) {
-    return new Promise((resolve, reject) => {
-      db.collection('timeline')
-        .where({
-          time: db.RegExp({
-            regexp: month,
-            options: 'i'
-          })
-        })
-        .orderBy('time', 'asc')
-        .get()
-        .then(res => {
-          resolve(res.data);
-        })
-        .catch(err => {
-          console.error('获取时间线数据失败:', err);
-          reject(err);
-        });
+    return new Promise((resolve) => {
+      // 从本地数据筛选指定月份的数据
+      const filteredData = timelineData.filter(item => {
+        return item.time.startsWith(month);
+      }).sort((a, b) => {
+        return new Date(a.time) - new Date(b.time);
+      });
+      resolve(filteredData);
     });
   },
 
@@ -60,31 +47,15 @@ const timelineService = {
    * @returns {Promise} 返回包含关键字的时间线数据
    */
   searchTimeline(keyword) {
-    return new Promise((resolve, reject) => {
-      // 构建正则表达式查询
-      const regExp = db.RegExp({
-        regexp: keyword,
-        options: 'i'
+    return new Promise((resolve) => {
+      // 从本地数据搜索包含关键字的数据
+      const searchResult = timelineData.filter(item => {
+        const reg = new RegExp(keyword, 'i');
+        return reg.test(item.eventTheme) || reg.test(item.event);
+      }).sort((a, b) => {
+        return new Date(a.time) - new Date(b.time);
       });
-
-      db.collection('timeline')
-        .where(db.command.or([
-          {
-            eventTheme: regExp
-          },
-          {
-            event: regExp
-          }
-        ]))
-        .orderBy('time', 'asc')
-        .get()
-        .then(res => {
-          resolve(res.data);
-        })
-        .catch(err => {
-          console.error('搜索时间线数据失败:', err);
-          reject(err);
-        });
+      resolve(searchResult);
     });
   }
 };
@@ -145,24 +116,9 @@ const admissionScoreService = {
    * @returns {Promise} 返回录取分数数据的Promise
    */
   getAdmissionScoreList() {
-    return new Promise((resolve, reject) => {
-      // 尝试从云数据库获取
-      db.collection('admission-score')
-        .get()
-        .then(res => {
-          // 检查结果是否有效
-          if (res.data && res.data.length > 0) {
-          resolve(res.data);
-          } else {
-            console.log('云数据库录取分数数据为空，使用本地数据');
-            resolve(admissionScoreData);
-          }
-        })
-        .catch(err => {
-          console.error('获取录取分数数据失败:', err);
-          console.log('云数据库获取失败，使用本地数据');
-          resolve(admissionScoreData); // 失败时使用本地数据
-        });
+    return new Promise((resolve) => {
+      // 直接使用本地数据
+      resolve(highSchoolsData);
     });
   }
 };

@@ -203,9 +203,9 @@ Page({
         userInfo: userInfo
       });
     } else {
-      this.setData({
+    this.setData({
         isLogin: false
-      });
+    });
     }
     console.log('会员页面读取登录状态:', isLogin);
   },
@@ -233,9 +233,9 @@ Page({
     // 如果没有openid，不进行检查
     if (!this.data.openid) {
       console.log('无法获取openid，跳过会员状态检查');
-      return;
-    }
-    
+        return;
+      }
+      
     // 从数据库获取最新状态
     const db = wx.cloud.database();
     db.collection('users').where({
@@ -244,7 +244,7 @@ Page({
       if (res.data && res.data.length > 0) {
         const userInfo = res.data[0];
         const now = new Date();
-        
+          
         // 优先使用 membershipDate，如果不存在则尝试使用 memberExpireDate（向后兼容）
         let membershipDate = null;
         if (userInfo.membershipDate) {
@@ -274,20 +274,20 @@ Page({
         });
         
         // 更新全局状态
-        app.globalData.membershipStatus = {
-          isMember: isMember,
+          app.globalData.membershipStatus = {
+            isMember: isMember,
           membershipDate: membershipDate
         };
-        
+          
         console.log('从数据库更新会员状态:', {
-          isMember: isMember,
+            isMember: isMember,
           membershipDate: this.formatDate(membershipDate),
           isRenewal: this.data.isRenewal
-        });
+          });
       }
     }).catch(err => {
-      console.error('获取会员状态失败:', err);
-    });
+          console.error('获取会员状态失败:', err);
+      });
   },
 
   // 格式化日期为 YYYY-MM-DD
@@ -473,79 +473,79 @@ Page({
         if (currentMembershipDate && currentMembershipDate > now) {
           // 如果当前会员还未到期，从当前到期时间开始叠加
           membershipDate = new Date(currentMembershipDate);
-        } else {
+    } else {
           // 如果已经到期或没有会员，从当前时间开始计算
           membershipDate = new Date();
-        }
-        
-        // 根据套餐类型延长会员时间
-        if (selectedPlan.id === 1) { // 月度会员
+    }
+    
+    // 根据套餐类型延长会员时间
+    if (selectedPlan.id === 1) { // 月度会员
           membershipDate.setMonth(membershipDate.getMonth() + 1);
-        } else if (selectedPlan.id === 2) { // 季度会员
+    } else if (selectedPlan.id === 2) { // 季度会员
           membershipDate.setMonth(membershipDate.getMonth() + 3);
-        } else if (selectedPlan.id === 3) { // 年度会员
+    } else if (selectedPlan.id === 3) { // 年度会员
           membershipDate.setFullYear(membershipDate.getFullYear() + 1);
-        }
-        
+    }
+    
         console.log('计算的会员到期时间:', membershipDate);
-        
-        // 更新用户的会员信息到数据库
-        wx.cloud.callFunction({
-          name: 'updateMembership',
-          data: {
-            userId: app.globalData.userInfo._id || app.globalData.userInfo.openid,
+    
+    // 更新用户的会员信息到数据库
+    wx.cloud.callFunction({
+      name: 'updateMembership',
+      data: {
+        userId: app.globalData.userInfo._id || app.globalData.userInfo.openid,
             membershipDate: membershipDate,
-            orderNo: orderNo,
-            planId: selectedPlan.id,
-            planName: selectedPlan.name,
-            price: selectedPlan.price,
-            isRenewal: this.data.isRenewal // 添加续费标志
-          },
-          success: (res) => {
-            console.log('更新会员状态成功:', res.result);
-            wx.hideLoading();
-            
-            // 更新全局会员状态
-            app.globalData.membershipStatus = {
-              isMember: true,
+        orderNo: orderNo,
+        planId: selectedPlan.id,
+        planName: selectedPlan.name,
+        price: selectedPlan.price,
+        isRenewal: this.data.isRenewal // 添加续费标志
+      },
+      success: (res) => {
+        console.log('更新会员状态成功:', res.result);
+        wx.hideLoading();
+        
+        // 更新全局会员状态
+        app.globalData.membershipStatus = {
+          isMember: true,
               membershipDate: membershipDate
-            };
-            
-            // 保存到本地存储
-            wx.setStorageSync('membershipStatus', app.globalData.membershipStatus);
-            
-            // 更新页面会员状态
-            this.setData({
-              isMember: true,
+        };
+        
+        // 保存到本地存储
+        wx.setStorageSync('membershipStatus', app.globalData.membershipStatus);
+        
+        // 更新页面会员状态
+        this.setData({
+          isMember: true,
               membershipDate: this.formatDate(membershipDate)
-            });
-            
-            // 提示用户支付成功
-            wx.showToast({
-              title: this.data.isRenewal ? '会员续费成功' : '会员开通成功',
-              icon: 'success',
-              duration: 2000
-            });
-            
-            // 清除支付中的套餐信息
-            app.globalData.payingPlan = null;
-            
-            // 延迟导航，等待Toast显示
-            setTimeout(() => {
-              // 返回上一页，触发profile页面的onShow刷新
-              wx.navigateBack();
-            }, 2000);
-          },
-          fail: (err) => {
-            wx.hideLoading();
-            console.error('更新会员状态失败:', err);
-            
-            wx.showToast({
-              title: '会员状态更新失败，请联系客服',
-              icon: 'none',
-              duration: 2000
-            });
-          }
+        });
+        
+        // 提示用户支付成功
+        wx.showToast({
+          title: this.data.isRenewal ? '会员续费成功' : '会员开通成功',
+          icon: 'success',
+          duration: 2000
+        });
+        
+        // 清除支付中的套餐信息
+        app.globalData.payingPlan = null;
+        
+        // 延迟导航，等待Toast显示
+        setTimeout(() => {
+          // 返回上一页，触发profile页面的onShow刷新
+          wx.navigateBack();
+        }, 2000);
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        console.error('更新会员状态失败:', err);
+        
+        wx.showToast({
+          title: '会员状态更新失败，请联系客服',
+          icon: 'none',
+          duration: 2000
+        });
+      }
         });
       }
     }).catch(err => {

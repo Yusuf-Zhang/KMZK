@@ -6,61 +6,24 @@ const dbInit = require('./utils/db-init');
 App({
   onLaunch: function () {
     // 全局变量初始化
-    this.globalData.cloudInitialized = false;
-    
-    if (!wx.cloud) {
-      console.error("请使用 2.2.3 或以上的基础库以使用云能力");
-    } else {
-      try {
-      wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        env: 'cloud1-2gkbbvste19738d8', // 替换为您的云环境ID
-        traceUser: true,
-          success: () => {
-            console.log('云开发初始化成功');
-            this.globalData.cloudInitialized = true;
-      
-            // 初始化云数据库数据(不包括高中学校数据)
-            this.initCloudDBExceptHighSchools();
-          },
-          fail: (err) => {
-            console.error('云开发初始化失败:', err);
-          }
-        });
-      } catch (e) {
-        console.error('云开发初始化出错:', e);
+    this.globalData = {
+      cloudInitialized: false,
+      isLogin: false,
+      userInfo: null,
+      systemInfo: null,
+      navBarHeight: 0,
+      membershipStatus: {
+        isMember: false,
+        expireDate: null
       }
-    }
+    };
+    
+    // 初始化云开发环境
+    this.initCloud();
 
     // 获取设备信息，用于适配样式
-    const systemInfo = wx.getSystemInfoSync();
-    this.globalData.systemInfo = systemInfo;
-    
-    // 获取胶囊按钮位置信息，增加错误处理
-    let menuButtonInfo = {}; // 提供一个默认空对象
-    try {
-      menuButtonInfo = wx.getMenuButtonBoundingClientRect();
-      if (!menuButtonInfo || !menuButtonInfo.top) { // 进一步检查返回值是否有效
-        console.error('getMenuButtonBoundingClientRect 返回无效:', menuButtonInfo);
-        menuButtonInfo = { top: systemInfo.statusBarHeight + 4, height: 32, left: systemInfo.windowWidth - 95, right: systemInfo.windowWidth - 10, bottom: systemInfo.statusBarHeight + 36, width: 85 }; // 提供合理的默认值
-        console.log('使用默认 menuButtonInfo');
-      }
-      this.globalData.menuButtonInfo = menuButtonInfo;
-      
-      // 计算导航栏高度
-      this.globalData.navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height + systemInfo.statusBarHeight;
-    } catch (e) {
-      console.error('获取胶囊按钮信息或计算导航栏高度失败:', e);
-      // 出错时也提供默认导航栏高度
-      const defaultNavBarHeight = systemInfo.statusBarHeight + 44; // 状态栏 + 44px
-      this.globalData.menuButtonInfo = { top: systemInfo.statusBarHeight + 4, height: 32, left: systemInfo.windowWidth - 95, right: systemInfo.windowWidth - 10, bottom: systemInfo.statusBarHeight + 36, width: 85 }; // 使用默认值
-      this.globalData.navBarHeight = defaultNavBarHeight;
-      console.warn(`导航栏高度计算失败，使用默认值: ${defaultNavBarHeight}px`);
-    }
-    
+    this.initSystemInfo();
+
     // 检查登录状态
     this.checkLoginStatus(() => {
       console.log('登录状态检查完成：', this.globalData.isLogin);
@@ -79,6 +42,16 @@ App({
           wx.hideLoading();
           console.log('启动时会员状态检查完成:', result);
           this.globalData.isFetchingMemberStatus = false;
+          
+          // 刷新当前页面
+          const pages = getCurrentPages();
+          if (pages && pages.length > 0) {
+            const currentPage = pages[pages.length - 1];
+            if (currentPage && typeof currentPage.onShow === 'function') {
+              console.log('会员状态检查完成，立即刷新当前页面');
+              currentPage.onShow();
+            }
+          }
         });
       }
     });
@@ -93,9 +66,35 @@ App({
   onShow: function(options) {
     // 根据支付SDK的指导处理支付回调
     if (options == null || options.referrerInfo == null) { 
-      // 如果用户已登录，检查会员状态（每次打开小程序都检查）
+      // 如果用户已登录，只检查会员状态（不更新会员时间）
       if (this.globalData.isLogin && !this.globalData.isFetchingMemberStatus) {
-        this.checkMembershipStatus();
+        // 使用一个标志防止重复调用
+        this.globalData.isFetchingMemberStatus = true;
+        
+        wx.cloud.callFunction({
+          name: 'checkMembership',
+          success: res => {
+            if (res.result && res.result.data) {
+              const membershipDate = res.result.data.membershipDate;
+              const now = new Date();
+              const expireDate = membershipDate ? new Date(membershipDate) : null;
+              const isMember = expireDate && expireDate > now;
+              
+              this.globalData.membershipStatus = {
+                isMember,
+                membershipDate: expireDate
+              };
+            } else {
+              this.globalData.membershipStatus = { isMember: false, membershipDate: null };
+            }
+            this.globalData.isFetchingMemberStatus = false;
+          },
+          fail: err => {
+            console.error('检查会员状态失败:', err);
+            this.globalData.membershipStatus = { isMember: false, membershipDate: null };
+            this.globalData.isFetchingMemberStatus = false;
+          }
+        });
       }
       return;
     }
@@ -187,21 +186,62 @@ App({
     }
   },
   
-  // 初始化云数据库数据(不包括高中学校数据)
-  initCloudDBExceptHighSchools: function() {
-    // 初始化云数据库数据，除了高中学校数据
-    Promise.all([
-      dbInit.initTimelineData(),
-      // 不再初始化高中学校数据，所以不调用: dbInit.initHighSchoolData(),
-      dbInit.initDirectionSchoolData(),
-      dbInit.initAdmissionScoreData()
-    ])
-    .then(() => {
-      console.log('云数据库集合初始化完成（不包括高中学校数据）');
-    })
-    .catch(err => {
-      console.error('部分数据库初始化失败:', err);
-    });
+  // 初始化云开发环境
+  initCloud: function() {
+    if (!wx.cloud) {
+      console.error("请使用 2.2.3 或以上的基础库以使用云能力");
+      wx.showToast({
+        title: '请升级微信版本',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+
+    try {
+      wx.cloud.init({
+        env: 'cloud1-2gkbbvste19738d8',
+        traceUser: true
+      });
+      
+      // 标记云环境初始化成功
+      this.globalData.cloudInitialized = true;
+      console.log('云开发环境初始化成功');
+      
+      // 初始化云数据库
+      this.initCloudDB();
+    } catch (err) {
+      console.error('云开发环境初始化失败:', err);
+      wx.showToast({
+        title: '系统初始化失败',
+        icon: 'none',
+        duration: 3000
+      });
+    }
+  },
+
+  // 初始化系统信息
+  initSystemInfo: function() {
+    try {
+      const systemInfo = wx.getSystemInfoSync();
+      this.globalData.systemInfo = systemInfo;
+      
+      // 获取胶囊按钮位置信息
+      const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+      
+      // 计算导航栏高度
+      this.globalData.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + systemInfo.statusBarHeight;
+    } catch (err) {
+      console.error('获取系统信息失败:', err);
+      // 设置默认值
+      this.globalData.navBarHeight = 90;
+    }
+  },
+
+  // 初始化云数据库
+  initCloudDB: function() {
+    // 由于已切换到本地数据，不再需要初始化云数据库
+    console.log('已切换到本地数据，跳过云数据库初始化');
   },
   
   // 检查登录状态
