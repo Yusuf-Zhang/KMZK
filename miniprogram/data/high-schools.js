@@ -150,7 +150,7 @@ const highSchoolsData = {
     },
     {
       "rank": 8,
-      "schoolName": "昆十中求实校区",
+      "schoolName": "昆明市第十中学求实校区",
       "type": "公办",
       "level": "一级一等",
       "score": 664,
@@ -175,7 +175,7 @@ const highSchoolsData = {
       "type": "民办",
       "level": "一级二等",
       "score": 664,
-      "position": 4658,
+      "position": 8104,
       "address": "日新中路南博路（西山区万达双塔旁）",
       "admissionInfo": {
         "admissionCount": {
@@ -249,13 +249,13 @@ const highSchoolsData = {
         "admissionScore": {
           "2022": 557,
           "2023": 669,
-          "2024": 559
+          "2024": 653
         }
       }
     },
     {
       "rank": 13,
-      "schoolName": "云师大实验中学盘龙校区",
+      "schoolName": "云师大实验中学盘龙校区（普高班）",
       "type": "公办",
       "level": "一级二等",
       "score": 653,
@@ -276,7 +276,7 @@ const highSchoolsData = {
     },
     {
       "rank": 14,
-      "schoolName": "西南联大研究院附属学校",
+      "schoolName": "西南联大研究院附属中学（普高班）",
       "type": "公办",
       "level": "一级三等",
       "score": 653,
@@ -318,7 +318,7 @@ const highSchoolsData = {
     },
     {
       "rank": 16,
-      "schoolName": "官渡区云南师范大学附属官渡中学",
+      "schoolName": "云南师范大学附属官渡中学",
       "type": "民办",
       "level": "无等级",
       "score": 649,
@@ -326,12 +326,12 @@ const highSchoolsData = {
       "address": "官渡区星耀路延长线（古渡口路）都铎城邦小区内",
       "admissionInfo": {
         "admissionCount": {
-          "2022": null,
+          "2022": "未公布",
           "2023": 45,
           "2024": 35
         },
         "admissionScore": {
-          "2022": null,
+          "2022": "未公布",
           "2023": 653,
           "2024": 649
         }
@@ -368,14 +368,14 @@ const highSchoolsData = {
       "address": "西山区前福路二庄街32号（西山区前卫中学内）",
       "admissionInfo": {
         "admissionCount": {
-          "2022": 289,
-          "2023": 388,
-          "2024": 329
+          "2022": "未公布",
+          "2023": 239,
+          "2024": 191
         },
         "admissionScore": {
-          "2022": 559,
-          "2023": 670,
-          "2024": 659
+          "2022": "未公布",
+          "2023": 656,
+          "2024": 647
         }
       }
     },
@@ -570,7 +570,7 @@ const highSchoolsData = {
     },
     {
       "rank": 28,
-      "schoolName": "昆三中呈贡学校",
+      "schoolName": "昆三中呈贡学校（呈贡一中）",
       "type": "公办",
       "level": "一级三等",
       "score": 629,
@@ -599,12 +599,12 @@ const highSchoolsData = {
       "address": "昆明市盘龙区穿金路310号",
       "admissionInfo": {
         "admissionCount": {
-          "2022": null,
+          "2022": "未公布",
           "2023": 74,
           "2024": 274
         },
         "admissionScore": {
-          "2022": null,
+          "2022": "未公布",
           "2023": 635,
           "2024": 629
         }
@@ -620,14 +620,14 @@ const highSchoolsData = {
       "address": "官渡区大板桥街道工业园区",
       "admissionInfo": {
         "admissionCount": {
-          "2022": 282,
-          "2023": 241,
-          "2024": 203
+          "2022": "未公布",
+          "2023": 73,
+          "2024": 116
         },
         "admissionScore": {
-          "2022": 557,
-          "2023": 669,
-          "2024": 659
+          "2022": "未公布",
+          "2023": 635,
+          "2024": 629
         }
       }
     },
@@ -662,20 +662,20 @@ const highSchoolsData = {
       "address": "官渡区矣六街道中豪悦城花园南侧",
       "admissionInfo": {
         "admissionCount": {
-          "2022": null,
-          "2023": null,
-          "2024": null
+          "2022": 44,
+          "2023": 57,
+          "2024": 74
         },
         "admissionScore": {
-          "2022": null,
-          "2023": null,
+          "2022": 520,
+          "2023": 635,
           "2024": 627
         }
       }
     },
     {
       "rank": 33,
-      "schoolName": "昆一中经开校区",
+      "schoolName": "昆一中经开校区（普高班）",
       "type": "公办",
       "level": "无等级",
       "score": 624,
@@ -696,7 +696,7 @@ const highSchoolsData = {
     },
     {
       "rank": 34,
-      "schoolName": "官渡区第六中学",
+      "schoolName": "官渡区第六中学（官六中）",
       "type": "公办",
       "level": "一级完中",
       "score": 622,
@@ -717,7 +717,7 @@ const highSchoolsData = {
     },
     {
       "rank": 35,
-      "schoolName": "官渡区第五中学",
+      "schoolName": "官渡区第五中学（官五中）",
       "type": "公办",
       "level": "一级二等",
       "score": 621,
@@ -738,7 +738,7 @@ const highSchoolsData = {
     },
     {
       "rank": 36,
-      "schoolName": "昆一中晋宁学校",
+      "schoolName": "昆一中晋宁学校（晋宁一中）",
       "type": "公办",
       "level": "一级三等",
       "score": 620,
@@ -788,13 +788,13 @@ const highSchoolsData = {
       "address": "昆明市呈贡区万青路3099号",
       "admissionInfo": {
         "admissionCount": {
-          "2022": 148,
-          "2023": 155,
-          "2024": 147
+          "2022": "未公布",
+          "2023": 35,
+          "2024": 19
         },
         "admissionScore": {
-          "2022": 520,
-          "2023": 635,
+          "2022": "未公布",
+          "2023": 576,
           "2024": 620
         }
       }
@@ -843,7 +843,7 @@ const highSchoolsData = {
     },
     {
       "rank": 41,
-      "schoolName": "昆明市五华区华山中学",
+      "schoolName": "昆明市五华区闻华中学",
       "type": "公办",
       "level": "二级完中",
       "score": 611,
@@ -906,7 +906,7 @@ const highSchoolsData = {
     },
     {
       "rank": 44,
-      "schoolName": "西山区教育科学研究院附属中学",
+      "schoolName": "西山区教育科学研究院附属中学（粤秀中学合并）",
       "type": "公办",
       "level": "二级完中",
       "score": 602,
@@ -1026,7 +1026,7 @@ const highSchoolsData = {
         "admissionScore": {
           "2022": 481,
           "2023": 612,
-          "2024": 595
+          "2024": 593
         }
       }
     },
@@ -1173,33 +1173,12 @@ const highSchoolsData = {
         "admissionScore": {
           "2022": 458,
           "2023": 581,
-          "2024": 572
-        }
-      }
-    },
-    {
-      "rank": 57,
-      "schoolName": "昆明市第三十中学（特色班）",
-      "type": "公办",
-      "level": "二级完中",
-      "score": 571,
-      "position": 26509,
-      "address": "昆明市五华区北门街108号",
-      "admissionInfo": {
-        "admissionCount": {
-          "2022": 55,
-          "2023": 87,
-          "2024": 45
-        },
-        "admissionScore": {
-          "2022": 436,
-          "2023": 555,
           "2024": 571
         }
       }
     },
     {
-      "rank": 58,
+      "rank": 57,
       "schoolName": "云师大实验中学盘龙校区（特色班）",
       "type": "公办",
       "level": "一级二等",
@@ -1208,19 +1187,19 @@ const highSchoolsData = {
       "address": "盘龙区茨坝街道办事处青松路68号",
       "admissionInfo": {
         "admissionCount": {
-          "2022": 102,
-          "2023": 86,
-          "2024": 88
+          "2022": 50,
+          "2023": 50,
+          "2024": 48
         },
         "admissionScore": {
-          "2022": 459,
-          "2023": 579,
+          "2022": 515,
+          "2023": 624,
           "2024": 566
         }
       }
     },
     {
-      "rank": 59,
+      "rank": 58,
       "schoolName": "昆明市第三十中学（特色班）",
       "type": "公办",
       "level": "二级完中",
@@ -1241,7 +1220,7 @@ const highSchoolsData = {
       }
     },
     {
-      "rank": 60,
+      "rank": 59,
       "schoolName": "昆一中经开校区（特色班）",
       "type": "公办",
       "level": "无等级",
@@ -1250,20 +1229,20 @@ const highSchoolsData = {
       "address": "昆明市经开区积慧街128号",
       "admissionInfo": {
         "admissionCount": {
-          "2022": 89,
-          "2023": 79,
-          "2024": 82
+          "2022": 91,
+          "2023": 101,
+          "2024": 121
         },
         "admissionScore": {
-          "2022": 442,
-          "2023": 558,
+          "2022": 414,
+          "2023": 555,
           "2024": 536
         }
       }
     },
     {
-      "rank": 61,
-      "schoolName": "昆明市艺术学校",
+      "rank": 60,
+      "schoolName": "昆明市艺术学校（特色班）",
       "type": "公办",
       "level": "二级完中",
       "score": 523,
@@ -1283,7 +1262,7 @@ const highSchoolsData = {
       }
     },
     {
-      "rank": 62,
+      "rank": 61,
       "schoolName": "昆明市五华区德仁中学",
       "type": "民办",
       "level": "二级完中",
@@ -1304,7 +1283,7 @@ const highSchoolsData = {
       }
     },
     {
-      "rank": 63,
+      "rank": 62,
       "schoolName": "明德民族中学（特色班）",
       "type": "公办",
       "level": "二级完中",

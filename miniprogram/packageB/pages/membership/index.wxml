@@ -73,7 +73,7 @@
         <view class="check-inner" wx:if="{{agreementChecked}}"></view>
       </view>
       <view class="agreement-text">
-        同意<text class="link" bindtap="viewUserAgreement">《会员服务协议》</text>和<text class="link" bindtap="viewPrivacyPolicy">《自动续费协议》</text>
+        同意<text class="link" bindtap="viewUserAgreement">《会员服务协议》</text>和<text class="link" bindtap="viewPrivacyPolicy">《小程序服务协议》</text>
       </view>
     </view>
 

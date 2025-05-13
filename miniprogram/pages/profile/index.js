@@ -84,8 +84,8 @@ Page({
   updateLoginState: function() {
     const app = getApp();
     
-    if (!app.globalData.isLogin) {
-      // 未登录状态
+    if (!app.globalData.isLogin || !app.globalData.userInfo) {
+      // 未登录状态或用户信息为空
       this.setData({
         isLogin: false,
         isPendingProfileSetup: false,
@@ -102,10 +102,26 @@ Page({
       return;
     }
     
+    // 确保userInfo和openid存在
+    const openid = app.globalData.userInfo.openid;
+    if (!openid) {
+      console.error('用户信息中没有openid');
+      this.setData({
+        isLogin: false,
+        isPendingProfileSetup: false,
+        userInfo: {
+          avatarUrl: '',
+          nickName: '',
+          memberType: '普通用户'
+        }
+      });
+      return;
+    }
+    
     // 已登录，从数据库获取最新用户信息
     const db = wx.cloud.database();
     db.collection('users').where({
-      openid: app.globalData.userInfo.openid
+      openid: openid
     }).get().then(res => {
       if (res.data && res.data.length > 0) {
         const userInfo = res.data[0];

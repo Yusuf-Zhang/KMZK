@@ -7,7 +7,7 @@ const membershipPlans = [
   {
     id: 'monthly',
     name: '月会员',
-    price: 0.01,
+    price: 14.9,
     originalPrice: 29.9,
     duration: '1个月',
     desc: '享受全部会员权益，为中考助你一臂之力！'
@@ -15,7 +15,7 @@ const membershipPlans = [
   {
     id: 'quarter',
     name: '季度会员',
-    price: 0.01,
+    price: 29.9,
     originalPrice: 69.9,
     duration: '3个月',
     desc: '享受全部会员权益，更划算的选择！'
@@ -23,7 +23,7 @@ const membershipPlans = [
   {
     id: 'yearly',
     name: '年度会员',
-    price: 0.01,
+    price: 59.9,
     originalPrice: 258,
     duration: '12个月',
     desc: '整年备考无忧，专注提升，无限制使用全部功能！',
@@ -60,7 +60,7 @@ const memberBenefits = [
 ];
 
 // 激活码输入校验规则
-const codeRule = /^[A-Za-z0-9]{16}$/;
+const codeRule = /^[A-Za-z0-9]{4,16}$/;  // 放宽规则，允许4-16位字母数字组合
 
 Page({
   /**
@@ -109,8 +109,8 @@ Page({
         id: 1, // 方案一：月度会员
         name: '月度会员',
         duration: '1个月',
-        price: 0.01,
-        originalPrice: null,
+        price: 14.9,
+        originalPrice: 29.9,
         recommended: false,
         desc: '畅享所有会员权益' // 可以自定义描述
       },
@@ -118,8 +118,8 @@ Page({
         id: 2, // 方案二：季度会员
         name: '季度会员',
         duration: '3个月',
-        price: 0.01,
-        originalPrice: 39.9,
+        price: 29.9,
+        originalPrice: 69.9,
         recommended: true, // 推荐季度会员
         desc: '限时优惠，更划算' // 可以自定义描述
       },
@@ -127,8 +127,8 @@ Page({
         id: 3, // 方案三：年度会员
         name: '年度会员',
         duration: '1年',
-        price: 0.01,
-        originalPrice: 169.9,
+        price: 59.9,
+        originalPrice: 258,
         recommended: false,
         desc: '长期畅享，性价比之选' // 可以自定义描述
       }
@@ -172,20 +172,22 @@ Page({
     
     // 从全局状态获取会员信息
     const now = new Date();
-    const membershipDate = app.globalData.membershipStatus.membershipDate ? 
-      new Date(app.globalData.membershipStatus.membershipDate) : null;
-    
-    this.setData({
-      isMember: membershipDate && membershipDate > now,
-      membershipDate: membershipDate ? this.formatDate(membershipDate) : '',
-      isRenewal: membershipDate !== null // 只要有过会员记录，就允许续费
-    });
+    if (app.globalData.membershipStatus) {
+      const membershipDate = app.globalData.membershipStatus.membershipDate ? 
+        new Date(app.globalData.membershipStatus.membershipDate) : null;
+      
+      this.setData({
+        isMember: membershipDate && membershipDate > now,
+        membershipDate: membershipDate ? this.formatDate(membershipDate) : '',
+        isRenewal: membershipDate !== null // 只要有过会员记录，就允许续费
+      });
 
-    console.log('会员页面状态:', {
-      isMember: this.data.isMember,
-      membershipDate: this.data.membershipDate,
-      isRenewal: this.data.isRenewal
-    });
+      console.log('会员页面状态:', {
+        isMember: this.data.isMember,
+        membershipDate: this.data.membershipDate,
+        isRenewal: this.data.isRenewal
+      });
+    }
   },
 
   /**
@@ -233,8 +235,8 @@ Page({
     // 如果没有openid，不进行检查
     if (!this.data.openid) {
       console.log('无法获取openid，跳过会员状态检查');
-        return;
-      }
+      return;
+    }
       
     // 从数据库获取最新状态
     const db = wx.cloud.database();
@@ -356,7 +358,17 @@ Page({
 
     // 生成订单号
     const app = getApp();
-    const userId = app.globalData.userInfo._id || app.globalData.userInfo.openid;
+    
+    if (!app.globalData.userInfo) {
+      wx.hideLoading();
+      wx.showToast({
+        title: '用户信息不存在，请重新登录',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    const userId = app.globalData.userInfo._id || app.globalData.userInfo.openid || '';
     const orderNo = wxPayUtil.getOrderNo("MP_"); // 生成订单号，MP_前缀
 
     // 计算支付金额，单位为元，需要确保是有效的金额
@@ -445,6 +457,14 @@ Page({
       return;
     }
     
+    if (!app.globalData.userInfo || !app.globalData.userInfo.openid) {
+      wx.showToast({
+        title: '用户信息不存在，请重新登录',
+        icon: 'none'
+      });
+      return;
+    }
+    
     wx.showLoading({
       title: '正在处理',
     });
@@ -473,79 +493,79 @@ Page({
         if (currentMembershipDate && currentMembershipDate > now) {
           // 如果当前会员还未到期，从当前到期时间开始叠加
           membershipDate = new Date(currentMembershipDate);
-    } else {
+        } else {
           // 如果已经到期或没有会员，从当前时间开始计算
           membershipDate = new Date();
-    }
-    
-    // 根据套餐类型延长会员时间
-    if (selectedPlan.id === 1) { // 月度会员
+        }
+        
+        // 根据套餐类型延长会员时间
+        if (selectedPlan.id === 1) { // 月度会员
           membershipDate.setMonth(membershipDate.getMonth() + 1);
-    } else if (selectedPlan.id === 2) { // 季度会员
+        } else if (selectedPlan.id === 2) { // 季度会员
           membershipDate.setMonth(membershipDate.getMonth() + 3);
-    } else if (selectedPlan.id === 3) { // 年度会员
+        } else if (selectedPlan.id === 3) { // 年度会员
           membershipDate.setFullYear(membershipDate.getFullYear() + 1);
-    }
-    
+        }
+        
         console.log('计算的会员到期时间:', membershipDate);
-    
-    // 更新用户的会员信息到数据库
-    wx.cloud.callFunction({
-      name: 'updateMembership',
-      data: {
-        userId: app.globalData.userInfo._id || app.globalData.userInfo.openid,
+        
+        // 更新用户的会员信息到数据库
+        wx.cloud.callFunction({
+          name: 'updateMembership',
+          data: {
+            userId: app.globalData.userInfo._id || app.globalData.userInfo.openid || '',
             membershipDate: membershipDate,
-        orderNo: orderNo,
-        planId: selectedPlan.id,
-        planName: selectedPlan.name,
-        price: selectedPlan.price,
-        isRenewal: this.data.isRenewal // 添加续费标志
-      },
-      success: (res) => {
-        console.log('更新会员状态成功:', res.result);
-        wx.hideLoading();
-        
-        // 更新全局会员状态
-        app.globalData.membershipStatus = {
-          isMember: true,
+            orderNo: orderNo,
+            planId: selectedPlan.id,
+            planName: selectedPlan.name,
+            price: selectedPlan.price,
+            isRenewal: this.data.isRenewal // 添加续费标志
+          },
+          success: (res) => {
+            console.log('更新会员状态成功:', res.result);
+            wx.hideLoading();
+            
+            // 更新全局会员状态
+            app.globalData.membershipStatus = {
+              isMember: true,
               membershipDate: membershipDate
-        };
-        
-        // 保存到本地存储
-        wx.setStorageSync('membershipStatus', app.globalData.membershipStatus);
-        
-        // 更新页面会员状态
-        this.setData({
-          isMember: true,
+            };
+            
+            // 保存到本地存储
+            wx.setStorageSync('membershipStatus', app.globalData.membershipStatus);
+            
+            // 更新页面会员状态
+            this.setData({
+              isMember: true,
               membershipDate: this.formatDate(membershipDate)
-        });
-        
-        // 提示用户支付成功
-        wx.showToast({
-          title: this.data.isRenewal ? '会员续费成功' : '会员开通成功',
-          icon: 'success',
-          duration: 2000
-        });
-        
-        // 清除支付中的套餐信息
-        app.globalData.payingPlan = null;
-        
-        // 延迟导航，等待Toast显示
-        setTimeout(() => {
-          // 返回上一页，触发profile页面的onShow刷新
-          wx.navigateBack();
-        }, 2000);
-      },
-      fail: (err) => {
-        wx.hideLoading();
-        console.error('更新会员状态失败:', err);
-        
-        wx.showToast({
-          title: '会员状态更新失败，请联系客服',
-          icon: 'none',
-          duration: 2000
-        });
-      }
+            });
+            
+            // 提示用户支付成功
+            wx.showToast({
+              title: this.data.isRenewal ? '会员续费成功' : '会员开通成功',
+              icon: 'success',
+              duration: 2000
+            });
+            
+            // 清除支付中的套餐信息
+            app.globalData.payingPlan = null;
+            
+            // 延迟导航，等待Toast显示
+            setTimeout(() => {
+              // 返回上一页，触发profile页面的onShow刷新
+              wx.navigateBack();
+            }, 2000);
+          },
+          fail: (err) => {
+            wx.hideLoading();
+            console.error('更新会员状态失败:', err);
+            
+            wx.showToast({
+              title: '会员状态更新失败，请联系客服',
+              icon: 'none',
+              duration: 2000
+            });
+          }
         });
       }
     }).catch(err => {
@@ -596,11 +616,35 @@ Page({
   },
 
   /**
-   * 使用激活码
+   * 确认激活
    */
-  activateWithCode: function () {
+  confirmActivation: function () {
     const code = this.data.activationCode.trim();
+    const app = getApp();
     
+    console.log('开始验证激活码:', code);
+    console.log('激活码长度:', code.length);
+    console.log('激活码格式是否符合:', codeRule.test(code));
+    
+    // 检查登录状态
+    if (!this.data.isLogin) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    // 检查用户信息是否存在
+    if (!app.globalData.userInfo) {
+      wx.showToast({
+        title: '用户信息不存在，请重新登录',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    // 检查激活码格式
     if (!code) {
       wx.showToast({
         title: '请输入激活码',
@@ -609,6 +653,9 @@ Page({
       return;
     }
     
+    // 允许任何字母数字组合的激活码，移除原有的格式限制
+    // 注释掉以下格式检查，以允许任何长度的激活码
+    /*
     if (!codeRule.test(code)) {
       wx.showToast({
         title: '激活码格式不正确',
@@ -616,50 +663,106 @@ Page({
       });
       return;
     }
+    */
     
+    // 开始验证激活码
     wx.showLoading({
       title: '正在验证',
     });
     
-    // 模拟验证过程
-    setTimeout(() => {
-      wx.hideLoading();
-      
-      // 随机模拟成功或失败
-      const success = Math.random() > 0.5;
-      
-      if (success) {
-        // 如果激活成功，跟支付成功处理一样
-        const plan = this.data.plans.find(p => p.id === 2); // 默认永久会员
-        this.handlePaymentSuccess(plan);
+    // 打印用于验证的数据
+    console.log('调用云函数所用数据:', {
+      code: code,
+      userId: app.globalData.userInfo._id || ''
+    });
+    
+    wx.cloud.callFunction({
+      name: 'validateInviteCode',
+      data: {
+        code: code,
+        userId: app.globalData.userInfo._id || '' // 添加空字符串作为默认值防止null
+      },
+      success: res => {
+        wx.hideLoading();
+        console.log('验证激活码结果:', res.result);
         
-        this.setData({
-          activationPanelVisible: false
-        });
-      } else {
+        if (res.result && res.result.success) {
+          // 激活成功
+          const membershipDate = new Date(res.result.data.membershipDate);
+          const codeType = res.result.data.codeType;
+          
+          // 更新全局会员状态
+          app.globalData.membershipStatus = {
+            isMember: true,
+            membershipDate: membershipDate
+          };
+          
+          // 更新页面状态
+          this.setData({
+            isMember: true,
+            membershipDate: this.formatDate(membershipDate),
+            activationPanelVisible: false
+          });
+          
+          // 提示用户激活成功
+          wx.showToast({
+            title: `${codeType}会员激活成功`,
+            icon: 'success',
+            duration: 2000
+          });
+          
+        } else {
+          // 激活失败
+          console.error('激活码验证失败原因:', res.result ? res.result.message : '未知错误');
+          wx.showToast({
+            title: res.result.message || '激活失败，请使用正确激活码',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      },
+      fail: err => {
+        wx.hideLoading();
+        console.error('激活码验证失败:', err);
+        
+        // 显示更详细的错误信息
+        let errorMsg = '激活失败，请重试';
+        if (err && err.errMsg) {
+          errorMsg = '错误: ' + err.errMsg;
+        }
+        
         wx.showToast({
-          title: '激活码无效或已使用',
-          icon: 'none'
+          title: errorMsg,
+          icon: 'none',
+          duration: 3000
         });
       }
-    }, 1500);
-  },
-
-  /**
-   * 查看会员协议
-   */
-  goToAgreement: function () {
-    wx.navigateTo({
-      url: '/packageB/pages/agreement/user'
     });
   },
 
   /**
-   * 查看隐私政策
+   * 使用激活码
    */
-  goToPrivacy: function () {
+  activateWithCode: function () {
+    // 这个方法将被confirmActivation替代，保留此方法是为了向后兼容
+    this.confirmActivation();
+  },
+
+  /**
+   * 查看用户协议
+   */
+  viewUserAgreement: function () {
     wx.navigateTo({
-      url: '/packageB/pages/agreement/privacy'
+      url: '../agreement/user'
+    });
+  },
+
+  /**
+   * 查看小程序服务协议
+   */
+  viewPrivacyPolicy: function () {
+    wx.navigateTo({
+      url: '../agreement/privacy'
     });
   },
 

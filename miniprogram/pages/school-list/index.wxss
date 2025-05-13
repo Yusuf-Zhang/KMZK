@@ -610,4 +610,36 @@ page {
 
 .relative {
   position: relative;
+}
+
+/* 温馨提醒卡片 */
+.reminder-card {
+  background-color: #fff;
+  margin: 0 30rpx 20rpx 30rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10;
+}
+
+.reminder-title {
+  font-size: 28rpx;
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.reminder-content {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.reminder-item {
+  margin-bottom: 6rpx;
+}
+
+.reminder-item:last-child {
+  margin-bottom: 0;
 } 

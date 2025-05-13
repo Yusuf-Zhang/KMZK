@@ -132,6 +132,75 @@ const initAdmissionScoreData = () => {
 };
 
 /**
+ * 初始化激活码数据（仅作为示例，实际使用时请通过管理后台添加激活码）
+ */
+const initInviteCodeData = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      const db = getDatabase();
+      // 首先检查是否已有数据
+      db.collection('inviteCode')
+        .count()
+        .then(res => {
+          if (res.total > 0) {
+            console.log('激活码数据已存在，跳过初始化');
+            resolve();
+            return;
+          }
+
+          console.log('开始初始化激活码示例数据...');
+          
+          // 示例激活码数据
+          const inviteCodeData = [
+            {
+              code: 'MONTH123456789012',
+              type: '月度',
+              used: 0,
+              createTime: new Date()
+            },
+            {
+              code: 'QUARTER12345678901',
+              type: '季度',
+              used: 0,
+              createTime: new Date()
+            },
+            {
+              code: 'YEAR1234567890123',
+              type: '年度',
+              used: 0,
+              createTime: new Date()
+            }
+          ];
+          
+          // 批量添加到数据库
+          const promises = inviteCodeData.map(codeItem => {
+            return db.collection('inviteCode').add({
+              data: codeItem
+            });
+          });
+          
+          Promise.all(promises)
+            .then(() => {
+              console.log('激活码示例数据初始化完成');
+              resolve();
+            })
+            .catch(error => {
+              console.error('初始化激活码示例数据失败:', error);
+              resolve(); // 失败时也继续执行
+            });
+        })
+        .catch(err => {
+          console.error('查询激活码数据失败:', err);
+          resolve(); // 出错时也继续执行
+        });
+    } catch (error) {
+      console.error('初始化激活码数据出错:', error);
+      resolve(); // 出错时也继续执行
+    }
+  });
+};
+
+/**
  * 初始化所有数据库集合
  */
 const initAllCollections = () => {
@@ -143,7 +212,8 @@ const initAllCollections = () => {
       initTimelineData(),
       initHighSchoolData(),
       initDirectionSchoolData(),
-      initAdmissionScoreData()
+      initAdmissionScoreData(),
+      initInviteCodeData() // 添加激活码初始化
     ])
       .then(() => {
         console.log('所有数据库集合初始化完成');
@@ -162,5 +232,6 @@ module.exports = {
   initHighSchoolData,
   initDirectionSchoolData,
   initAdmissionScoreData,
+  initInviteCodeData, // 导出激活码初始化函数
   initAllCollections
 }; 

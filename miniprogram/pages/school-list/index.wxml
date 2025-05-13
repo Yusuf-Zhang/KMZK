@@ -67,6 +67,15 @@
     </view>
   </view>
   
+  <!-- 温馨提醒卡片 -->
+  <view class="reminder-card" wx:if="{{showReminderCard}}">
+    <view class="reminder-title">温馨提醒：</view>
+    <view class="reminder-content">
+      <view class="reminder-item">1.特色班是学校为在特定领域(如艺术、体育等)有专长或兴趣的学生设立的专项班级,旨在结合文化教育与特长培养；</view>
+      <view class="reminder-item">2.信息及排名均来自网络，如有错误恳请指出，方便及时修改。</view>
+    </view>
+  </view>
+  
   <!-- 学校列表 -->
   <view class="school-list">
     <view class="school-list-container relative">

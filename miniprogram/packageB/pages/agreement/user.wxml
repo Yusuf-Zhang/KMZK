@@ -1,5 +1,60 @@
 <custom-nav></custom-nav>
 <!--agreement/user.wxml-->
 <view class="agreement-container">
-  <rich-text nodes="{{agreementContent}}"></rich-text>
+  <view class="agreement-content">
+    <view class="agreement-title">会员服务协议</view>
+    
+    <view class="agreement-paragraph">本协议是您与昆明中考助手之间关于使用会员服务所订立的契约。请您仔细阅读本协议，确保充分理解协议中各条款。</view>
+    
+    <view class="agreement-subtitle">一、服务内容</view>
+    
+    <view class="agreement-list-item">1. 昆明中考助手会员服务为用户提供以下服务：</view>
+    <view class="agreement-list-subitem">• 查看完整学校分数线和录取信息</view>
+    <view class="agreement-list-subitem">• 院校匹配推荐功能</view>
+    <view class="agreement-list-subitem">• 各类政策解读的完整功能</view>
+    <view class="agreement-list-subitem">• 移除应用内广告</view>
+    <view class="agreement-list-subitem">• 其他会员专属功能</view>
+    
+    <view class="agreement-list-item">2. 会员服务期限根据用户所购买的套餐而定，可以是月度、季度或年度等多种选择。</view>
+    
+    <view class="agreement-subtitle">二、会员费用与支付</view>
+    
+    <view class="agreement-list-item">1. 用户需支付相应费用获得会员服务，具体价格以购买页面显示为准。</view>
+    
+    <view class="agreement-list-item">2. 会员费用可通过微信支付等平台支付方式进行支付。</view>
+    
+    <view class="agreement-subtitle">三、优惠活动</view>
+    
+    <view class="agreement-list-item">1. 平台可能不定期开展促销活动，具体优惠信息以活动页面公示为准。</view>
+    
+    <view class="agreement-list-item">2. 优惠活动的最终解释权归平台所有。</view>
+    
+    <view class="agreement-subtitle">四、会员退订与退款</view>
+    
+    <view class="agreement-list-item">1. 会员服务一经开通，除法律法规明确规定外，不支持退款。</view>
+    
+    <view class="agreement-subtitle">五、用户行为规范</view>
+    
+    <view class="agreement-list-item">1. 用户不得利用会员身份从事任何违法或违反平台规则的活动。</view>
+    
+    <view class="agreement-list-item">2. 禁止分享、出租、转售会员账号，违者平台有权终止会员服务且不予退款。</view>
+    
+    <view class="agreement-subtitle">六、服务变更与终止</view>
+    
+    <view class="agreement-list-item">1. 平台有权根据运营需求调整会员服务内容和价格，调整前将通过公告或其他方式通知用户。</view>
+    
+    <view class="agreement-list-item">2. 如用户违反相关法律法规或本协议约定，平台有权终止提供会员服务。</view>
+    
+    <view class="agreement-subtitle">七、其他约定</view>
+    
+    <view class="agreement-list-item">1. 本协议的解释、效力及纠纷解决均适用中华人民共和国大陆地区法律。</view>
+    
+    <view class="agreement-list-item">2. 平台有权根据法律法规变化或运营需要修改本协议，修改后将通过公告或其他方式通知用户。</view>
+    
+    <view class="agreement-list-item">3. 如对本协议内容有任何疑问，可通过客服渠道联系我们。</view>
+  </view>
+  
+  <view class="agreement-footer">
+    <view class="agreement-footer-text">如有疑问，请联系客服</view>
+  </view>
 </view> 

@@ -1,5 +1,74 @@
 <custom-nav></custom-nav>
 <!--agreement/privacy.wxml-->
 <view class="privacy-container">
-  <rich-text nodes="{{privacyContent}}"></rich-text>
+  <view class="privacy-content">
+    <view class="privacy-title">小程序服务协议</view>
+    
+    <view class="privacy-paragraph">本协议是《会员服务协议》的补充协议，是其不可分割的组成部分。在使用昆明中考助手小程序服务前，请仔细阅读本协议，确保充分理解协议中各条款。</view>
+    
+    <view class="privacy-subtitle">一、服务说明</view>
+    
+    <view class="privacy-list-item">1. 昆明中考助手小程序（以下简称"本小程序"）是一款提供中考相关信息、数据查询和分析工具的微信小程序产品。</view>
+    
+    <view class="privacy-list-item">2. 本小程序属于自主开发运营的平台，受限于微信小程序平台规则和网络通信等因素，服务内容可能存在一定延迟或不稳定情况。</view>
+    
+    <view class="privacy-list-item">3. 用户应理解并接受，由于小程序受限于第三方平台规则，部分功能、界面或服务可能会因微信平台政策调整而变更或暂停。</view>
+    
+    <view class="privacy-subtitle">二、责任限制</view>
+    
+    <view class="privacy-list-item">1. 本小程序对所提供的信息和数据尽力保证准确性，但不对其完全准确性、及时性作出保证。用户应自行判断相关信息的可靠性。</view>
+    
+    <view class="privacy-list-item">2. 对于非软件本身原因造成的问题，包括但不限于：</view>
+    <view class="privacy-list-subitem">• 微信平台的功能限制或政策变更导致的问题</view>
+    <view class="privacy-list-subitem">• 网络通信故障导致的数据不完整或延迟</view>
+    <view class="privacy-list-subitem">• 用户设备兼容性问题</view>
+    <view class="privacy-list-subitem">• 不可抗力因素导致的服务中断</view>
+    <view class="privacy-paragraph">本小程序开发者概不负责，且不予退款。</view>
+    
+    <view class="privacy-list-item">3. 本小程序提供的数据和分析仅供参考，最终决策权在用户，开发者不对用户据此做出的决策承担责任。</view>
+    
+    <view class="privacy-subtitle">三、费用与退款</view>
+    
+    <view class="privacy-list-item">1. 本小程序提供的付费服务一经开通，除法律法规明确规定外，原则上不支持退款。</view>
+    
+    <view class="privacy-list-item">2. 因网络、设备等非小程序本身原因导致的使用问题，不构成退款理由。</view>
+    
+    <view class="privacy-list-item">3. 如确因软件设计缺陷导致功能完全无法使用，开发者将视情况提供服务补偿或退款。</view>
+    
+    <view class="privacy-subtitle">四、服务中断与维护</view>
+    
+    <view class="privacy-list-item">1. 开发者有权在必要时进行系统维护、升级等操作，可能造成服务暂时中断，会尽可能提前通知但不作保证。</view>
+    
+    <view class="privacy-list-item">2. 因不可抗力（包括但不限于自然灾害、政府行为、法律法规变更等）导致的服务中断，开发者不承担责任。</view>
+    
+    <view class="privacy-subtitle">五、知识产权保护</view>
+    
+    <view class="privacy-list-item">1. 本小程序的所有内容，包括但不限于文字、图片、音频、视频、程序等，均受知识产权法律法规保护。</view>
+    
+    <view class="privacy-list-item">2. 未经授权，用户不得对本小程序进行复制、修改、传播或用于商业用途。</view>
+    
+    <view class="privacy-subtitle">六、数据收集与使用</view>
+    
+    <view class="privacy-list-item">1. 在使用过程中，本小程序会收集必要的数据以提供服务，包括但不限于用户基本信息、使用记录等。</view>
+    
+    <view class="privacy-list-item">2. 开发者承诺合理使用这些数据，不会将数据用于与服务无关的目的，但有权利用汇总数据进行分析和服务优化。</view>
+    
+    <view class="privacy-subtitle">七、协议变更</view>
+    
+    <view class="privacy-list-item">1. 开发者有权随时修改本协议内容，修改后的协议将通过小程序内公告或其他适当方式通知用户。</view>
+    
+    <view class="privacy-list-item">2. 如用户不同意修改后的协议，应立即停止使用本小程序；继续使用则视为接受修改后的协议。</view>
+    
+    <view class="privacy-subtitle">八、其他条款</view>
+    
+    <view class="privacy-list-item">1. 本协议的订立、执行和解释及争议的解决均应适用中国法律。</view>
+    
+    <view class="privacy-list-item">2. 如双方就本协议内容或执行发生争议，应友好协商解决；协商不成时，任何一方均可向开发者所在地有管辖权的人民法院提起诉讼。</view>
+    
+    <view class="privacy-list-item">3. 如本协议中的任何条款无效或不可执行，不影响其余条款的有效性和可执行性。</view>
+  </view>
+  
+  <view class="privacy-footer">
+    <view class="privacy-footer-text">如有疑问，请联系客服</view>
+  </view>
 </view> 

@@ -45,4 +45,42 @@ page {
   color: #666;
   line-height: 1.6;
   margin: 6rpx 0 6rpx 60rpx;
+}
+
+/* 新增头部样式 */
+.agreement-header {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.agreement-header-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.agreement-header-desc {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 内容容器 */
+.agreement-content {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 底部样式 */
+.agreement-footer {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.agreement-footer-text {
+  font-size: 28rpx;
+  color: #999;
 } 

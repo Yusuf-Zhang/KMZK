@@ -38,4 +38,49 @@ page {
   color: #666;
   line-height: 1.8;
   margin: 10rpx 0 10rpx 20rpx;
+}
+
+.privacy-list-subitem {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin: 6rpx 0 6rpx 60rpx;
+}
+
+/* 新增头部样式 */
+.privacy-header {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.privacy-header-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.privacy-header-desc {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 内容容器 */
+.privacy-content {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 底部样式 */
+.privacy-footer {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.privacy-footer-text {
+  font-size: 28rpx;
+  color: #999;
 } 

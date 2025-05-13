@@ -5,7 +5,7 @@ page {
 }
 
 .pt-20 {
-  padding-top: 120px;
+  padding-top: 650px;
 }
 
 .membership-container {
@@ -15,6 +15,7 @@ page {
 /* 会员状态卡片 */
 .membership-status {
   margin-bottom: 30rpx;
+  margin-top: 150rpx;
 }
 
 .status-card {

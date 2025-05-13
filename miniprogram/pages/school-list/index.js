@@ -34,7 +34,9 @@ Page({
     // 会员提示模态框 (非会员使用)
     showVipTip: false,
     // 导航栏高度
-    navHeight: 90
+    navHeight: 90,
+    // 是否显示温馨提醒卡片
+    showReminderCard: true
   },
 
   onLoad: function (options) {
@@ -155,7 +157,12 @@ Page({
       return;
     }
     const keyword = e.detail.value;
-    this.setData({ searchKeyword: keyword });
+    // 当有搜索关键词时，隐藏提醒卡片
+    const showReminderCard = keyword === '';
+    this.setData({ 
+      searchKeyword: keyword,
+      showReminderCard: showReminderCard && this.isDefaultFilters()
+    });
     this.filterSchools();
   },
 
@@ -165,7 +172,11 @@ Page({
       this.showVipModal();
       return;
     }
-    this.setData({ searchKeyword: '' });
+    // 清除搜索后，如果筛选条件也是默认的，则显示提醒卡片
+    this.setData({ 
+      searchKeyword: '',
+      showReminderCard: this.isDefaultFilters()
+    });
     this.filterSchools();
   },
 
@@ -191,18 +202,28 @@ Page({
 
   // 确认筛选条件
   confirmFilters: function () {
+    const newFilters = {...this.data.tempFilters};
     this.setData({
-      selectedFilters: {...this.data.tempFilters},
-      showFilterPanel: false
+      selectedFilters: newFilters,
+      showFilterPanel: false,
+      // 如果筛选条件是默认的且没有搜索词，则显示提醒卡片
+      showReminderCard: this.isDefaultFilters(newFilters) && !this.data.searchKeyword
     });
     this.filterSchools();
   },
 
   // 重置筛选条件
   resetFilters: function () {
+    const defaultFilters = { type: '全部', level: '全部' };
     this.setData({
-      tempFilters: { type: '全部', level: '全部' }
+      tempFilters: defaultFilters
     });
+  },
+
+  // 检查是否为默认筛选条件
+  isDefaultFilters: function(filters) {
+    const filtersToCheck = filters || this.data.selectedFilters;
+    return filtersToCheck.type === '全部' && filtersToCheck.level === '全部';
   },
 
   // 筛选学校数据 (会员/非会员显示逻辑不同，但筛选本身可能一致)
@@ -229,6 +250,12 @@ Page({
     // 注意：非会员的列表截断或模糊效果在 WXML 中处理
     this.setData({ schools: filteredSchools });
     console.log('筛选结果：', filteredSchools.length, '所学校');
+    
+    // 检查是否为原始状态（无搜索词且筛选条件为默认）
+    const isOriginalState = !searchKeyword && this.isDefaultFilters();
+    if (this.data.showReminderCard !== isOriginalState) {
+      this.setData({ showReminderCard: isOriginalState });
+    }
   },
 
   // 跳转到学校详情页
