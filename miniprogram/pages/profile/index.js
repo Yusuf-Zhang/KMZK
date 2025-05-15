@@ -1,5 +1,7 @@
 Page({
   data: {
+    // 审核控制变量
+    ischeck: true,
     // 用户信息
     userInfo: {
       avatarUrl: '',
@@ -45,6 +47,12 @@ Page({
   },
 
   onLoad: function (options) {
+    // 设置审核状态
+    const app = getApp();
+    this.setData({
+      ischeck: app.globalData.ischeck
+    });
+    
     // 检查是否有登录成功的参数
     if (options.showProfile === 'true') {
       this.setData({
@@ -53,7 +61,6 @@ Page({
     }
 
     // 获取导航栏高度
-    const app = getApp();
     if (app.globalData && app.globalData.navBarHeight) {
       this.setData({
         navHeight: app.globalData.navBarHeight
@@ -627,6 +634,17 @@ Page({
   // 获取会员状态
   getMembershipStatus: function () {
     const app = getApp();
+    
+    // 在审核状态下（ischeck为true时），强制显示为会员版本
+    if (this.data.ischeck) {
+      this.setData({
+        membershipStatus: {
+          isMember: true,
+          expireDate: "2099年12月31日"
+        }
+      });
+      return;
+    }
     
     // 先检查全局状态
     if (app.globalData.membershipStatus) {

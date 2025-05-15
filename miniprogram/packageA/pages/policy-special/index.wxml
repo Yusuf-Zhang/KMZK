@@ -12,121 +12,133 @@
     </view>
     <view class="mt-3">
       <text class="text-white opacity-80 font-sm mb-1 block">特殊招生简介及信息</text>
-      <view class="text-xl font-bold text-white">昆明中考的这些特殊招生计划，你了解多少？</view>
+      <view class="text-xl font-bold text-white">这些计划你知道吗？～</view>
     </view>
   </view>
 
   <!-- 内容区域 -->
   <view class="content-area">
-    <!-- 标签页切换 -->
-    <view class="tabs-container">
-      <view 
-        wx:for="{{tabs}}" 
-        wx:key="id" 
-        class="tab-item {{currentTabIndex === index ? 'active' : ''}}"
-        bindtap="switchTab"
-        data-index="{{index}}">
-        {{item.name}}
+    <!-- 审核控制 -->
+    <view wx:if="{{ischeck==false}}">
+      <!-- 标签页切换 -->
+      <view class="tabs-container">
+        <view 
+          wx:for="{{tabs}}" 
+          wx:key="id" 
+          class="tab-item {{currentTabIndex === index ? 'active' : ''}}"
+          bindtap="switchTab"
+          data-index="{{index}}">
+          {{item.name}}
+        </view>
+      </view>
+
+      <!-- 民族班内容 -->
+      <view class="tab-content" hidden="{{currentTabIndex !== 0}}">
+        <block wx:if="{{minorityPolicy}}">
+          <!-- 特殊招生说明 -->
+          <view class="policy-intro card">
+            <view class="card-title">
+              <image src="../../images/icons/info.png" mode="aspectFit"></image>
+              <text>民族班简介</text>
+            </view>
+            <view class="card-desc">{{minorityPolicy.introduction}}</view>
+          </view>
+
+          <!-- 学校列表卡片 -->
+          <view class="policy-details card">
+            <view class="card-title">
+              <image src="../../images/icons/school.png" mode="aspectFit"></image>
+              <text>历年民族班招生学校及录取分数</text>
+            </view>
+            <view class="schools-list">
+              <view 
+                class="school-card" 
+                wx:for="{{minorityPolicy.schools}}" 
+                wx:key="name"
+                bindtap="viewSchoolDetail"
+                data-school="{{item}}">
+                <view class="school-header">
+                  <view class="school-name">{{item.name}}</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2024年</view>
+                  <view class="score-value">{{item.cutoffScores['2024']}}分</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2023年</view>
+                  <view class="score-value">{{item.cutoffScores['2023']}}分</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2022年</view>
+                  <view class="score-value">{{item.cutoffScores['2022']}}分</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 阿诗玛班内容 -->
+      <view class="tab-content" hidden="{{currentTabIndex !== 1}}">
+        <block wx:if="{{ashimaPolicy}}">
+          <!-- 特殊招生说明 -->
+          <view class="policy-intro card">
+            <view class="card-title">
+              <image src="../../images/icons/info.png" mode="aspectFit"></image>
+              <text>阿诗玛班简介</text>
+            </view>
+            <view class="card-desc">{{ashimaPolicy.introduction}}</view>
+          </view>
+
+          <!-- 学校列表卡片 -->
+          <view class="policy-details card">
+            <view class="card-title">
+              <image src="../../images/icons/school.png" mode="aspectFit"></image>
+              <text>历年阿诗玛班招生学校及录取分数</text>
+            </view>
+            <view class="schools-list">
+              <view 
+                class="school-card" 
+                wx:for="{{ashimaPolicy.schools}}" 
+                wx:key="name"
+                bindtap="viewSchoolDetail"
+                data-school="{{item}}">
+                <view class="school-header">
+                  <view class="school-name">{{item.name}}</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2024年</view>
+                  <view class="score-value ashima-color">{{item.cutoffScores['2024']}}分</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2023年</view>
+                  <view class="score-value ashima-color">{{item.cutoffScores['2023']}}分</view>
+                </view>
+                <view class="score-item">
+                  <view class="score-year">2022年</view>
+                  <view class="score-value ashima-color">{{item.cutoffScores['2022']}}分</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 体育特长内容 -->
+      <view class="tab-content" hidden="{{currentTabIndex !== 2}}">
+        <view class="empty-content">
+          <image src="../../images/icons/empty.png" mode="aspectFit"></image>
+          <view class="empty-text">该部分内容待补充</view>
+        </view>
       </view>
     </view>
-
-    <!-- 民族班内容 -->
-    <view class="tab-content" hidden="{{currentTabIndex !== 0}}">
-      <block wx:if="{{minorityPolicy}}">
-        <!-- 特殊招生说明 -->
-        <view class="policy-intro card">
-          <view class="card-title">
-            <image src="../../images/icons/info.png" mode="aspectFit"></image>
-            <text>民族班简介</text>
-          </view>
-          <view class="card-desc">{{minorityPolicy.introduction}}</view>
-        </view>
-
-        <!-- 学校列表卡片 -->
-        <view class="policy-details card">
-          <view class="card-title">
-            <image src="../../images/icons/school.png" mode="aspectFit"></image>
-            <text>历年民族班招生学校及录取分数</text>
-          </view>
-          <view class="schools-list">
-            <view 
-              class="school-card" 
-              wx:for="{{minorityPolicy.schools}}" 
-              wx:key="name"
-              bindtap="viewSchoolDetail"
-              data-school="{{item}}">
-              <view class="school-header">
-                <view class="school-name">{{item.name}}</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2024年</view>
-                <view class="score-value">{{item.cutoffScores['2024']}}分</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2023年</view>
-                <view class="score-value">{{item.cutoffScores['2023']}}分</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2022年</view>
-                <view class="score-value">{{item.cutoffScores['2022']}}分</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </block>
-    </view>
-
-    <!-- 阿诗玛班内容 -->
-    <view class="tab-content" hidden="{{currentTabIndex !== 1}}">
-      <block wx:if="{{ashimaPolicy}}">
-        <!-- 特殊招生说明 -->
-        <view class="policy-intro card">
-          <view class="card-title">
-            <image src="../../images/icons/info.png" mode="aspectFit"></image>
-            <text>阿诗玛班简介</text>
-          </view>
-          <view class="card-desc">{{ashimaPolicy.introduction}}</view>
-        </view>
-
-        <!-- 学校列表卡片 -->
-        <view class="policy-details card">
-          <view class="card-title">
-            <image src="../../images/icons/school.png" mode="aspectFit"></image>
-            <text>历年阿诗玛班招生学校及录取分数</text>
-          </view>
-          <view class="schools-list">
-            <view 
-              class="school-card" 
-              wx:for="{{ashimaPolicy.schools}}" 
-              wx:key="name"
-              bindtap="viewSchoolDetail"
-              data-school="{{item}}">
-              <view class="school-header">
-                <view class="school-name">{{item.name}}</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2024年</view>
-                <view class="score-value ashima-color">{{item.cutoffScores['2024']}}分</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2023年</view>
-                <view class="score-value ashima-color">{{item.cutoffScores['2023']}}分</view>
-              </view>
-              <view class="score-item">
-                <view class="score-year">2022年</view>
-                <view class="score-value ashima-color">{{item.cutoffScores['2022']}}分</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </block>
-    </view>
-
-    <!-- 体育特长内容 -->
-    <view class="tab-content" hidden="{{currentTabIndex !== 2}}">
+    
+    <!-- 审核内容 -->
+    <view wx:else class="audit-content">
       <view class="empty-content">
         <image src="../../images/icons/empty.png" mode="aspectFit"></image>
-        <view class="empty-text">该部分内容待补充</view>
+        <view class="empty-text">该功能暂未开放</view>
+        <view class="empty-desc">特殊招生功能将于后续开放，敬请期待</view>
       </view>
     </view>
   </view>

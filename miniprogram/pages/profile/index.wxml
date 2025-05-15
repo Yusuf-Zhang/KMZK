@@ -29,7 +29,7 @@
   </view>
 
   <!-- 会员卡片 -->
-  <view class="member-card" bindtap="{{!membershipStatus.isMember ? 'goToMembership' : ''}}" data-from="card">
+  <view class="member-card" wx:if="{{!ischeck}}" bindtap="{{!membershipStatus.isMember ? 'goToMembership' : ''}}" data-from="card">
     <view class="member-card-content">
       <view class="member-info">
         <!-- 非会员显示开通提示 -->

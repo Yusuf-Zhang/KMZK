@@ -7,8 +7,13 @@ const admissionScoreData = require('./data/admission-score.js');
 // 导入政策解读数据
 // const policyModule = require('./policy.js');
 
+// 获取应用实例
+const app = getApp();
+
 Page({
   data: {
+    // 审核控制变量
+    ischeck: true,
     // 会员状态
     isMember: false,
     // 轮播相关
@@ -85,9 +90,12 @@ Page({
   },
 
   onLoad: function (options) {
+    // 设置审核状态
+    this.setData({
+      ischeck: app.globalData.ischeck
+    });
     
     // 获取导航栏高度
-    const app = getApp();
     if (app.globalData && app.globalData.navBarHeight) {
       this.setData({
         navHeight: app.globalData.navBarHeight
@@ -114,8 +122,8 @@ Page({
   },
 
   onShow: function() {
-    const app = getApp();
-    const isMember = app.globalData.membershipStatus.isMember;
+    // 获取会员状态，但在审核期间（ischeck为true时），强制显示为会员版本
+    const isMember = this.data.ischeck ? true : app.globalData.membershipStatus.isMember;
     this.setData({ isMember });
 
     // 更新自定义tabBar的选中状态
@@ -126,12 +134,16 @@ Page({
   
   // --- 添加非会员所需的方法 ---
   showVipModal: function() {
+    // 在审核状态下不显示VIP提示
+    if (this.data.ischeck) return;
     this.setData({ showVipTipModal: true });
   },
 
   // hideModal 已存在，用于关闭所有模态框
 
   goToVip: function() {
+    // 在审核状态下不进行任何操作
+    if (this.data.ischeck) return;
     this.hideModal();
     wx.navigateTo({ url: '/packageB/pages/membership/index' });
   },
@@ -275,109 +287,75 @@ Page({
   
   // 单位查询输入处理
   inputUnitSearch: function(e) {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const text = e.detail.value;
+    const searchText = e.detail.value;
     this.setData({
-      unitSearchText: text,
-      unitSearched: false  // 重置查询状态
+      unitSearchText: searchText,
+      showSchoolsDropdown: searchText.length > 0
     });
     
-    // 清空搜索结果
-    if (!text) {
+    if (searchText.length > 0) {
+      // 根据输入匹配学校名称列表
+      this.fuzzySearchSchools(searchText);
+    } else {
       this.setData({
-        unitResults: [],
-        showSchoolsDropdown: false
-      });
-      return;
-    }
-    
-    // 实时过滤匹配的学校名称
-    this.filterSchools(text);
-  },
-  
-  // 输入框获取焦点
-  onUnitSearchFocus: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    if (this.data.unitSearchText) {
-      this.filterSchools(this.data.unitSearchText);
-    }
-  },
-  
-  // 过滤匹配学校名称
-  filterSchools: function(keyword) {
-    if (!keyword) {
-      this.setData({ 
-        showSchoolsDropdown: false,
         filteredSchools: []
       });
-      return;
     }
-
-    const filtered = this.allSchoolNames.filter(school => 
-      school.toLowerCase().includes(keyword.toLowerCase())
-    ).slice(0, 10); // 最多显示10个匹配结果
+  },
+  
+  // 模糊搜索学校名称
+  fuzzySearchSchools: function(keyword) {
+    if (!keyword) return;
+    
+    // 在审核状态或会员状态下，允许模糊搜索学校
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
+    
+    const maxResults = 10; // 限制结果数量，避免过长
+    const allSchools = this.data.allSchoolNames || [];
+    
+    // 进行模糊匹配
+    const filtered = allSchools.filter(name => 
+      name.includes(keyword)
+    ).slice(0, maxResults);
     
     this.setData({
-      filteredSchools: filtered,
-      showSchoolsDropdown: filtered.length > 0
+      filteredSchools: filtered
     });
   },
   
   // 从下拉框选择学校
   selectSchool: function(e) {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const school = e.currentTarget.dataset.school;
+    const schoolName = e.currentTarget.dataset.school;
+    
     this.setData({
-      unitSearchText: school,
+      unitSearchText: schoolName,
       showSchoolsDropdown: false
     });
-    // 移除自动搜索功能，用户需要点击查询按钮才会搜索
-    // this.searchUnitBySchool(school);
   },
   
-  // 根据学校查询所属单元
-  searchUnitBySchool: function(schoolName) {
-    let results = [];
-    
-    this.data.allUnits.forEach(unit => {
-      // 检查schools是否是数组
-      if (Array.isArray(unit.schools)) {
-        // 先尝试精确匹配
-        if (unit.schools.some(school => school === schoolName)) {
-          results.push({
-            name: unit.name,  // 单元名称，例如"第十三单元"
-            schools: unit.schools
-          });
-        } 
-        // 如果没有精确匹配，尝试部分匹配
-        else if (unit.schools.some(school => school.includes(schoolName) || schoolName.includes(school))) {
-          results.push({
-            name: unit.name,
-            schools: unit.schools,
-            isPartialMatch: true  // 标记为部分匹配
-          });
-        }
-      }
+  // 清空搜索
+  clearUnitSearch: function() {
+    this.setData({
+      unitSearchText: '',
+      unitResults: [],
+      showSchoolsDropdown: false,
+      unitSearched: false
     });
-    
-    // 如果有精确匹配，过滤掉部分匹配的结果
-    const exactMatches = results.filter(r => !r.isPartialMatch);
-    if (exactMatches.length > 0) {
-      results = exactMatches;
+  },
+  
+  // 用户点击搜索按钮，查询单位
+  searchUnit: function() {
+    // 在审核状态或会员状态下，允许查询单位
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
     }
     
-    console.log('查询结果:', results);
-    
-    this.setData({
-      unitResults: results
-    });
-  },
-  
-  // 搜索单位
-  searchUnit: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const text = this.data.unitSearchText;
-    if (!text) {
+    const searchText = this.data.unitSearchText;
+    if (!searchText) {
       wx.showToast({
         title: '请输入学校名称',
         icon: 'none'
@@ -385,11 +363,29 @@ Page({
       return;
     }
     
-    this.searchUnitBySchool(text);
-    this.setData({
-      showSchoolsDropdown: false,
-      unitSearched: true  // 标记用户已点击查询按钮
+    wx.showLoading({ title: '查询中' });
+    
+    // 在单元数据中查找包含该学校的单元
+    const allUnits = this.data.allUnits || [];
+    const results = allUnits.filter(unit => {
+      const schools = unit.schools || [];
+      return schools.some(school => school === searchText);
     });
+    
+    this.setData({
+      unitResults: results,
+      showSchoolsDropdown: false,
+      unitSearched: true
+    });
+    
+    wx.hideLoading();
+    
+    if (results.length === 0) {
+      wx.showToast({
+        title: '未找到相关单元',
+        icon: 'none'
+      });
+    }
   },
   
   // 显示帮助提示
@@ -408,75 +404,159 @@ Page({
   
   // 分数线查询输入处理
   inputScoreSearch: function(e) {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const text = e.detail.value;
+    const searchText = e.detail.value;
     this.setData({
-      scoreSearchText: text
+      scoreSearchText: searchText,
+      showScoreSchoolsDropdown: searchText.length > 0
     });
-    if (!text) {
+    
+    if (searchText.length > 0) {
+      // 根据输入匹配学校名称列表
+      this.fuzzySearchScoreSchools(searchText);
+    } else {
       this.setData({
-        showScoreSchoolsDropdown: false,
         filteredScoreSchools: []
       });
-      return;
-    }
-    this.filterScoreSchools(text);
-  },
-  
-  // 输入框获取焦点
-  onScoreSearchFocus: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    if (this.data.scoreSearchText) {
-      this.filterScoreSchools(this.data.scoreSearchText);
     }
   },
   
-  // 过滤匹配学校名称
-  filterScoreSchools: function(keyword) {
-    if (!keyword) {
-      this.setData({
-        showScoreSchoolsDropdown: false,
-        filteredScoreSchools: []
-      });
-      return;
+  // 模糊搜索分数查询学校名称
+  fuzzySearchScoreSchools: function(keyword) {
+    if (!keyword) return;
+    
+    // 在审核状态或会员状态下，允许模糊搜索学校
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
     }
-    const filtered = this.allScoreSchoolNames.filter(school =>
-      school.toLowerCase().includes(keyword.toLowerCase())
-    ).slice(0, 10);
+    
+    const maxResults = 10; // 限制结果数量，避免过长
+    const allSchools = this.data.allScoreSchoolNames || [];
+    
+    // 进行模糊匹配
+    const filtered = allSchools.filter(name => 
+      name.includes(keyword)
+    ).slice(0, maxResults);
+    
     this.setData({
-      filteredScoreSchools: filtered,
-      showScoreSchoolsDropdown: filtered.length > 0
+      filteredScoreSchools: filtered
     });
   },
   
   // 从下拉框选择学校
   selectScoreSchool: function(e) {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const school = e.currentTarget.dataset.school;
+    // 在审核状态或会员状态下，允许选择学校
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
+    
+    const schoolName = e.currentTarget.dataset.school;
+    
     this.setData({
-      scoreSearchText: school,
+      scoreSearchText: schoolName,
       showScoreSchoolsDropdown: false
     });
   },
   
-  // 单元选择下拉框事件
-  onUnitPickerChange: function(e) {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const idx = e.detail.value;
-    if (idx == 0) {
-      this.setData({
-        selectedScoreUnit: ''
+  // 清空分数搜索
+  clearScoreSearch: function() {
+    this.setData({
+      scoreSearchText: '',
+      scoreResults: [],
+      showScoreSchoolsDropdown: false
+    });
+  },
+  
+  // 用户点击搜索按钮，查询分数
+  searchScore: function() {
+    // 在审核状态或会员状态下，允许查询分数
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
+    
+    const searchText = this.data.scoreSearchText;
+    const unit = this.data.selectedScoreUnit;
+    
+    if (!searchText) {
+      wx.showToast({
+        title: '请输入学校名称',
+        icon: 'none'
       });
-    } else {
+      return;
+    }
+    
+    if (!unit) {
+      wx.showToast({
+        title: '请选择单元',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    wx.showLoading({ title: '查询中' });
+    
+    // 在分数数据中查找学校数据
+    try {
+      // 从本地数据获取录取分数数据
+      if (!admissionScoreData || !admissionScoreData.schools) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '分数数据加载失败',
+          icon: 'none'
+        });
+        return;
+      }
+      
+      // 从分数数据中查找匹配的学校
+      const schools = admissionScoreData.schools || [];
+      const results = schools.filter(school => 
+        school.学校名称.includes(searchText)
+      ).map(school => {
+        // 寻找所选单元的分数线数据
+        const unitData = school.单元 && school.单元[unit];
+        const score = unitData ? unitData : null;
+        
+        return {
+          name: school.学校名称,
+          level: school.学校等级 || '--',
+          score: score
+        };
+      });
+      
       this.setData({
-        selectedScoreUnit: this.data.unitOptionsWithReset[idx]
+        scoreResults: results,
+        showScoreSchoolsDropdown: false,
+        queriedScoreUnit: unit
+      });
+      
+      wx.hideLoading();
+      
+      if (results.length === 0) {
+        wx.showToast({
+          title: '未找到相关学校',
+          icon: 'none'
+        });
+      }
+    } catch (err) {
+      console.error('查询分数线失败:', err);
+      wx.hideLoading();
+      wx.showToast({
+        title: '查询失败，请重试',
+        icon: 'none'
       });
     }
   },
   
   // 显示所有单元
   showAllUnits: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
+    // 在审核状态或会员状态下，允许查看所有单元
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
+    
     this.setData({
       showUnitsModal: true
     });
@@ -498,27 +578,29 @@ Page({
   
   // 显示学校目录
   showSchoolDirectory: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
+    // 在审核状态或会员状态下，允许查看学校目录
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
+    
     this.setData({
       showSchoolsModal: true
     });
   },
   
   // 显示政策详情
-  /* showPolicyDetail: function() {
-    // 使用policy.js中的内容构建政策详情
-    let policyContent = policyModule.policyData.title + '\n\n';
-    
-    policyModule.policyData.sections.forEach(section => {
-      policyContent += section.title + '\n';
-      policyContent += section.content + '\n\n';
-    });
+  showPolicyDetail: function() {
+    // 在审核状态或会员状态下，允许查看政策详情
+    if (!this.data.isMember && !this.data.ischeck) { 
+      this.showVipModal(); 
+      return; 
+    }
     
     this.setData({
-      policyDetail: policyContent,
       showPolicyModal: true
     });
-  }, */
+  },
   
   // 隐藏所有模态框
   hideModal: function() {
@@ -599,47 +681,6 @@ Page({
     this.setData({
       showScoreSearchTip: false
     });
-  },
-  
-  // 查询分数线
-  searchScore: function() {
-    if (!this.data.isMember) { this.showVipModal(); return; }
-    const schoolName = this.data.scoreSearchText;
-    const unit = this.data.selectedScoreUnit;
-    if (!schoolName || !unit) {
-      wx.showToast({
-        title: '请输入学校名称并选择单元',
-        icon: 'none'
-      });
-      return;
-    }
-    this.setData({
-      queriedScoreUnit: unit
-    });
-    const results = this.getScoreResults(schoolName, unit);
-    this.setData({
-      scoreResults: results
-    });
-  },
-
-  // 获取分数线结果（根据学校和单元）
-  getScoreResults: function(schoolName, unit) {
-    const schools = this.data.allScoreSchools || [];
-    const result = [];
-    schools.forEach(school => {
-      if (
-        school.name.includes(schoolName) &&
-        school.scores &&
-        school.scores[unit] !== undefined // 检查分数是否存在
-      ) {
-        result.push({
-          name: school.name,
-          level: school.level,
-          score: school.scores[unit]
-        });
-      }
-    });
-    return result;
   },
   
   // 加载政策解读数据

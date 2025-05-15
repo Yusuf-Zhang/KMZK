@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <custom-nav></custom-nav>
-<view class="container-full {{isMember ? 'vip-page' : 'nonvip-page'}}">
+<view class="container-full {{(isMember || ischeck) ? 'vip-page' : 'nonvip-page'}}">
   <!-- 适应导航栏高度的顶部空间 -->
   <view style="height: {{navHeight}}px;"></view>
   <view class="flex flex-col h-full pb-16"> <!-- 底部留出导航栏高度 -->
@@ -56,9 +56,9 @@
               <view wx:else class="text-primary font-xs py-1 px-2 border border-primary rounded-lg" bindtap="setTargetSchoolButton">输入目标学校</view>
             </view>
           </view>
-          <view wx:if="{{targetSchool && targetSchoolScore}}" class="flex justify-between mb-3 {{!isMember ? 'relative' : ''}}">
+          <view wx:if="{{targetSchool && targetSchoolScore}}" class="flex justify-between mb-3 {{!isMember && !ischeck ? 'relative' : ''}}">
             <text class="font-sm text-secondary">目标分数</text>
-            <block wx:if="{{isMember}}">
+            <block wx:if="{{isMember || ischeck}}">
               <text class="text-primary font-medium">{{targetSchoolScore}}分</text>
             </block>
             <block wx:else>
@@ -69,7 +69,7 @@
             </block>
           </view>
           <!-- 分数差距只在会员显示 -->
-          <block wx:if="{{isMember}}">
+          <block wx:if="{{isMember || ischeck}}">
             <view wx:if="{{userScore && targetSchool && scoreDifference !== null && scoreDifference > 0}}" class="flex justify-center mt-2 mb-2">
               <text class="text-primary font-medium">距离目标院校还差 {{scoreDifference}} 分，加油哦～</text>
             </view>
@@ -81,16 +81,16 @@
         </view>
         
         <!-- 可匹配院校 -->
-        <view class="{{!isMember ? 'relative' : ''}}">
+        <view class="{{!isMember && !ischeck ? 'relative' : ''}}">
           <view class="flex justify-between items-center mb-2">
             <text class="font-medium">可匹配院校：</text>
-            <view class="text-primary font-sm text-right" bindtap="{{isMember ? 'gotoMatchedSchools' : 'showVipModal'}}">
-              <text>{{isMember ? '查看完整匹配院校清单' : '查看完整匹配院校清单'}}</text>
+            <view class="text-primary font-sm text-right" bindtap="{{(isMember || ischeck) ? 'gotoMatchedSchools' : 'showVipModal'}}">
+              <text>{{(isMember || ischeck) ? '查看完整匹配院校清单' : '查看完整匹配院校清单'}}</text>
             </view>
           </view>
           
           <!-- 会员状态下显示全部学校 -->
-          <block wx:if="{{isMember}}">
+          <block wx:if="{{isMember || ischeck}}">
             <view class="space-y-2">
               <view wx:for="{{matchedSchools}}" wx:key="rank" class="flex justify-between items-center p-2 bg-gray rounded-lg">
                 <view class="flex-1">
@@ -187,7 +187,7 @@
           <view class="absolute left-4 top-0 bottom-0 w-05 bg-gray"></view>
           
           <!-- 会员显示多条 -->
-          <block wx:if="{{isMember}}">
+          <block wx:if="{{isMember || ischeck}}">
             <view wx:for="{{upcomingTimeline}}" wx:key="originalTime" 
                   class="{{item.isActive ? 'time-line-item active bg-primary' : 'time-line-item relative flex items-center mb-4 rounded-lg p-3 pl-10 bg-gray'}}">
               <view class="absolute left-3 w-6 h-6 {{item.isActive ? 'bg-primary' : 'bg-white'}} rounded-full border-2 {{item.isActive ? 'border-blue-100' : 'border-gray'}} flex items-center justify-center">
@@ -331,7 +331,7 @@
   <view class="search-modal-content">
     <view class="search-modal-header">
       <text class="search-modal-title">开通会员提示</text>
-      <view class="search-modal-close" bindtap="closeVipModal">×</view>
+      <view class="search-modal-close" bindtap="hideVipModal">×</view>
     </view>
     <view class="vip-modal-content">
       <view class="vip-modal-icon">
@@ -345,7 +345,7 @@
     </view>
   </view>
 </view>
-<view class="search-mask {{showVipModal ? 'show' : ''}}" bindtap="closeVipModal"></view>
+<view class="search-mask {{showVipModal ? 'show' : ''}}" bindtap="hideVipModal"></view>
 
 <!-- 在文件最底部添加自定义TabBar组件引用 -->
 <custom-tab-bar id="custom-tab-bar"></custom-tab-bar>

@@ -1,6 +1,6 @@
 <custom-nav></custom-nav>
 <!--policy-direction/index.wxml-->
-<view class="container {{isMember ? 'vip-page' : 'nonvip-page'}}">
+<view class="container {{(isMember || ischeck) ? 'vip-page' : 'nonvip-page'}}">
   <!-- 适应导航栏高度的顶部空间 -->
   <view style="height: {{navHeight}}px;"></view>
   <!-- 页面标题 -->
@@ -69,14 +69,14 @@
         <text>定向单位查询</text>
         <view class="help-icon" bindtap="showUnitSearchHelp">?</view>
       </view>
-      <view class="view-all-btn" bindtap="{{isMember ? 'showAllUnits' : 'showVipModal'}}">查看全部单位</view>
+      <view class="view-all-btn" bindtap="{{(isMember || ischeck) ? 'showAllUnits' : 'showVipModal'}}">查看全部单位</view>
     </view>
     <view class="search-tip" wx:if="{{showUnitSearchTip}}">
       <text>输入就读学校，可以匹配学校属于的定向单元</text>
       <view class="close-tip" bindtap="hideUnitSearchTip">×</view>
     </view>
     <view class="search-box">
-      <block wx:if="{{isMember}}">
+      <block wx:if="{{isMember || ischeck}}">
         <input class="search-input" placeholder="输入就读初中名称" placeholder-class="input-placeholder" bindinput="inputUnitSearch" bindfocus="onUnitSearchFocus" value="{{unitSearchText}}"/>
         <view class="search-btn" bindtap="searchUnit">查询</view>
       </block>
@@ -86,7 +86,7 @@
       </block>
     </view>
     <!-- 学校名称模糊匹配下拉框 -->
-    <view class="schools-dropdown" wx:if="{{isMember && showSchoolsDropdown && filteredSchools.length > 0}}">
+    <view class="schools-dropdown" wx:if="{{(isMember || ischeck) && showSchoolsDropdown && filteredSchools.length > 0}}">
       <view class="school-dropdown-item" 
             wx:for="{{filteredSchools}}" 
             wx:key="*this" 
@@ -124,7 +124,7 @@
         <text>定向录取分数线查询</text>
         <view class="help-icon" bindtap="showScoreSearchHelp">?</view>
       </view>
-      <view class="view-all-btn" bindtap="{{isMember ? 'showSchoolDirectory' : 'showVipModal'}}">查看学校目录</view>
+      <view class="view-all-btn" bindtap="{{(isMember || ischeck) ? 'showSchoolDirectory' : 'showVipModal'}}">查看学校目录</view>
     </view>
     <view class="search-tip" wx:if="{{showScoreSearchTip}}">
       <text>输入想查询的学校及想关注的定向单元，即可查询</text>
@@ -134,7 +134,7 @@
       当前选择的单位：<text class="selected-unit">{{selectedUnit}}</text>
     </view>
     <view class="search-box">
-      <block wx:if="{{isMember}}">
+      <block wx:if="{{isMember || ischeck}}">
         <input class="search-input" placeholder="输入理想高中名称" bindinput="inputScoreSearch" bindfocus="onScoreSearchFocus" value="{{scoreSearchText}}"/>
         <picker class="unit-picker" mode="selector" range="{{unitOptionsWithReset}}" bindchange="onUnitPickerChange">
           <view class="picker-inner">{{selectedScoreUnit || '选择单元'}}</view>
@@ -150,7 +150,7 @@
       </block>
     </view>
     <!-- 学校名称模糊匹配下拉框 -->
-    <view class="schools-dropdown" wx:if="{{isMember && showScoreSchoolsDropdown && filteredScoreSchools.length > 0}}">
+    <view class="schools-dropdown" wx:if="{{(isMember || ischeck) && showScoreSchoolsDropdown && filteredScoreSchools.length > 0}}">
       <view class="school-dropdown-item"
             wx:for="{{filteredScoreSchools}}"
             wx:key="*this"
@@ -284,21 +284,25 @@
   </view>
   
   <!-- VIP提示模态框 -->
-  <view class="modal" wx:if="{{showVipTipModal}}">
-    <view class="modal-mask" bindtap="hideModal"></view>
-    <view class="modal-content vip-modal">
+  <view class="modal" wx:if="{{showVipTipModal && !ischeck}}">
+    <view class="modal-content">
       <view class="modal-header">
-        <view class="modal-title">会员提示</view>
+        <view class="modal-title">会员专享功能</view>
         <view class="modal-close" bindtap="hideModal">×</view>
       </view>
-      <view class="modal-body">
-        <view class="vip-tip-content">
-          <view class="vip-tip-text">开通会员可查看完整内容</view>
-          <button class="vip-button" bindtap="goToVip">立即开通</button>
+      <view class="vip-modal-inner">
+        <view class="vip-modal-icon">
+          <image src="/images/icons/vip.png" mode="aspectFit"></image>
         </view>
+        <view class="vip-modal-text">
+          <view class="vip-modal-heading">此功能为会员专享</view>
+          <view class="vip-modal-desc">开通会员后可使用全部功能</view>
+        </view>
+        <button class="vip-modal-btn" bindtap="goToVip">立即开通会员</button>
       </view>
     </view>
   </view>
+  <view class="modal-mask" wx:if="{{showVipTipModal && !ischeck}}" bindtap="hideModal"></view>
 </view>
 
 <!-- 在文件最底部添加自定义TabBar组件引用 -->

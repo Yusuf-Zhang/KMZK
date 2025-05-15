@@ -1,8 +1,13 @@
 // 引入本地数据而不是数据库服务
 const highSchoolsData = require('../../data/high-schools');
 
+// 获取应用实例
+const app = getApp();
+
 Page({
   data: {
+    // 审核控制变量
+    ischeck: true,
     // 会员状态
     isMember: false,
     // 原始数据
@@ -40,10 +45,14 @@ Page({
   },
 
   onLoad: function (options) {
+    // 设置审核状态
+    this.setData({
+      ischeck: app.globalData.ischeck
+    });
+    
     this.loadSchoolsData();
     
     // 获取导航栏高度
-    const app = getApp();
     if (app.globalData && app.globalData.navBarHeight) {
       this.setData({
         navHeight: app.globalData.navBarHeight
@@ -57,8 +66,8 @@ Page({
   },
 
   onShow: function() {
-    const app = getApp();
-    const isMember = app.globalData.membershipStatus.isMember;
+    // 获取会员状态，但在审核期间（ischeck为true时），强制显示为会员版本
+    const isMember = this.data.ischeck ? true : app.globalData.membershipStatus.isMember;
     this.setData({ isMember });
 
     // 更新自定义tabBar的选中状态
@@ -72,6 +81,8 @@ Page({
 
   // --- 添加非会员所需的方法 ---
   showVipModal: function() {
+    // 在审核状态下不显示VIP提示
+    if (this.data.ischeck) return;
     this.setData({ showVipTip: true });
   },
 
@@ -80,6 +91,8 @@ Page({
   },
 
   goToVip: function() {
+    // 在审核状态下不进行任何操作
+    if (this.data.ischeck) return;
     this.closeVipModal();
     wx.navigateTo({ url: '/packageB/pages/membership/index' });
   },
@@ -152,7 +165,8 @@ Page({
 
   // 处理搜索
   handleSearchInput: function (e) {
-    if (!this.data.isMember) {
+    // 在审核状态或会员状态下，直接允许搜索
+    if (!this.data.isMember && !this.data.ischeck) {
       this.showVipModal();
       return;
     }
@@ -168,7 +182,8 @@ Page({
 
   // 清除搜索
   clearSearch: function () {
-    if (!this.data.isMember) {
+    // 在审核状态或会员状态下，直接允许清除
+    if (!this.data.isMember && !this.data.ischeck) {
       this.showVipModal();
       return;
     }
@@ -182,7 +197,8 @@ Page({
 
   // 切换筛选面板
   toggleFilterPanel: function () {
-    if (!this.data.isMember) {
+    // 在审核状态或会员状态下，直接允许筛选
+    if (!this.data.isMember && !this.data.ischeck) {
       this.showVipModal();
       return;
     }
@@ -270,8 +286,8 @@ Page({
       return;
     }
     
-    // 非会员点击非第一项时提示
-    if (schoolIndex > 0 && !this.data.isMember) {
+    // 非会员点击非第一项时提示，但在审核状态下不显示提示
+    if (schoolIndex > 0 && !this.data.isMember && !this.data.ischeck) {
       this.showVipModal();
       return;
     }

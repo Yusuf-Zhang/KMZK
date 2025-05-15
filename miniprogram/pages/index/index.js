@@ -10,6 +10,8 @@ const highSchoolsData = require('../../data/high-schools');
 
 Page({
   data: {
+    // 审核控制变量
+    ischeck: true,
     // 会员状态
     isMember: false,
     // 梦想启航部分
@@ -57,6 +59,12 @@ Page({
   },
 
   onLoad: function () {
+    // 设置审核状态
+    const app = getApp();
+    this.setData({
+      ischeck: app.globalData.ischeck
+    });
+    
     // 预先读取昆明市高中数据
     // this.loadKmSchoolsFromFile();
     
@@ -71,7 +79,6 @@ Page({
     wx.removeStorageSync('kmSchoolsData');
     
     // 获取导航栏高度
-    const app = getApp();
     if (app.globalData && app.globalData.navBarHeight) {
       this.setData({
         navHeight: app.globalData.navBarHeight
@@ -89,7 +96,8 @@ Page({
   
   onShow: function() {
     const app = getApp();
-    const isMember = app.globalData.membershipStatus.isMember;
+    // 在审核状态下（ischeck为true时），强制显示为会员版本
+    const isMember = this.data.ischeck ? true : app.globalData.membershipStatus.isMember;
     this.setData({ isMember });
 
     // 更新自定义tabBar的选中状态
@@ -907,17 +915,21 @@ Page({
   
   // 显示会员提示模态框 (用于非会员点击限制功能)
   showVipModal: function() {
+    // 在审核状态下不显示VIP提示
+    if (this.data.ischeck) return;
     this.setData({ showVipModal: true });
   },
 
-  // 关闭会员提示模态框
-  closeVipModal: function() {
+  // 隐藏VIP模态框
+  hideVipModal: function() {
     this.setData({ showVipModal: false });
   },
   
-  // 跳转到会员购买页
+  // 跳转到VIP页面
   goToVip: function() {
-    this.closeVipModal(); // 先关闭模态框
+    // 在审核状态下不跳转
+    if (this.data.ischeck) return;
+    this.hideVipModal();
     wx.navigateTo({ url: '/packageB/pages/membership/index' });
   },
 });

@@ -1,6 +1,6 @@
 <custom-nav></custom-nav>
 <!--school-list/index.wxml-->
-<view class="container {{isMember ? 'vip-page' : 'nonvip-page'}}">
+<view class="container {{(isMember || ischeck) ? 'vip-page' : 'nonvip-page'}}">
   <!-- 适应导航栏高度的顶部空间 -->
   <view style="height: {{navHeight}}px;"></view>
   <!-- 添加渐变背景欢迎区域 -->
@@ -15,24 +15,24 @@
         <view class="search-input-wrapper">
           <input 
             class="search-input"
-            placeholder="{{isMember ? '搜索学校名称' : '开通会员可搜索学校名称'}}" 
+            placeholder="{{(isMember || ischeck) ? '搜索学校名称' : '开通会员可搜索学校名称'}}" 
             placeholder-style="color: #fff;"
             value="{{searchKeyword}}"
             bindinput="handleSearchInput"
-            disabled="{{!isMember}}"
+            disabled="{{!(isMember || ischeck)}}"
           />
           <view class="clear-icon" bindtap="clearSearch" wx:if="{{searchKeyword}}">×</view>
         </view>
       </view>
       <!-- 非会员点击筛选按钮时触发 VIP 提示 -->
-      <view class="filter-btn" bindtap="{{isMember ? 'toggleFilterPanel' : 'showVipModal'}}">
+      <view class="filter-btn" bindtap="{{(isMember || ischeck) ? 'toggleFilterPanel' : 'showVipModal'}}">
         <text>筛选</text>
       </view>
     </view>
   </view>
   
   <!-- 筛选面板 -->
-  <view class="filter-panel" wx:if="{{showFilterPanel && isMember}}">
+  <view class="filter-panel" wx:if="{{showFilterPanel && (isMember || ischeck)}}">
     <view class="filter-section">
       <view class="filter-title">学校性质</view>
       <view class="filter-options">
@@ -80,7 +80,7 @@
   <view class="school-list">
     <view class="school-list-container relative">
       <!-- 会员显示完整列表 -->
-      <block wx:if="{{isMember}}">
+      <block wx:if="{{isMember || ischeck}}">
         <view 
           class="school-item" 
           wx:for="{{schools}}" 
@@ -147,7 +147,7 @@
   <school-detail school="{{selectedSchool}}" visible="{{showSchoolDetail}}" bind:close="closeSchoolDetail"></school-detail>
   
   <!-- VIP提示模态框 (非会员使用，由 JS 控制 showVipTip) -->
-  <view class="search-modal {{showVipTip ? 'show' : ''}}">
+  <view class="search-modal {{showVipTip && !ischeck ? 'show' : ''}}">
     <view class="search-modal-content">
       <view class="search-modal-header">
         <view class="search-modal-title">会员专享功能</view>
@@ -164,7 +164,7 @@
       </view>
     </view>
   </view>
-  <view class="search-mask {{showVipTip ? 'show' : ''}}" bindtap="closeVipModal"></view>
+  <view class="search-mask {{showVipTip && !ischeck ? 'show' : ''}}" bindtap="closeVipModal"></view>
 </view>
 
 <!-- 在文件最底部添加自定义TabBar组件引用 -->

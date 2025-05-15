@@ -2,12 +2,17 @@
 import ashimaPolicy from './ashimaPolicy.js';
 import minorityPolicy from './minorityPolicy.js';
 
+// 获取应用实例
+const app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    // 添加审核控制变量
+    ischeck: true,
     // 当前选中的标签页索引
     currentTabIndex: 0,
     // 标签数据
@@ -30,6 +35,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    // 设置审核状态
+    this.setData({
+      ischeck: app.globalData.ischeck
+    });
+    
     // 加载政策数据
     this.loadPolicyData();
     

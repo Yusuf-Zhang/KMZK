@@ -2,6 +2,8 @@
 import { getAccessToken, setToken, removeToken } from './utils/auth';
 // 导入数据库初始化工具
 const dbInit = require('./utils/db-init');
+// 导入时间工具
+const util = require('./utils/util.js');
 
 App({
   onLaunch: function () {
@@ -15,8 +17,19 @@ App({
       membershipStatus: {
         isMember: false,
         expireDate: null
-      }
+      },
+      ischeck: true  // 添加审核控制变量
     };
+    
+    // 设置特殊功能开放时间
+    var checkTime = '2025/05/15 16:32:00'; // 预计审核通过后的时间
+    var currentTime = util.formatTime(new Date());
+    
+    // 判断当前时间是否小于设定时间，若小于则显示审核内容
+    this.globalData.ischeck = currentTime < checkTime ? true : false;
+    console.log("特殊功能状态(ischeck):", this.globalData.ischeck);
+    console.log("设定开放时间:", checkTime);
+    console.log("当前时间:", currentTime);
     
     // 初始化云开发环境
     this.initCloud();
