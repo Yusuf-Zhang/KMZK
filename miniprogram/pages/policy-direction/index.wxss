@@ -556,6 +556,7 @@
 }
 
 /* 政策解读和提示 */
+/* 暂时注释政策解读相关样式
 .policy-summary {
   background-color: #f8f9fa;
   border-radius: 8rpx;
@@ -581,6 +582,14 @@
   background-color: #3a86ff;
   border-radius: 50%;
 }
+
+.policy-detail {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #555;
+  white-space: pre-wrap;
+}
+*/
 
 .tips-list {
   background-color: #f8f9fa;
@@ -715,14 +724,6 @@
   background-color: #f0f7ff;
   padding: 4rpx 12rpx;
   border-radius: 6rpx;
-}
-
-/* 政策详情 */
-.policy-detail {
-  font-size: 28rpx;
-  line-height: 1.6;
-  color: #555;
-  white-space: pre-wrap;
 }
 
 /* 响应式设计 */

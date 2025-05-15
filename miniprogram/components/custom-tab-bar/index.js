@@ -20,7 +20,7 @@ Component({
       },
       {
         pagePath: "/pages/policy-direction/index",
-        text: "定向政策",
+        text: "定向生咨询",
         iconPath: "/images/tabbar/policy.png",
         selectedIconPath: "/images/tabbar/policy-avctive.png"
       },

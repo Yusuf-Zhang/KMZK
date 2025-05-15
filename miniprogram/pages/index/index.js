@@ -38,8 +38,8 @@ Page({
     // 快捷入口部分
     quickLinks: [
       { id: 1, name: '高中信息', icon: '../../images/icons/1.png', url: '/pages/school-list/index', isTab: true },
-      { id: 2, name: '定向政策', icon: '../../images/icons/2.png', url: '/pages/policy-direction/index', isTab: true },
-      { id: 3, name: '特殊政策', icon: '../../images/icons/3.png', url: '/packageA/pages/policy-special/index', isTab: false },
+      { id: 2, name: '定向生咨询', icon: '../../images/icons/2.png', url: '/pages/policy-direction/index', isTab: true },
+      { id: 3, name: '特殊招生', icon: '../../images/icons/3.png', url: '/packageA/pages/policy-special/index', isTab: false },
       { id: 4, name: '分数计算器', icon: '../../images/icons/4.png', url: '/packageA/pages/score-calculator/index', isTab: false }
     ],
 
@@ -152,11 +152,11 @@ Page({
           link.url = isMember ? '/pages/school-list/index' : '/pages/school-list/index'; // 都指向合并后的页面
           link.isTab = true; // 都是Tab页
           break;
-        case 2: // 定向政策
+        case 2: // 定向生咨询
           link.url = isMember ? '/pages/policy-direction/index' : '/pages/policy-direction/index'; // 都指向合并后的页面
           link.isTab = true; // 都是Tab页
           break;
-        case 3: // 特殊政策
+        case 3: // 特殊招生
           link.url = '/packageA/pages/policy-special/index';
           link.isTab = false;
           break;

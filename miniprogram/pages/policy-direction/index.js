@@ -5,7 +5,7 @@
 const directionSchoolList = require('./data/direction school-list.js');
 const admissionScoreData = require('./data/admission-score.js');
 // 导入政策解读数据
-const policyModule = require('./policy.js');
+// const policyModule = require('./policy.js');
 
 Page({
   data: {
@@ -77,9 +77,9 @@ Page({
     filteredScoreSchools: [],
     queriedScoreUnit: '',
     // 政策解读数据
-    policyData: {},
+    // policyData: {},
     // 保存展开的政策部分ID
-    openSections: {},
+    // openSections: {},
     // 导航栏高度
     navHeight: 90
   },
@@ -104,13 +104,13 @@ Page({
     // 加载所有学校数据
     this.loadAllSchools();
     // 加载政策详情
-    this.loadPolicyDetail();
+    // this.loadPolicyDetail();
     // 从数据中提取所有学校名称作为模糊匹配数据源
     this.initAllSchoolNames();
     this.loadAllScoreSchools();
     this.initAllScoreSchoolNames();
     // 加载政策解读数据
-    this.loadPolicyData();
+    // this.loadPolicyData();
   },
 
   onShow: function() {
@@ -505,7 +505,7 @@ Page({
   },
   
   // 显示政策详情
-  showPolicyDetail: function() {
+  /* showPolicyDetail: function() {
     // 使用policy.js中的内容构建政策详情
     let policyContent = policyModule.policyData.title + '\n\n';
     
@@ -518,7 +518,7 @@ Page({
       policyDetail: policyContent,
       showPolicyModal: true
     });
-  },
+  }, */
   
   // 隐藏所有模态框
   hideModal: function() {
@@ -643,17 +643,14 @@ Page({
   },
   
   // 加载政策解读数据
-  loadPolicyData: function() {
+  /* loadPolicyData: function() {
     // 从policy.js获取政策解读数据
     if (policyModule && policyModule.policyData) {
-    this.setData({
-      policyData: policyModule.policyData
-    });
-      console.log('已加载政策解读数据');
-    } else {
-      console.error('未能加载政策解读数据');
+      this.setData({
+        policyData: policyModule.policyData
+      });
     }
-  },
+  }, */
   
   // 点击政策标题展开或折叠内容
   togglePolicySection: function(e) {

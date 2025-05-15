@@ -7,8 +7,7 @@
   <view class="header-gradient p-3 pt-2 pb-8 rounded-b-3xl">
     <view class="flex items-center justify-between mb-4">
       <view class="flex items-center">
-        <image class="icon-img mr-2" src="/images/icons/direction.png" mode="aspectFit"></image>
-        <text class="text-lg font-bold text-white">定向生政策解读</text>
+        <text class="text-lg font-bold text-white">定向生咨询</text>
       </view>
     </view>
     
@@ -184,7 +183,7 @@
   </view>
   
   <!-- 政策解读 -->
-  <view class="card">
+  <!-- <view class="card">
     <view class="card-header">
       <view class="card-title">政策解读</view>
       <view class="view-details-btn" bindtap="showPolicyDetail">查看详情</view>
@@ -200,7 +199,7 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
   
   <!-- 单位列表模态框 -->
   <view class="modal" wx:if="{{showUnitsModal}}">

@@ -8,11 +8,11 @@
         <view class="back-icon"></view>
         <text class="back-text">返回</text>
       </view>
-      <text class="text-lg font-bold text-white ml-3">特殊政策</text>
+      <text class="text-lg font-bold text-white ml-3">特殊招生</text>
     </view>
     <view class="mt-3">
-      <text class="text-white opacity-80 font-sm mb-1 block">政策说明</text>
-      <view class="text-xl font-bold text-white">昆明中考的这些特殊政策，你了解多少？</view>
+      <text class="text-white opacity-80 font-sm mb-1 block">特殊招生简介及信息</text>
+      <view class="text-xl font-bold text-white">昆明中考的这些特殊招生计划，你了解多少？</view>
     </view>
   </view>
 
@@ -33,11 +33,11 @@
     <!-- 民族班内容 -->
     <view class="tab-content" hidden="{{currentTabIndex !== 0}}">
       <block wx:if="{{minorityPolicy}}">
-        <!-- 政策说明 -->
+        <!-- 特殊招生说明 -->
         <view class="policy-intro card">
           <view class="card-title">
             <image src="../../images/icons/info.png" mode="aspectFit"></image>
-            <text>政策说明</text>
+            <text>民族班简介</text>
           </view>
           <view class="card-desc">{{minorityPolicy.introduction}}</view>
         </view>
@@ -73,31 +73,17 @@
             </view>
           </view>
         </view>
-
-        <!-- 政策详情 -->
-        <view class="policy-details card">
-          <view class="card-title">
-            <image src="../../images/icons/file.png" mode="aspectFit"></image>
-            <text>政策详情</text>
-          </view>
-          <view class="details-list">
-            <view class="detail-item">1. 申请条件：学生本人必须具有少数民族身份，与户口本上登记一致。</view>
-            <view class="detail-item">2. 降分幅度：一般比普通录取线降低20-30分。</view>
-            <view class="detail-item">3. 申请材料：需提供民族身份证明、户口本复印件等材料。</view>
-            <view class="detail-item">4. 申请时间：与普通中考志愿填报同期进行。</view>
-          </view>
-        </view>
       </block>
     </view>
 
     <!-- 阿诗玛班内容 -->
     <view class="tab-content" hidden="{{currentTabIndex !== 1}}">
       <block wx:if="{{ashimaPolicy}}">
-        <!-- 政策说明 -->
+        <!-- 特殊招生说明 -->
         <view class="policy-intro card">
           <view class="card-title">
             <image src="../../images/icons/info.png" mode="aspectFit"></image>
-            <text>政策说明</text>
+            <text>阿诗玛班简介</text>
           </view>
           <view class="card-desc">{{ashimaPolicy.introduction}}</view>
         </view>
@@ -131,20 +117,6 @@
                 <view class="score-value ashima-color">{{item.cutoffScores['2022']}}分</view>
               </view>
             </view>
-          </view>
-        </view>
-
-        <!-- 政策详情 -->
-        <view class="policy-details card">
-          <view class="card-title">
-            <image src="../../images/icons/file.png" mode="aspectFit"></image>
-            <text>政策详情</text>
-          </view>
-          <view class="details-list">
-            <view class="detail-item">1. 申请条件：{{ashimaPolicy.requirements.ethnic}}</view>
-            <view class="detail-item">2. 降分幅度：比普通录取线降低40-50分。</view>
-            <view class="detail-item">3. 就学要求：学生必须在山区县初中完成全部初中学业。</view>
-            <view class="detail-item">4. 优惠政策：可享受学费减免和住宿保障等政策。</view>
           </view>
         </view>
       </block>
