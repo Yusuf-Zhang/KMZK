@@ -24,7 +24,7 @@ const highSchoolsData = {
     },
     {
       "rank": 2,
-      "schoolName": "昆明市第一中学",
+      "schoolName": "昆明市第一中学（昆一中）",
       "type": "公办",
       "level": "一级一等",
       "score": 674,
@@ -66,7 +66,7 @@ const highSchoolsData = {
     },
     {
       "rank": 4,
-      "schoolName": "昆明市第三中学",
+      "schoolName": "昆明市第三中学（昆三中）",
       "type": "公办",
       "level": "一级一等",
       "score": 668,
@@ -87,7 +87,7 @@ const highSchoolsData = {
     },
     {
       "rank": 5,
-      "schoolName": "昆明市第八中学",
+      "schoolName": "昆明市第八中学（昆八中）",
       "type": "公办",
       "level": "一级一等",
       "score": 668,
@@ -213,7 +213,7 @@ const highSchoolsData = {
     },
     {
       "rank": 11,
-      "schoolName": "昆明市第十四中学",
+      "schoolName": "昆明市第十四中学（昆十四中）",
       "type": "公办",
       "level": "一级一等",
       "score": 658,
@@ -633,7 +633,7 @@ const highSchoolsData = {
     },
     {
       "rank": 31,
-      "schoolName": "昆明市第二十四中学",
+      "schoolName": "昆明市第二十四中学（昆二十四中）",
       "type": "公办",
       "level": "一级三等",
       "score": 628,
@@ -864,7 +864,7 @@ const highSchoolsData = {
     },
     {
       "rank": 42,
-      "schoolName": "昆明市第九中学",
+      "schoolName": "昆明市第九中学（昆九中）",
       "type": "公办",
       "level": "二级完中",
       "score": 607,
@@ -927,7 +927,7 @@ const highSchoolsData = {
     },
     {
       "rank": 45,
-      "schoolName": "昆明市第十六中学",
+      "schoolName": "昆明市第十六中学（昆十六中）",
       "type": "公办",
       "level": "二级完中",
       "score": 601,
@@ -948,7 +948,7 @@ const highSchoolsData = {
     },
     {
       "rank": 46,
-      "schoolName": "昆明市第五中学",
+      "schoolName": "昆明市第五中学（昆五中）",
       "type": "公办",
       "level": "二级完中",
       "score": 599,
@@ -969,7 +969,7 @@ const highSchoolsData = {
     },
     {
       "rank": 47,
-      "schoolName": "昆明市第十七中学",
+      "schoolName": "昆明市第十七中学（昆十七中）",
       "type": "公办",
       "level": "二级完中",
       "score": 598,
@@ -990,7 +990,7 @@ const highSchoolsData = {
     },
     {
       "rank": 48,
-      "schoolName": "昆明市第三十一中学",
+      "schoolName": "昆明市第三十一中学（昆三十一中）",
       "type": "公办",
       "level": "二级完中",
       "score": 597,
@@ -1011,7 +1011,7 @@ const highSchoolsData = {
     },
     {
       "rank": 49,
-      "schoolName": "昆明市第三十中学",
+      "schoolName": "昆明市第三十中学（昆三十中）",
       "type": "公办",
       "level": "二级完中",
       "score": 595,

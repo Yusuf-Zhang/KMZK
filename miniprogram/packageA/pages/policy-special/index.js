@@ -13,6 +13,8 @@ Page({
   data: {
     // 添加审核控制变量
     ischeck: true,
+    // 会员状态
+    isMember: false,
     // 当前选中的标签页索引
     currentTabIndex: 0,
     // 标签数据
@@ -133,6 +135,15 @@ Page({
   },
 
   /**
+   * 前往VIP购买页面
+   */
+  goToVip() {
+    wx.navigateTo({
+      url: '/pages/vip/index'
+    });
+  },
+
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
@@ -143,7 +154,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    // 页面显示
+    // 获取会员状态，但在审核期间（ischeck为true时），强制显示为会员版本
+    const isMember = this.data.ischeck ? true : app.globalData.membershipStatus.isMember;
+    this.setData({ isMember });
   },
 
   /**

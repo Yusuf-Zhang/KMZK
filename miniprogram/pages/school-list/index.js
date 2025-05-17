@@ -272,6 +272,25 @@ Page({
     if (this.data.showReminderCard !== isOriginalState) {
       this.setData({ showReminderCard: isOriginalState });
     }
+    
+    // 确保在筛选后滚动到列表顶部
+    wx.nextTick(() => {
+      const query = wx.createSelectorQuery();
+      query.select('.school-list-container').boundingClientRect();
+      query.exec(res => {
+        if (res && res[0]) {
+          // 在视图更新后滚动容器内容到顶部
+          wx.createSelectorQuery()
+            .select('.school-list-container')
+            .node()
+            .exec(res => {
+              if (res && res[0] && res[0].node) {
+                res[0].node.scrollTop = 0;
+              }
+            });
+        }
+      });
+    });
   },
 
   // 跳转到学校详情页

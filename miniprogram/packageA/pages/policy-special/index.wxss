@@ -186,6 +186,7 @@ page {
   display: flex;
   flex-direction: column;
   gap: 20rpx;
+  position: relative;
 }
 
 .school-card {
@@ -194,6 +195,64 @@ page {
   padding: 20rpx;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 模糊项样式 */
+.school-card.blurred-item {
+  filter: blur(4px);
+  opacity: 0.7;
+  pointer-events: none; /* 防止点击模糊项 */
+}
+
+/* VIP 遮罩层 */
+.vip-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+  text-align: center;
+  z-index: 5;
+  border-radius: 0 0 12rpx 12rpx; /* 匹配列表容器圆角 */
+}
+
+.partial-mask {
+  top: 180rpx; /* 根据实际第一个项目的高度调整 */
+}
+
+.vip-mask-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 30rpx;
+  text-align: center;
+}
+
+.vip-mask-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.vip-btn {
+  background: linear-gradient(to right, #fca54a, #ff7b4a);
+  color: #ffffff;
+  border: none;
+  border-radius: 40rpx;
+  padding: 16rpx 50rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  box-shadow: 0 4rpx 8rpx rgba(255, 153, 0, 0.3);
+}
+
+.relative {
+  position: relative;
 }
 
 .school-header {

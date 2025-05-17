@@ -153,14 +153,9 @@
         <view class="search-modal-title">会员专享功能</view>
         <view class="search-modal-close" bindtap="closeVipModal">×</view>
       </view>
-      <view class="vip-modal-content">
-        <view class="vip-modal-icon">
-        </view>
-        <view class="vip-modal-text">
-          <text class="vip-modal-title">此功能为会员专享</text>
-          <text class="vip-modal-desc">开通会员后可体验完整功能</text>
-        </view>
-        <button class="vip-btn-large" bindtap="goToVip">立即开通会员</button>
+      <view class="vip-mask-content">
+        <text class="vip-mask-text">开通会员可查看完整内容</text>
+        <button class="vip-btn" bindtap="goToVip">立即开通</button>
       </view>
     </view>
   </view>

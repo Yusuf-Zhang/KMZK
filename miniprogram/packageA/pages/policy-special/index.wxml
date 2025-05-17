@@ -50,29 +50,64 @@
               <image src="../../images/icons/school.png" mode="aspectFit"></image>
               <text>历年民族班招生学校及录取分数</text>
             </view>
-            <view class="schools-list">
-              <view 
-                class="school-card" 
-                wx:for="{{minorityPolicy.schools}}" 
-                wx:key="name"
-                bindtap="viewSchoolDetail"
-                data-school="{{item}}">
-                <view class="school-header">
-                  <view class="school-name">{{item.name}}</view>
+            <view class="schools-list relative">
+              <!-- 会员显示完整列表 -->
+              <block wx:if="{{isMember || ischeck}}">
+                <view 
+                  class="school-card" 
+                  wx:for="{{minorityPolicy.schools}}" 
+                  wx:key="name"
+                  bindtap="viewSchoolDetail"
+                  data-school="{{item}}">
+                  <view class="school-header">
+                    <view class="school-name">{{item.name}}</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2024年</view>
+                    <view class="score-value">{{item.cutoffScores['2024']}}分</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2023年</view>
+                    <view class="score-value">{{item.cutoffScores['2023']}}分</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2022年</view>
+                    <view class="score-value">{{item.cutoffScores['2022']}}分</view>
+                  </view>
                 </view>
-                <view class="score-item">
-                  <view class="score-year">2024年</view>
-                  <view class="score-value">{{item.cutoffScores['2024']}}分</view>
+              </block>
+              <!-- 非会员只显示第一所学校 -->
+              <block wx:else>
+                <view 
+                  class="school-card {{index > 0 ? 'blurred-item' : ''}}" 
+                  wx:for="{{minorityPolicy.schools}}" 
+                  wx:key="name"
+                  bindtap="viewSchoolDetail"
+                  data-school="{{item}}">
+                  <view class="school-header">
+                    <view class="school-name">{{item.name}}</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2024年</view>
+                    <view class="score-value">{{item.cutoffScores['2024']}}分</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2023年</view>
+                    <view class="score-value">{{item.cutoffScores['2023']}}分</view>
+                  </view>
+                  <view class="score-item">
+                    <view class="score-year">2022年</view>
+                    <view class="score-value">{{item.cutoffScores['2022']}}分</view>
+                  </view>
                 </view>
-                <view class="score-item">
-                  <view class="score-year">2023年</view>
-                  <view class="score-value">{{item.cutoffScores['2023']}}分</view>
+                <!-- 非会员遮盖层 -->
+                <view class="vip-mask partial-mask" wx:if="{{minorityPolicy.schools.length > 1}}" bindtap="goToVip">
+                  <view class="vip-mask-content">
+                    <text class="vip-mask-text">开通会员可查看完整内容</text>
+                    <button class="vip-btn">立即开通</button>
+                  </view>
                 </view>
-                <view class="score-item">
-                  <view class="score-year">2022年</view>
-                  <view class="score-value">{{item.cutoffScores['2022']}}分</view>
-                </view>
-              </view>
+              </block>
             </view>
           </view>
         </block>

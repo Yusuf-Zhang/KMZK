@@ -22,7 +22,7 @@ App({
     };
     
     // 设置特殊功能开放时间
-    var checkTime = '2025/05/15 16:32:00'; // 预计审核通过后的时间
+    var checkTime = '2025/05/17 23:00:00'; // 预计审核通过后的时间
     var currentTime = util.formatTime(new Date());
     
     // 判断当前时间是否小于设定时间，若小于则显示审核内容

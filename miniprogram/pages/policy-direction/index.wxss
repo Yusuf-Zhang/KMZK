@@ -1,10 +1,29 @@
 /* policy-direction/index.wxss */
 
+/* 滚动视图样式 */
+.page-scroll-view {
+  height: 100vh; /* 使用完整的视口高度 */
+  width: 100%;
+  position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
+}
+
+/* 底部空间，确保内容完全可见 */
+.bottom-space {
+  height: 150rpx; /* 减少底部空间高度，避免过度空白 */
+  width: 100%;
+  padding-bottom: 30rpx;
+}
+
 /* 页面容器 */
 .container {
   padding: 0;
   background-color: #f8f9fa;
   min-height: 100vh;
+  overflow: visible;
+  padding-bottom: 50rpx;
+  box-sizing: border-box;
 }
 
 /* 定向生解释轮播样式 */
@@ -262,15 +281,16 @@
 /* 学校下拉匹配框 */
 .schools-dropdown {
   position: absolute;
-  z-index: 100;
+  z-index: 1000; /* 增加z-index确保在最上层 */
   left: 30rpx;
   right: 170rpx;
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 8rpx;
   box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
-  max-height: 400rpx;
+  max-height: 400rpx; /* 增加最大高度，使下拉框可以容纳更多内容 */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .school-dropdown-item {
@@ -293,6 +313,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 10rpx;
+  max-height: 60vh; /* 限制最大高度 */
+  overflow-y: auto; /* 添加滚动功能 */
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .unit-school-item {
@@ -436,6 +459,9 @@
   background-color: #f8f9fa;
   border-radius: 8rpx;
   padding: 20rpx;
+  max-height: 60vh; /* 限制最大高度 */
+  overflow-y: auto; /* 启用垂直滚动 */
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .result-title {
@@ -477,6 +503,10 @@
 .schools-list {
   display: flex;
   flex-wrap: wrap;
+  max-height: 300rpx; /* 限制最大高度 */
+  overflow-y: auto; /* 添加滚动功能 */
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
+  margin-bottom: 10rpx;
 }
 
 .school-item {
@@ -504,6 +534,9 @@
 
 .score-results {
   margin-top: 16rpx;
+  max-height: 50vh; /* 限制最大高度 */
+  overflow-y: auto; /* 添加滚动功能 */
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .score-item {
@@ -553,6 +586,12 @@
 .score-not-reached {
   font-size: 26rpx;
   color: #ff6b6b;
+}
+
+.score-unavailable {
+  font-size: 26rpx;
+  color: #999;
+  font-style: italic;
 }
 
 /* 政策解读和提示 */
@@ -672,6 +711,8 @@
   padding: 30rpx;
   flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
+  max-height: 70vh; /* 限制最大高度 */
 }
 
 /* 单元列表 */
@@ -679,6 +720,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
+  max-height: 60vh; /* 限制最大高度 */
+  overflow-y: auto; /* 添加滚动功能 */
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .unit-list-item {
@@ -700,8 +744,9 @@
 
 /* 学校目录 */
 .schools-directory {
-  max-height: 60vh;
+  max-height: 50vh; /* 减小最大高度 */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* 添加顺滑滚动效果 */
 }
 
 .school-directory-item {
@@ -894,6 +939,34 @@
   /* 可以添加特定样式，如果需要区分 */
 }
 
+/* 首页风格的VIP遮罩样式 */
+.vip-mask-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 30rpx;
+  text-align: center;
+}
+
+.vip-mask-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.vip-btn {
+  background: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #ffffff;
+  border: none;
+  border-radius: 40rpx;
+  padding: 16rpx 50rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  box-shadow: 0 8rpx 16rpx rgba(71, 118, 230, 0.2);
+}
+
 .vip-tip-content {
   display: flex;
   flex-direction: column;
@@ -973,4 +1046,29 @@
   color: #888;
   border-top: 1px dashed #eee;
   padding-top: 12rpx;
+}
+
+/* 分数线查询结果下方的温馨提醒区域 */
+.score-reminder {
+  margin-top: 20rpx;
+  background-color: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.score-reminder .reminder-title {
+  font-size: 28rpx;
+  color: #3a86ff;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.score-reminder .reminder-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.score-reminder .reminder-item {
+  margin-bottom: 8rpx;
 } 

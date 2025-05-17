@@ -297,8 +297,12 @@ Page({
       // 根据输入匹配学校名称列表
       this.fuzzySearchSchools(searchText);
     } else {
+      // 清空搜索结果和重置搜索状态
       this.setData({
-        filteredSchools: []
+        filteredSchools: [],
+        unitResults: [],
+        unitSearched: false,
+        showSchoolsDropdown: false
       });
     }
   },
@@ -314,7 +318,7 @@ Page({
     }
     
     const maxResults = 10; // 限制结果数量，避免过长
-    const allSchools = this.data.allSchoolNames || [];
+    const allSchools = this.allSchoolNames || [];
     
     // 进行模糊匹配
     const filtered = allSchools.filter(name => 
@@ -385,6 +389,11 @@ Page({
         title: '未找到相关单元',
         icon: 'none'
       });
+    } else {
+      // 延迟滚动到结果区域，确保结果先渲染
+      setTimeout(() => {
+        this.scrollToResult('.search-result');
+      }, 300);
     }
   },
   
@@ -414,8 +423,11 @@ Page({
       // 根据输入匹配学校名称列表
       this.fuzzySearchScoreSchools(searchText);
     } else {
+      // 清空搜索结果
       this.setData({
-        filteredScoreSchools: []
+        filteredScoreSchools: [],
+        scoreResults: [],
+        showScoreSchoolsDropdown: false
       });
     }
   },
@@ -431,7 +443,7 @@ Page({
     }
     
     const maxResults = 10; // 限制结果数量，避免过长
-    const allSchools = this.data.allScoreSchoolNames || [];
+    const allSchools = this.allScoreSchoolNames || [];
     
     // 进行模糊匹配
     const filtered = allSchools.filter(name => 
@@ -515,14 +527,43 @@ Page({
         school.学校名称.includes(searchText)
       ).map(school => {
         // 寻找所选单元的分数线数据
-        const unitData = school.单元 && school.单元[unit];
-        const score = unitData ? unitData : null;
+        const scoreData = school.定向择优录取分数 && school.定向择优录取分数[unit];
+        
+        // 处理不同类型的分数数据
+        let scoreDisplay;
+        if (scoreData === "未达线") {
+          scoreDisplay = "未达线";
+        } else if (scoreData === "/" || scoreData === undefined || scoreData === null) {
+          scoreDisplay = null; // 显示为"暂无分数"
+        } else {
+          scoreDisplay = scoreData; // 数字或其他分数值
+        }
         
         return {
           name: school.学校名称,
           level: school.学校等级 || '--',
-          score: score
+          score: scoreDisplay,
+          rawScore: scoreData // 保存原始数据用于排序
         };
+      });
+      
+      // 对结果进行排序：有分数的在前，分数高的在前，未达线的次之，无分数的最后
+      results.sort((a, b) => {
+        // 把无分数的放到最后
+        if (a.score === null && b.score !== null) return 1;
+        if (a.score !== null && b.score === null) return -1;
+        
+        // 把"未达线"放在有分数的后面
+        if (a.score === "未达线" && typeof b.score === "number") return 1;
+        if (typeof a.score === "number" && b.score === "未达线") return -1;
+        
+        // 分数按从高到低排序
+        if (typeof a.score === "number" && typeof b.score === "number") {
+          return b.score - a.score;
+        }
+        
+        // 其他情况保持原顺序
+        return 0;
       });
       
       this.setData({
@@ -538,6 +579,11 @@ Page({
           title: '未找到相关学校',
           icon: 'none'
         });
+      } else {
+        // 延迟滚动到结果区域，确保结果先渲染
+        setTimeout(() => {
+          this.scrollToResult('.score-results');
+        }, 300);
       }
     } catch (err) {
       console.error('查询分数线失败:', err);
@@ -630,6 +676,12 @@ Page({
     return false;
   },
   
+  // 阻止事件冒泡
+  preventBubble: function(e) {
+    // 在微信小程序中，直接返回 false 或不处理，不调用 stopPropagation
+    return false; // 这种方式在微信小程序中可以阻止事件冒泡
+  },
+  
   // 轮播控制 - 上一页
   prevSlide: function() {
     let index = this.data.currentSwiperIndex;
@@ -713,6 +765,75 @@ Page({
       console.log('政策详情加载成功');
     } else {
       console.log('无法加载政策详情，使用默认内容');
+    }
+  },
+  
+  // 添加单位搜索框获取焦点的处理函数
+  onUnitSearchFocus: function() {
+    if (this.data.unitSearchText && this.data.unitSearchText.length > 0) {
+      this.fuzzySearchSchools(this.data.unitSearchText);
+      this.setData({
+        showSchoolsDropdown: true
+      });
+    }
+  },
+  
+  // 添加分数搜索框获取焦点的处理函数
+  onScoreSearchFocus: function() {
+    if (this.data.scoreSearchText && this.data.scoreSearchText.length > 0) {
+      this.fuzzySearchScoreSchools(this.data.scoreSearchText);
+      this.setData({
+        showScoreSchoolsDropdown: true
+      });
+    }
+  },
+  
+  // 单位选择器变化处理
+  onUnitPickerChange: function(e) {
+    const index = e.detail.value;
+    const unit = this.data.unitOptionsWithReset[index];
+    
+    // 处理"重置"选项
+    if (unit === '重置') {
+      this.setData({
+        selectedScoreUnit: ''
+      });
+    } else {
+      this.setData({
+        selectedScoreUnit: unit
+      });
+    }
+  },
+  
+  // 滚动到查询结果区域
+  scrollToResult: function(selector) {
+    const query = wx.createSelectorQuery();
+    query.select(selector).boundingClientRect();
+    query.selectViewport().scrollOffset();
+    query.exec(function(res) {
+      if (res && res[0] && res[1]) {
+        const resultRect = res[0];
+        const scrollTop = res[1].scrollTop;
+        
+        // 计算结果区域顶部相对于视口顶部的位置
+        const offsetTop = resultRect.top + scrollTop;
+        
+        // 滚动到结果区域，并留出一点顶部空间
+        wx.pageScrollTo({
+          scrollTop: offsetTop - 100,
+          duration: 300
+        });
+      }
+    });
+  },
+  
+  // 添加页面点击事件处理，点击页面其他区域时关闭下拉框
+  onPageTap: function() {
+    if (this.data.showSchoolsDropdown || this.data.showScoreSchoolsDropdown) {
+      this.setData({
+        showSchoolsDropdown: false,
+        showScoreSchoolsDropdown: false
+      });
     }
   },
 }); 

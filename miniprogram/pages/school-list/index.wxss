@@ -14,6 +14,7 @@ page {
   --text-secondary: #666666;
   --text-tertiary: #999999;
   --bg-color: #f5f5f5;
+  height: 100%;
 }
 
 .container {
@@ -21,6 +22,8 @@ page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 /* 欢迎区域渐变背景 */
@@ -223,6 +226,18 @@ page {
   flex: 1;
   padding: 0 30rpx 20rpx 30rpx;
   margin-top: 10rpx;
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 300rpx); /* 调整高度计算，确保在各种屏幕尺寸下都能滚动 */
+  padding-bottom: 100rpx; /* 增加底部内边距，确保底部内容可见 */
+}
+
+.school-list-container {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 30rpx; /* 滚动容器底部内边距 */
 }
 
 .school-item {
@@ -363,27 +378,30 @@ page {
 }
 
 .vip-mask-content {
-  /* ... (与 index.wxss 相同) ... */
-  padding-top: 60rpx; /* 顶部添加内边距 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 30rpx;
+  text-align: center;
 }
 
 .vip-mask-text {
-  display: block;
-  font-size: 28rpx;
-  color: #666;
-  margin-bottom: 20rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
 }
 
 .vip-btn {
-  background: linear-gradient(to right, #fca54a, #ff7b4a);
-  color: white;
+  background: linear-gradient(to right, #4776E6, #8E54E9);
+  color: #ffffff;
   border: none;
-  padding: 10rpx 30rpx;
-  border-radius: 30rpx;
-  font-size: 26rpx;
-  box-shadow: 0 4rpx 10rpx rgba(255, 123, 74, 0.4);
-  display: inline-block;
-  line-height: normal;
+  border-radius: 40rpx;
+  padding: 16rpx 50rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  box-shadow: 0 8rpx 16rpx rgba(71, 118, 230, 0.2);
 }
 
 /* VIP 提示模态框 (确保 search-modal 相关样式已存在) */
@@ -391,7 +409,9 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 40rpx 30rpx;
+  text-align: center;
 }
 
 .vip-modal-icon {
@@ -558,13 +578,10 @@ page {
   line-height: 1;
 }
 
-.vip-modal-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40rpx 30rpx 50rpx;
-}
+/* 在搜索模态框中使用vip-mask-content样式 */
+/* 删除旧的vip-modal-content样式 */
 
+/* 不需要的vip-modal样式组件 */
 .vip-modal-icon {
   width: 120rpx;
   height: 120rpx;
