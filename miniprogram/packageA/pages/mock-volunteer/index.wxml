@@ -1,0 +1,17 @@
+<custom-nav></custom-nav>
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header-gradient p-3 pt-20 pb-6 rounded-b-3xl">
+    <view class="nav-content">
+      <view class="back-btn" bindtap="navigateBack">
+        <view class="back-icon"></view>
+        <text class="back-text">返回</text>
+      </view>
+      <text class="text-lg font-bold text-white ml-3">模拟志愿填报</text>
+    </view>
+    <view class="mt-3">
+      <text class="text-white opacity-80 font-sm mb-1 block">欢迎使用模拟志愿填报</text>
+      <view class="text-xl font-bold text-white">该功能目前在开发中，敬请期待～</view>
+    </view>
+  </view>
+</view> 

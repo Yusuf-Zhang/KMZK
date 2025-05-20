@@ -7,7 +7,7 @@ const membershipPlans = [
   {
     id: 'monthly',
     name: '月会员',
-    price: 14.9,
+    price: 0.01,
     originalPrice: 29.9,
     duration: '1个月',
     desc: '享受全部会员权益，为中考助你一臂之力！'
@@ -15,7 +15,7 @@ const membershipPlans = [
   {
     id: 'quarter',
     name: '季度会员',
-    price: 29.9,
+    price: 0.01,
     originalPrice: 69.9,
     duration: '3个月',
     desc: '享受全部会员权益，更划算的选择！'
@@ -23,7 +23,7 @@ const membershipPlans = [
   {
     id: 'yearly',
     name: '年度会员',
-    price: 59.9,
+    price: 0.01,
     originalPrice: 258,
     duration: '12个月',
     desc: '整年备考无忧，专注提升，无限制使用全部功能！',
@@ -109,7 +109,7 @@ Page({
         id: 1, // 方案一：月度会员
         name: '月度会员',
         duration: '1个月',
-        price: 14.9,
+        price: 0.01,
         originalPrice: 29.9,
         recommended: false,
         desc: '畅享所有会员权益' // 可以自定义描述
@@ -118,7 +118,7 @@ Page({
         id: 2, // 方案二：季度会员
         name: '季度会员',
         duration: '3个月',
-        price: 29.9,
+        price: 0.01,
         originalPrice: 69.9,
         recommended: true, // 推荐季度会员
         desc: '限时优惠，更划算' // 可以自定义描述
@@ -127,7 +127,7 @@ Page({
         id: 3, // 方案三：年度会员
         name: '年度会员',
         duration: '1年',
-        price: 59.9,
+        price: 0.01,
         originalPrice: 258,
         recommended: false,
         desc: '长期畅享，性价比之选' // 可以自定义描述
@@ -221,7 +221,12 @@ Page({
     // 先使用全局状态
     if (app.globalData.membershipStatus) {
       const now = new Date();
-      const membershipDate = app.globalData.membershipStatus.membershipDate ? new Date(app.globalData.membershipStatus.membershipDate) : null;
+      // 统一格式化日期对象
+      const membershipDate = app.globalData.membershipStatus.membershipDate ? 
+        new Date(typeof app.globalData.membershipStatus.membershipDate === 'string' ? 
+          app.globalData.membershipStatus.membershipDate.replace(/-/g, '/') : 
+          app.globalData.membershipStatus.membershipDate) : null;
+      
       const isMember = membershipDate && membershipDate > now;
       
       this.setData({
@@ -229,7 +234,7 @@ Page({
         membershipDate: membershipDate ? this.formatDate(membershipDate) : '',
         isRenewal: membershipDate !== null // 只要有过会员记录，就允许续费
       });
-      console.log('会员页面使用全局会员状态:', this.data.isMember, this.data.membershipDate, '是否可续费:', this.data.isRenewal);
+      console.log('会员页面使用全局会员状态:', this.data.isMember, '会员到期时间:', membershipDate, '是否可续费:', this.data.isRenewal);
     }
     
     // 如果没有openid，不进行检查
@@ -250,9 +255,15 @@ Page({
         // 优先使用 membershipDate，如果不存在则尝试使用 memberExpireDate（向后兼容）
         let membershipDate = null;
         if (userInfo.membershipDate) {
-          membershipDate = new Date(userInfo.membershipDate);
+          // 统一格式化为Date对象
+          membershipDate = new Date(typeof userInfo.membershipDate === 'string' ? 
+            userInfo.membershipDate.replace(/-/g, '/') : 
+            userInfo.membershipDate);
         } else if (userInfo.memberExpireDate) {
-          membershipDate = new Date(userInfo.memberExpireDate);
+          membershipDate = new Date(typeof userInfo.memberExpireDate === 'string' ? 
+            userInfo.memberExpireDate.replace(/-/g, '/') : 
+            userInfo.memberExpireDate);
+          
           // 如果存在旧字段，更新为新字段
           db.collection('users').doc(userInfo._id).update({
             data: {
@@ -266,6 +277,8 @@ Page({
           });
         }
         
+        console.log('数据库中获取到会员到期时间:', membershipDate);
+        
         // 检查会员是否有效
         const isMember = membershipDate && membershipDate > now;
         
@@ -278,13 +291,16 @@ Page({
         // 更新全局状态
           app.globalData.membershipStatus = {
             isMember: isMember,
-          membershipDate: membershipDate
+            membershipDate: membershipDate
         };
+
+        // 保存到本地存储
+        wx.setStorageSync('membershipStatus', app.globalData.membershipStatus);
           
         console.log('从数据库更新会员状态:', {
             isMember: isMember,
-          membershipDate: this.formatDate(membershipDate),
-          isRenewal: this.data.isRenewal
+            membershipDate: membershipDate ? this.formatDate(membershipDate) : '无',
+            isRenewal: this.data.isRenewal
           });
       }
     }).catch(err => {
@@ -296,15 +312,28 @@ Page({
   formatDate: function(date) {
     if (!date) return '';
     
-    if (typeof date === 'string') {
-      date = new Date(date.replace(/-/g, '/'));
+    try {
+      // 如果是字符串，尝试转换为日期对象
+      if (typeof date === 'string') {
+        // 替换连字符为斜杠，以避免在某些浏览器中的日期解析问题
+        date = new Date(date.replace(/-/g, '/'));
+      }
+      
+      // 检查是否有效的Date对象
+      if (isNaN(date.getTime())) {
+        console.error('无效的日期:', date);
+        return '';
+      }
+      
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      
+      return `${year}-${month}-${day}`;
+    } catch (error) {
+      console.error('日期格式化错误:', error, date);
+      return '';
     }
-    
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
   },
 
   /**
@@ -481,21 +510,29 @@ Page({
       if (res.data && res.data.length > 0) {
         const userInfo = res.data[0];
         
-        // 获取当前的会员到期时间
+        // 获取当前的会员到期时间，并统一格式化为Date对象
         let currentMembershipDate = null;
         if (userInfo.membershipDate) {
-          currentMembershipDate = new Date(userInfo.membershipDate);
+          currentMembershipDate = new Date(typeof userInfo.membershipDate === 'string'
+            ? userInfo.membershipDate.replace(/-/g, '/')
+            : userInfo.membershipDate);
         } else if (userInfo.memberExpireDate) {
-          currentMembershipDate = new Date(userInfo.memberExpireDate);
+          currentMembershipDate = new Date(typeof userInfo.memberExpireDate === 'string'
+            ? userInfo.memberExpireDate.replace(/-/g, '/')
+            : userInfo.memberExpireDate);
         }
+        
+        console.log('当前会员到期时间:', currentMembershipDate, '当前时间:', now);
         
         // 确定续费的起始时间
         if (currentMembershipDate && currentMembershipDate > now) {
           // 如果当前会员还未到期，从当前到期时间开始叠加
           membershipDate = new Date(currentMembershipDate);
+          console.log('未到期，从当前到期时间叠加');
         } else {
           // 如果已经到期或没有会员，从当前时间开始计算
           membershipDate = new Date();
+          console.log('已到期或无会员，从当前时间计算');
         }
         
         // 根据套餐类型延长会员时间
@@ -507,20 +544,25 @@ Page({
           membershipDate.setFullYear(membershipDate.getFullYear() + 1);
         }
         
-        console.log('计算的会员到期时间:', membershipDate);
+        console.log('计算的新会员到期时间:', membershipDate);
+        
+        // 确保所有必要参数都传递到云函数
+        const cloudFunctionData = {
+          userId: app.globalData.userInfo._id || app.globalData.userInfo.openid || '',
+          membershipDate: membershipDate,
+          orderNo: orderNo,
+          planId: selectedPlan.id,
+          planName: selectedPlan.name,
+          price: selectedPlan.price,
+          isRenewal: this.data.isRenewal // 添加续费标志
+        };
+        
+        console.log('发送到云函数的数据:', cloudFunctionData);
         
         // 更新用户的会员信息到数据库
         wx.cloud.callFunction({
           name: 'updateMembership',
-          data: {
-            userId: app.globalData.userInfo._id || app.globalData.userInfo.openid || '',
-            membershipDate: membershipDate,
-            orderNo: orderNo,
-            planId: selectedPlan.id,
-            planName: selectedPlan.name,
-            price: selectedPlan.price,
-            isRenewal: this.data.isRenewal // 添加续费标志
-          },
+          data: cloudFunctionData,
           success: (res) => {
             console.log('更新会员状态成功:', res.result);
             wx.hideLoading();
@@ -566,6 +608,13 @@ Page({
               duration: 2000
             });
           }
+        });
+      } else {
+        wx.hideLoading();
+        console.error('未找到用户信息');
+        wx.showToast({
+          title: '未找到用户信息，请重新登录',
+          icon: 'none'
         });
       }
     }).catch(err => {

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "模拟志愿填报",
+  "navigationStyle": "custom",
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#4776E6",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index"
+  }
+} 

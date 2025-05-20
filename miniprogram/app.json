@@ -45,7 +45,8 @@
       "root": "packageA/",
       "pages": [
         "pages/policy-special/index",
-        "pages/score-calculator/index"
+        "pages/score-calculator/index",
+        "pages/mock-volunteer/index"
       ]
     },
     {

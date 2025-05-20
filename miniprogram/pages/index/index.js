@@ -42,7 +42,8 @@ Page({
       { id: 1, name: '高中信息', icon: '../../images/icons/1.png', url: '/pages/school-list/index', isTab: true },
       { id: 2, name: '定向生咨询', icon: '../../images/icons/2.png', url: '/pages/policy-direction/index', isTab: true },
       { id: 3, name: '特殊招生', icon: '../../images/icons/3.png', url: '/packageA/pages/policy-special/index', isTab: false },
-      { id: 4, name: '分数计算器', icon: '../../images/icons/4.png', url: '/packageA/pages/score-calculator/index', isTab: false }
+      { id: 4, name: '分数计算器', icon: '../../images/icons/4.png', url: '/packageA/pages/score-calculator/index', isTab: false },
+      { id: 5, name: '模拟志愿填报', icon: '../../images/icons/5.png', url: '/packageA/pages/mock-volunteer/index', isTab: false }
     ],
 
     // VIP相关 (非会员使用)
@@ -170,6 +171,10 @@ Page({
           break;
         case 4: // 分数计算器
           link.url = '/packageA/pages/score-calculator/index'; // 始终指向统一的分数计算器页面
+          link.isTab = false;
+          break;
+        case 5: // 模拟志愿填报
+          link.url = '/packageA/pages/mock-volunteer/index';
           link.isTab = false;
           break;
       }

@@ -162,7 +162,7 @@
       <!-- 体育特长内容 -->
       <view class="tab-content" hidden="{{currentTabIndex !== 2}}">
         <view class="empty-content">
-          <image src="../../images/icons/empty.png" mode="aspectFit"></image>
+          <!-- <image src="../../images/icons/empty.png" mode="aspectFit"></image> -->
           <view class="empty-text">该部分内容待补充</view>
         </view>
       </view>
@@ -171,7 +171,7 @@
     <!-- 审核内容 -->
     <view wx:else class="audit-content">
       <view class="empty-content">
-        <image src="../../images/icons/empty.png" mode="aspectFit"></image>
+        <!-- <image src="../../images/icons/empty.png" mode="aspectFit"></image> -->
         <view class="empty-text">该功能暂未开放</view>
         <view class="empty-desc">特殊招生功能将于后续开放，敬请期待</view>
       </view>
